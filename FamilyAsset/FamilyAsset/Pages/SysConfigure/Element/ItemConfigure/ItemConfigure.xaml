@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="FamilyAsset.Pages.SysConfigure.Element.ItemConfigure.ItemConfigure"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FamilyAsset.Pages.SysConfigure.Element.ItemConfigure"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="750">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type local:ItemViewModel}">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Background>
+                    <SolidColorBrush Color="{Binding ItemColor}"/>
+                </StackPanel.Background>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Clicked">
+                        <i:InvokeCommandAction Command="{Binding ItemClicked}" CommandParameter="{Binding SelectedItem}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Image Width="50" Height="50" Source="{Binding ItemImg}" />
+                <TextBlock Width="135" Text="{Binding ItemName}"
+                           Style="{StaticResource TextBlockStyleBaseChs}" Foreground="White"/>
+            </StackPanel>
+        </DataTemplate>
+        <ControlTemplate x:Key="ItemListButtons">
+            <Grid Height="50" Width="200" VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="0" Height="50" Content="+" FontSize="30" FontWeight="ExtraBold" Command="{Binding Add}"/>
+                <Button Grid.Row="0" Grid.Column="1" Content="修改" FontSize="15" FontWeight="Bold" Command="{Binding Modify}"/>                    
+                <Button Grid.Row="0" Grid.Column="2" Content="-" FontSize="30" FontWeight="ExtraBold" Command="{Binding Del}"/>
+            </Grid>
+        </ControlTemplate>
+        <ControlTemplate x:Key="InOutSwitch">
+            <StackPanel Height="30" Width="150" Orientation="Horizontal">
+                <ToggleButton Width="75" Style="{StaticResource ToggleButtonIncome}" 
+                              IsChecked="{Binding IsIncomeChecked}" Command="{Binding IncomeButtonPressed}"/>
+                <ToggleButton Width="75" Style="{StaticResource ToggleButtonExpand}" 
+                              IsChecked="{Binding IsExpandChecked}" Command="{Binding ExpandButtonPressed}"/>
+            </StackPanel>
+        </ControlTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <UserControl Grid.Row="0" Template="{StaticResource InOutSwitch}" DataContext="{Binding InOrOut}"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical">
+                <Label Style="{StaticResource ItemConfigLabel}" Content="一级分类"/>
+                <ListBox BorderBrush="DeepSkyBlue" Width="200" Height="250">
+                    <ItemsControl ItemsSource="{Binding ItemOnes}"/>
+                </ListBox>
+                <UserControl Template="{StaticResource ItemListButtons}" DataContext="{Binding ItemOneButtons}"/>
+            </StackPanel>
+            <Label VerticalAlignment="Center" Content="=>" FontSize="20"/>
+            <StackPanel Orientation="Vertical">
+                <Label Style="{StaticResource ItemConfigLabel}" Content="二级分类"/>
+                <ListBox BorderBrush="DeepSkyBlue" Width="200" Height="250" >
+                    <ItemsControl ItemsSource="{Binding ItemTwos}"/>
+                </ListBox>
+                <UserControl Template="{StaticResource ItemListButtons}" DataContext="{Binding ItemTwoButtons}"/>
+            </StackPanel>
+            <Label VerticalAlignment="Center" Content="=>" FontSize="20"/>
+            <StackPanel Orientation="Vertical">
+                <Label Style="{StaticResource ItemConfigLabel}" Content="常用语"/>
+                <ListBox BorderBrush="DeepSkyBlue" Width="200" Height="250" >
+                    <ItemsControl ItemsSource="{Binding ItemPhrases}"/>
+                </ListBox>
+                <UserControl Template="{StaticResource ItemListButtons}" DataContext="{Binding PhraseButtons}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

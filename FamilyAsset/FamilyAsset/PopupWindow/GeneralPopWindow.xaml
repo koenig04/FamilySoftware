@@ -1,0 +1,11 @@
+﻿<Window x:Class="FamilyAsset.PopupWindow.GeneralPopWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Title}" Height="206" Width="420" 
+        Style="{StaticResource CustomerPopWindow}" 
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Message}"
+                   Style="{StaticResource TextBlockStyleBaseChs}" />
+    </Grid>
+</Window>

@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!--弹窗下部的确认取消按钮样式-->
+    <Style TargetType="{x:Type Button}" x:Key="PopWinButtonStyle">
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="FontFamily" Value="微软雅黑"/>
+        <Setter Property="FontSize" Value="15"/>
+    </Style>
+    
+    <!--弹窗模板（第一行为标题，第二行为具体内容，第三行为确定按钮和取消按钮-->
+    <ControlTemplate TargetType="{x:Type Window}" x:Key="CustomerPopWindowBase">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Border Background="DimGray">
+                    <TextBlock Margin="10" Height="30" VerticalAlignment="Center" Foreground="White" 
+                               FontFamily="微软雅黑" FontSize="18" FontWeight="Bold" Text="{TemplateBinding Title}"/>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Border Background="White">
+                    <AdornerDecorator>
+                        <ContentPresenter/>
+                    </AdornerDecorator>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Border Background="White">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button Content="确定" Style="{StaticResource PopWinButtonStyle}" Visibility="{Binding ConfirmVisibility}"
+                                Command="{Binding CmdConfirm}"/>
+                        <Button Content="取消" Style="{StaticResource PopWinButtonStyle}" Margin="10" Visibility="{Binding CancelVisibility}" 
+                                Command="{Binding CmdCancel}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </ControlTemplate>
+    
+    <!--弹窗样式-->
+    <Style TargetType="{x:Type Window}" x:Key="CustomerPopWindow">
+        <Setter Property="ResizeMode" Value="NoResize"/>
+        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="Template" Value="{StaticResource CustomerPopWindowBase}"/>
+    </Style>
+</ResourceDictionary>

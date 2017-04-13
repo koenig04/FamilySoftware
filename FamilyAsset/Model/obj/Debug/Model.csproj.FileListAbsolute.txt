@@ -1,0 +1,7 @@
+D:\Projects\FamilyAsset\Model\bin\Debug\Model.dll
+D:\Projects\FamilyAsset\Model\bin\Debug\Model.pdb
+D:\Projects\FamilyAsset\Model\bin\Debug\Common.dll
+D:\Projects\FamilyAsset\Model\bin\Debug\Common.pdb
+D:\Projects\FamilyAsset\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
+D:\Projects\FamilyAsset\Model\obj\Debug\Model.dll
+D:\Projects\FamilyAsset\Model\obj\Debug\Model.pdb

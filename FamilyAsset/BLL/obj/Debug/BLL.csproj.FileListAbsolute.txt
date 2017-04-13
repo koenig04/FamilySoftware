@@ -1,0 +1,13 @@
+D:\Projects\FamilyAsset\BLL\bin\Debug\BLL.dll
+D:\Projects\FamilyAsset\BLL\bin\Debug\BLL.pdb
+D:\Projects\FamilyAsset\BLL\bin\Debug\Common.dll
+D:\Projects\FamilyAsset\BLL\bin\Debug\DAL.dll
+D:\Projects\FamilyAsset\BLL\bin\Debug\Model.dll
+D:\Projects\FamilyAsset\BLL\bin\Debug\DBUtility.dll
+D:\Projects\FamilyAsset\BLL\bin\Debug\Common.pdb
+D:\Projects\FamilyAsset\BLL\bin\Debug\DAL.pdb
+D:\Projects\FamilyAsset\BLL\bin\Debug\Model.pdb
+D:\Projects\FamilyAsset\BLL\bin\Debug\DBUtility.pdb
+D:\Projects\FamilyAsset\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\Projects\FamilyAsset\BLL\obj\Debug\BLL.dll
+D:\Projects\FamilyAsset\BLL\obj\Debug\BLL.pdb
