@@ -1,4 +1,0 @@
-D:\Projects\FamilyAsset\DBUtility\bin\Debug\DBUtility.dll
-D:\Projects\FamilyAsset\DBUtility\bin\Debug\DBUtility.pdb
-D:\Projects\FamilyAsset\DBUtility\obj\Debug\DBUtility.dll
-D:\Projects\FamilyAsset\DBUtility\obj\Debug\DBUtility.pdb

@@ -1,5 +1,0 @@
-D:\Projects\FamilyAsset\Common\bin\Debug\Common.dll
-D:\Projects\FamilyAsset\Common\bin\Debug\Common.pdb
-D:\Projects\FamilyAsset\Common\obj\Debug\Common.dll
-D:\Projects\FamilyAsset\Common\obj\Debug\Common.pdb
-D:\Projects\FamilyAsset\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
