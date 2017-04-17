@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using BLL.ItemConfigureProcess;
 using FamilyAsset.UICore;
 
 namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
@@ -107,6 +108,17 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
             this.ItemID = ItemID;
             this.ItemName = ItemName;
             this.ItemIcon = ItemIcon;
+        }
+
+        public static implicit operator ItemSelectedInfo(ItemSelectedModel model)
+        {
+            return new ItemSelectedInfo()
+            {
+                ItemType = model.ItemType,
+                ItemID = model.ItemID,
+                ItemName = model.ItemName,
+                ItemIcon = model.ItemIcon
+            };
         }
     }
 

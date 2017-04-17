@@ -410,7 +410,8 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
                         this._bussiness.ItemConfigure(OperationType.Search, ItemType.ItemOne, m_inorout);
                         break;
                     case ItemType.ItemTwo:
-                        this._bussiness.ItemConfigure(OperationType.Search,ItemType.ItemTwo,
+                        //this._bussiness.ItemConfigure(OperationType.Search,ItemType.ItemTwo,
+                        break;
                 }
             }
         }

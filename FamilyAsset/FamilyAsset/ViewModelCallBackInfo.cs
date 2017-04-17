@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BLL.ItemConfigureProcess;
 using Common;
 
 namespace FamilyAsset
@@ -21,6 +22,16 @@ namespace FamilyAsset
             this.FuncType = FuncType;
             this.IsSucceed = isSucceed;
             this.Context = context;
+        }
+
+        public static implicit operator CallBackInfo(ViewModelCallBackInfo model)
+        {
+            return new CallBackInfo()
+            {
+                Context = model.Context,
+                FuncType = model.FuncType,
+                IsSucceed = model.IsSucceed
+            };
         }
     }
 }

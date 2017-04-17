@@ -44,6 +44,11 @@
     <Compile Include="BussinessEvents.cs" />
     <Compile Include="BussinessManager.cs" />
     <Compile Include="IBussiness.cs" />
+    <Compile Include="ItemConfigureProcess\IItemConfigureProcess.cs" />
+    <Compile Include="ItemConfigureProcess\ItemConfigureHandler.cs" />
+    <Compile Include="ItemConfigureProcess\ItemConfigureHandlerItemOne.cs" />
+    <Compile Include="ItemConfigureProcess\ItemConfigureParaments.cs" />
+    <Compile Include="ItemConfigureProcess\ItemConfigureProcessManager.cs" />
     <Compile Include="ItemProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

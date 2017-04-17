@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using BLL.ItemConfigureProcess;
 using Common;
 using FamilyAsset.UICore;
 
@@ -131,6 +132,15 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         {
             this.Optype = Optype;
             this.Itemtype = Itemtype;
+        }
+
+        public static implicit operator ItemConfigureOperationInfo(ItemConfigureButtonEventArgs e)
+        {
+            return new ItemConfigureOperationInfo()
+            {
+                Itemtype = e.Itemtype,
+                Optype = e.Optype
+            };
         }
     }
 

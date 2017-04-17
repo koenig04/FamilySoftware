@@ -82,6 +82,9 @@
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigure.xaml.cs">
       <DependentUpon>ItemConfigure.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigureProcess\ItemConfigureHandler.cs" />
+    <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigureProcess\ItemConfigureHandlerItemOne.cs" />
+    <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigureProcess\ItemConfigureProcessManager.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigureViewModel.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemViewModel.cs" />
     <Compile Include="Pages\SysConfigure\SysConfigure.xaml.cs">
