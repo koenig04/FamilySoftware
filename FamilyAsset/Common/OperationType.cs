@@ -21,6 +21,7 @@ namespace Common
 
     public enum ItemType
     {
+        None,//在SelectItem时，这个状态代表需要Load所有的ItemOne
         ItemOne,
         ItemTwo,
         Phrase

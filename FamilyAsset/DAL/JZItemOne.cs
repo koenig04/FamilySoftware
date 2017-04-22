@@ -11,20 +11,22 @@ namespace DAL
 {
     public class JZItemOne
     {
-        public bool Add(Model.JZItemOne model)
+        public bool Add(Model.JZItemOne model,out string itemOneID)
         {
             int rowsAffected;
             SqlParameter[] parameters = {
 					new SqlParameter("@ItemOneName", SqlDbType.VarChar,50),
                     new SqlParameter("@IncomeOrCost", SqlDbType.Bit),
-                    new SqlParameter("@IconName", SqlDbType.VarChar,50)
+                    new SqlParameter("@IconName", SqlDbType.VarChar,50),
+                    new SqlParameter("@ID",SqlDbType.VarChar,50)
                                         };
             parameters[0].Value = model.JZItemOneName;
             parameters[1].Value = model.IncomeOrCost;
             parameters[2].Value = model.IconName;
+            parameters[3].Direction = ParameterDirection.Output;
 
             DbHelperSQL.RunProcedure("JZItemOne_ADD_LK", parameters, out rowsAffected);
-
+            itemOneID = parameters[3].Value.ToString();
             //return rowsAffected > 0 ? true : false;
             return true;
         }

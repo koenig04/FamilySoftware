@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL;
 
-namespace BLL
+namespace BLL.ItemConfigureProcess
 {
     public class ItemProcess
     {
@@ -97,9 +97,9 @@ namespace BLL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public bool AddItemOne(Model.JZItemOne model)
+        public bool AddItemOne(Model.JZItemOne model, out string itemOneID)
         {
-            return m_dalItemOne.Add(model);
+            return m_dalItemOne.Add(model, out itemOneID);
         }
 
         /// <summary>
@@ -107,9 +107,9 @@ namespace BLL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public bool AddItemTwo(Model.JZItemTwo model)
+        public bool AddItemTwo(Model.JZItemTwo model, out string itemTwoID)
         {
-            return m_dalItemTwo.Add(model);
+            return m_dalItemTwo.Add(model, out itemTwoID);
         }
 
         /// <summary>
@@ -117,9 +117,9 @@ namespace BLL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public bool AddPhrase(Model.Phrase model)
+        public bool AddPhrase(Model.Phrase model, out string phraseID)
         {
-            return m_dalPhrase.Add(model);
+            return m_dalPhrase.Add(model, out phraseID);
         }
 
         /// <summary>

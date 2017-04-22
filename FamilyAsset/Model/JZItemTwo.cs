@@ -57,6 +57,5 @@ namespace Model
             get { return _iconname; }
         }
         #endregion Model
-
     }
 }

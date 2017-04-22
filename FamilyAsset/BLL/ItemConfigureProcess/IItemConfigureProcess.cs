@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace BLL.ItemConfigureProcess
 {
-    interface IItemConfigureProcess
+    public interface IItemConfigureProcess
     {
+        void HandleItemValidOperation(ItemConfigureOperationValidInfo info);
         void HandleItemOperation(ItemConfigureOperationInfo info);
         void HandleCallBack(CallBackInfo info);
         void HandleItemSelected(ItemSelectedInfo info);
+        event EventHandler<ItemPopWindowInfoArgs> ItemPopWindowEvent;
+        event EventHandler<ItemChangedInfoArgs> ItemChangedEvent;
+        event EventHandler<ItemSearchedCollectionArgs> ItemSearchedResultEvent;
     }
 }
