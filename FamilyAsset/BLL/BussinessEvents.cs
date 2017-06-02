@@ -11,5 +11,5 @@ namespace BLL
         public Common.OperationType OptType { get; set; }
         public Common.ItemType ItemType { get; set; }
         public object ItemInfo { get; set; }
-    }
+    }    
 }

@@ -21,7 +21,7 @@ namespace FamilyAsset.Pages.SysConfigure
             {
                 if (_ItemConfig == null)
                 {
-                    _ItemConfig = new ItemConfigureViewModel(ref m_bussiness);
+                    _ItemConfig = new ItemConfigureViewModel();
                     _ItemConfig.UserControlMessageEvent += _ItemConfig_UserControlMessageEvent;
                 }
                 return _ItemConfig;
@@ -41,11 +41,11 @@ namespace FamilyAsset.Pages.SysConfigure
             }
         }
 
-        private IBussiness m_bussiness;
+        
 
-        public SysConfigureViewModel(ref IBussiness bussiness)
+        public SysConfigureViewModel()
         {
-            m_bussiness = bussiness;
+            
         }
 
         public void HandleViewModelCallBack(ViewModelCallBackInfo callbackInfo)

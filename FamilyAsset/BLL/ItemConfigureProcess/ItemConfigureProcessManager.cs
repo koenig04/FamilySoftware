@@ -44,17 +44,17 @@ namespace BLL.ItemConfigureProcess
 
         public void HandleItemValidOperation(ItemConfigureOperationValidInfo info)
         {
-            throw new NotImplementedException();
+            _itemConfigureHandler.HandleItemValidOperation(info);
         }
 
         public void HandleCallBack(CallBackInfo info)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void HandleItemSelected(ItemSelectedInfo info)
         {
-            throw new NotImplementedException();
+            _itemConfigureHandler.HandleItemSelected(info);
         }
 
         void OnItemSearchedResult(object sender, ItemSearchedCollectionArgs e)
@@ -79,6 +79,11 @@ namespace BLL.ItemConfigureProcess
             {
                 ItemPopWindowEvent(sender, e);
             }
+        }
+
+        public void HandleItemOperation(ItemConfigureOperationInfo info)
+        {
+            _itemConfigureHandler.HandleItemOperation(info);
         }
     }
 }

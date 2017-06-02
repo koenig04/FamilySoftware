@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Common;
 using Model;
 
-namespace BLL.ItemConfigureProcess
+namespace BLL
 {
     public class ItemConfigureOperationValidInfo
     {

@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeneralEventArgs.cs" />
     <Compile Include="GlobalVariables.cs" />
     <Compile Include="IContext.cs" />
     <Compile Include="OperationType.cs" />

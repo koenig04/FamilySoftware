@@ -39,19 +39,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionDictionary\ActionDictionaryProcess.cs" />
-    <Compile Include="ActionDictionary\ItemConfigDictionary.cs" />
-    <Compile Include="BussinessEvents.cs" />
-    <Compile Include="BussinessManager.cs" />
-    <Compile Include="IBussiness.cs" />
+    <Compile Include="AccountOperationParameters.cs" />
+    <Compile Include="AssetInputAndOperationProcess\AccountProcess.cs" />
+    <Compile Include="AssetInputAndOperationProcess\ItemLoading\ItemLoadingContext.cs" />
+    <Compile Include="AssetInputAndOperationProcess\ItemLoading\ItemLoadingStrategySuper.cs" />
+    <Compile Include="AssetInputAndOperationProcess\ItemLoading\ItemOneLoadingStrategy.cs" />
+    <Compile Include="AssetInputAndOperationProcess\ItemLoading\ItemTwoAndPhrasesLoadingStrategy.cs" />
+    <Compile Include="AssetInputAndOperationProcess\ItemLoading\PhrasesLoadingStrategy.cs" />
+    <Compile Include="BussinessEvents.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ItemConfigureProcess\IItemConfigureProcess.cs" />
     <Compile Include="ItemConfigureProcess\ItemConfigureHandlers\ItemConfigureHandlerBase.cs" />
     <Compile Include="ItemConfigureProcess\ItemConfigureHandlers\ItemConfigureHandlerItemOne.cs" />
     <Compile Include="ItemConfigureProcess\ItemConfigureHandlers\ItemConfigureHandlerItemTwo.cs" />
     <Compile Include="ItemConfigureProcess\ItemConfigureHandlers\ItemConfigureHandlerPhrase.cs" />
-    <Compile Include="ItemConfigureProcess\ItemConfigureParaments.cs" />
+    <Compile Include="ItemConfigureParaments.cs" />
     <Compile Include="ItemConfigureProcess\ItemConfigureProcessManager.cs" />
     <Compile Include="ItemConfigureProcess\ItemConfigureHandlers\ItemProcess.cs" />
+    <Compile Include="AssetInputAndOperationProcess\IAssetInputAndOperationProcess.cs" />
+    <Compile Include="AssetInputAndOperationProcess\AssetInputAndOperationProcessManage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

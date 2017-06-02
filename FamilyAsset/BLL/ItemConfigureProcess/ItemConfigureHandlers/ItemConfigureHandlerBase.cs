@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BLL.ActionDictionary;
+//using BLL.ActionDictionary;
 using Common;
 using DAL;
 
 namespace BLL.ItemConfigureProcess
 {
-    class ItemConfigureHandlerBase
+    abstract class ItemConfigureHandlerBase
     {
         public abstract void HandleItemValidOperation(ItemConfigureOperationValidInfo info);
         public abstract void HandleItemOperation(ItemConfigureOperationInfo info);
-        public abstract void HandleCallBack(CallBackInfo info);
         public abstract void HandleItemSelected(ItemSelectedInfo info);        
 
         public event EventHandler<ItemPopWindowInfoArgs> ItemPopWindowEvent;

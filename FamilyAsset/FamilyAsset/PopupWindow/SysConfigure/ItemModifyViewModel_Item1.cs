@@ -17,7 +17,7 @@ namespace FamilyAsset.PopupWindow.SysConfigure
             : base()
         {
 
-        }
+        }        
 
         public override void SetContext(Common.IContext Context)
         {
@@ -56,7 +56,19 @@ namespace FamilyAsset.PopupWindow.SysConfigure
                         o =>
                         {
                             UpdateItemInfo();
-                            m_bussiness.ItemConfigure(m_opType, Common.ItemType.ItemOne, m_item1);
+                            _bussiness.HandleItemOperation(new BLL.ItemConfigureProcess.ItemConfigureOperationInfo()
+                            {
+                                OperationType = this.m_opType,
+                                ItemInfo = new BLL.ItemConfigureProcess.ItemSelectedInfo()
+                                {
+                                    IsIncome = m_item1.IncomeOrCost,
+                                    ItemIcon = m_item1.IconName,
+                                    ItemID = m_item1.JZItemOneID,
+                                    ItemName = m_item1.JZItemOneName,
+                                    ItemType = Common.ItemType.ItemOne
+                                }
+                            });
+                            _tmWaitForCallback.Start();
                         }));
                 }
                 return base.CmdConfirm;

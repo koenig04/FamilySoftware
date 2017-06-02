@@ -8,16 +8,192 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BLL;
+using BLL.ItemConfigureProcess;
 using Common;
 using FamilyAsset.Context;
 using FamilyAsset.PopupWindow.SysConfigure;
 using FamilyAsset.UICore;
+using Model;
 
 namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
 {
     class ItemConfigureViewModel : NotificationObject, IUserControlViewModel
     {
         public event EventHandler<UserControlMessageEventArgs> UserControlMessageEvent;
+
+        private IItemConfigureProcess _bussinessProcess;
+
+        public ItemConfigureViewModel()
+        {
+            this._bussinessProcess = new ItemConfigureProcessManager();
+            this._bussinessProcess.ItemSearchedResultEvent += OnItenSearchedResult;
+            this._bussinessProcess.ItemChangedEvent += OnItemChanged;
+            this._bussinessProcess.ItemPopWindowEvent += OnPopWindow;
+            //Load all the ItemOne
+            try
+            {
+                this._bussinessProcess.HandleItemSelected(new ItemSelectedInfo() { IsIncome = true });
+            }
+            catch { }
+        }
+
+        private void OnPopWindow(object sender, ItemPopWindowInfoArgs e)
+        {
+            UserControlMessageEvent(null, new UserControlMessageEventArgs()
+            {
+                Message = "PopItemConfigure",
+                Context = new ItemConfigPopWindowContext()
+                {
+                    Bussiness = _bussinessProcess,
+                    OpType = e.OperationType,
+                    ItemType = e.ItemType,
+                    ItemOne = m_selectedItemOne ?? new Model.JZItemOne() { IncomeOrCost = m_inorout },
+                    ItemTwo = m_selectedItemTwo,
+                    Phrase = m_selectedPhrase
+                }
+            });
+        }
+
+       
+
+        //Do the del/add/modify operation of item
+        private void OnItemChanged(object sender, ItemChangedInfoArgs e)
+        {
+            switch (e.ItemType)
+            {
+                case ItemType.ItemOne:
+                    OperateItemOneList(e);
+                    break;
+                case ItemType.ItemTwo:
+                    OperateItemTwoList(e);
+                    break;
+                case ItemType.Phrase:
+                    OperatePhraseList(e);
+                    break;
+            }
+        }
+
+        //Do the del/add/modify operation of item one
+        private void OperateItemOneList(ItemChangedInfoArgs e)
+        {
+            JZItemOne model = e.ItemInfo as JZItemOne;
+            switch (e.OperationType)
+            {
+                case OperationType.Add:
+                    ItemOnes.Add(new ItemViewModel(
+                                ItemType.ItemOne, model.JZItemOneID, model.IconName, model.JZItemOneName));
+                    break;
+                case OperationType.Delete:
+                    ItemOnes.Remove(ItemOnes.Where(a => a.SelectedItem.ItemID == model.JZItemOneID).FirstOrDefault());
+                    break;
+                case OperationType.Modify:
+                    int index = ItemOnes.IndexOf(ItemOnes.Where(a => a.SelectedItem.ItemID == model.JZItemOneID).FirstOrDefault());
+                    if (index >= 0)
+                        ItemOnes[index] = new ItemViewModel(ItemType.ItemOne, model.JZItemOneID, model.IconName, model.JZItemOneName);
+                    break;
+            }
+        }
+
+        //Do the del/add/modify operation of item two
+        private void OperateItemTwoList(ItemChangedInfoArgs e)
+        {
+            JZItemTwo model = e.ItemInfo as JZItemTwo;
+            switch (e.OperationType)
+            {
+                case OperationType.Add:
+                    ItemTwos.Add(new ItemViewModel(
+                                ItemType.ItemTwo, model.JZItemTwoID, model.IconName, model.JZItemTwoName));
+                    break;
+                case OperationType.Delete:
+                    ItemTwos.Remove(ItemOnes.Where(a => a.SelectedItem.ItemID == model.JZItemTwoID).FirstOrDefault());
+                    break;
+                case OperationType.Modify:
+                    int index = ItemTwos.IndexOf(ItemOnes.Where(a => a.SelectedItem.ItemID == model.JZItemTwoID).FirstOrDefault());
+                    if (index >= 0)
+                        ItemTwos[index] = new ItemViewModel(ItemType.ItemTwo, model.JZItemTwoID, model.IconName, model.JZItemTwoName);
+                    break;
+            }
+        }
+
+        //Do the del/add/modify operation of phrase
+        private void OperatePhraseList(ItemChangedInfoArgs e)
+        {
+            Phrase model = e.ItemInfo as Phrase;
+            switch (e.OperationType)
+            {
+                case OperationType.Add:
+                    Phrases.Add(new ItemViewModel(
+                                ItemType.Phrase, model.PhraseID, string.Empty, model.PhraseContent));
+                    break;
+                case OperationType.Delete:
+                    Phrases.Remove(ItemOnes.Where(a => a.SelectedItem.ItemID == model.PhraseID).FirstOrDefault());
+                    break;
+                case OperationType.Modify:
+                    int index = Phrases.IndexOf(ItemOnes.Where(a => a.SelectedItem.ItemID == model.PhraseID).FirstOrDefault());
+                    if (index >= 0)
+                        Phrases[index] = new ItemViewModel(ItemType.Phrase, model.PhraseID, string.Empty, model.PhraseContent);
+                    break;
+            }
+        }
+
+        //Display the searched list
+        private void OnItenSearchedResult(object sender, ItemSearchedCollectionArgs e)
+        {
+            switch (e.ItemType)
+            {
+                case ItemType.ItemOne://Item One list
+                    this.ItemOnes.Clear();
+                    if (e.ItemCollection != null && (e.ItemCollection as Hashtable).ContainsKey("One"))
+                    {
+                        foreach (JZItemOne item in (e.ItemCollection as Hashtable)["One"] as List<JZItemOne>)
+                        {
+                            ItemViewModel ivm = new ItemViewModel(
+                                ItemType.ItemOne, item.JZItemOneID, item.IconName, item.JZItemOneName);
+                            ivm.ItemClickedEvent += OnItemClicked;
+                            this.ItemOnes.Add(ivm);
+                        }
+                    }
+                    break;
+                case ItemType.ItemTwo://Item Two list
+                    this.ItemTwos.Clear();
+                    if (e.ItemCollection != null && (e.ItemCollection as Hashtable).ContainsKey("Two"))
+                    {
+                        foreach (JZItemTwo item in (e.ItemCollection as Hashtable)["Two"] as List<JZItemTwo>)
+                        {
+                            ItemViewModel ivm = new ItemViewModel(
+                                ItemType.ItemTwo, item.JZItemTwoID, item.IconName, item.JZItemTwoName);
+                            ivm.ItemClickedEvent += OnItemClicked;
+                            this.ItemTwos.Add(ivm);
+                        }
+                    }
+                    break;
+                case ItemType.Phrase://Phrase list
+                    this.Phrases.Clear();
+                    if (e.ItemCollection != null && (e.ItemCollection as Hashtable).ContainsKey("Phrase"))
+                    {
+                        foreach (Phrase item in (e.ItemCollection as Hashtable)["Two"] as List<Phrase>)
+                        {
+                            ItemViewModel ivm = new ItemViewModel(
+                                ItemType.Phrase, item.PhraseID, string.Empty, item.PhraseContent);
+                            ivm.ItemClickedEvent += OnItemClicked;
+                            this.ItemTwos.Add(ivm);
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private void OnItemClicked(object sender, ItemClickedEventArgs e)
+        {
+            _bussinessProcess.HandleItemSelected(new ItemSelectedInfo()
+            {
+                ItemType = e.SelectedItem.ItemType,
+                IsIncome = m_inorout,
+                ItemIcon = e.SelectedItem.ItemIcon,
+                ItemID = e.SelectedItem.ItemID,
+                ItemName = e.SelectedItem.ItemName
+            });
+        }
 
         private ObservableCollection<ItemViewModel> _ItemOnes;
         /// <summary>
@@ -131,7 +307,9 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         }
 
         private InOutSwitchViewModel _inOrOut;
-
+        /// <summary>
+        /// 收入和支出切换的控件
+        /// </summary>
         public InOutSwitchViewModel InOrOut
         {
             get
@@ -159,46 +337,22 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
                 m_selectedItemTwo = null;
                 m_selectedPhrase = null;
                 m_inorout = obj;
-                this._bussiness.ItemConfigure(OperationType.Search, ItemType.ItemOne, obj);
+                this._bussinessProcess.HandleItemOperation(new ItemConfigureOperationInfo()
+                {
+                    OperationType = OperationType.Search,
+                    ItemInfo = new ItemSelectedInfo()
+                    {
+                        IsIncome = obj,
+                        ItemType = ItemType.None
+                    }
+                });
             }
-            
         }
-
 
         private Model.JZItemOne m_selectedItemOne;
         private Model.JZItemTwo m_selectedItemTwo;
         private Model.Phrase m_selectedPhrase;
-        private bool m_inorout = true;
-
-        void OnItemSelected(object sender, ItemClickedEventArgs e)
-        {
-            switch (e.SelectedItem.ItemType)
-            {
-                case ItemType.ItemOne:
-                    m_selectedItemOne = new Model.JZItemOne()
-                    {
-                        JZItemOneID = e.SelectedItem.ItemID,
-                        JZItemOneName = e.SelectedItem.ItemName,
-                        IconName = e.SelectedItem.ItemIcon
-                    };
-                    break;
-                case ItemType.ItemTwo:
-                    m_selectedItemTwo = new Model.JZItemTwo()
-                    {
-                        JZItemTwoID = e.SelectedItem.ItemID,
-                        JZItemTwoName = e.SelectedItem.ItemName,
-                        IconName = e.SelectedItem.ItemIcon
-                    };
-                    break;
-                case ItemType.Phrase:
-                    m_selectedPhrase = new Model.Phrase()
-                    {
-                        PhraseID = e.SelectedItem.ItemID,
-                        PhraseContent = e.SelectedItem.ItemName
-                    };
-                    break;
-            }
-        }
+        private bool m_inorout = true;        
 
 
         /// <summary>
@@ -208,73 +362,12 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         /// <param name="e"></param>
         void OnButtonsPressed(object sender, ItemConfigureButtonEventArgs e)
         {
-            if (UserControlMessageEvent != null)
+            _bussinessProcess.HandleItemValidOperation(new ItemConfigureOperationValidInfo()
             {
-                if (checkActionValid(e))
-                {
-                    UserControlMessageEvent(null, new UserControlMessageEventArgs()
-                    {
-                        Message = "PopItemConfigure",
-                        Context = new ItemConfigPopWindowContext()
-                        {
-                            Bussiness = _bussiness,
-                            OpType = e.Optype,
-                            ItemType = e.Itemtype,
-                            ItemOne = m_selectedItemOne ?? new Model.JZItemOne() { IncomeOrCost = m_inorout },
-                            ItemTwo = m_selectedItemTwo,
-                            Phrase = m_selectedPhrase
-                        }
-                    });
-                }
-            }
-        }
-
-        private bool checkActionValid(ItemConfigureButtonEventArgs e)
-        {
-            bool res = true;
-            if (e.Itemtype == ItemType.ItemOne)
-            {
-                //未选中时，不响应修改与删除
-                if (m_selectedItemOne == null &&
-                    (e.Optype == OperationType.Modify || e.Optype == OperationType.Delete))
-                {
-                    res = false;
-                }
-            }
-            else if (e.Itemtype == ItemType.ItemTwo)
-            {
-                //未选中一级条目时，不响应添加；未选中二级条目时，不响应修改与删除
-                if (m_selectedItemOne == null ||
-                (m_selectedItemTwo == null && (e.Optype == OperationType.Modify || e.Optype == OperationType.Delete)))
-                {
-                    res = false;
-                }
-            }
-            else
-            {
-                //未选中一级条目且未选中二级条目时，不响应添加；为选中常用语时，不响应修改与删除
-                if ((m_selectedItemOne == null || m_selectedItemTwo == null) ||
-                    (m_selectedPhrase == null && (e.Optype == OperationType.Modify || e.Optype == OperationType.Delete)))
-                {
-                    res = false;
-                }
-            }
-            return res;
-        }
-
-        private IBussiness _bussiness;
-
-        public ItemConfigureViewModel(ref IBussiness bussiness)
-        {
-            this._bussiness = bussiness;
-            this._bussiness.ItemConfigureEvent += _bussiness_ItemConfigureEvent;
-            //Load all the ItemOne
-            try
-            {
-                this._bussiness.ItemConfigure(OperationType.Search, ItemType.ItemOne, true);
-            }
-            catch { }
-        }
+                Itemtype = e.Itemtype,
+                Optype = e.Optype
+            });
+        } 
 
         void _bussiness_ItemConfigureEvent(object sender, ItemConfigureEventArgs e)
         {

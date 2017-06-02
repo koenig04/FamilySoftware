@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using BLL;
+using BLL.ItemConfigureProcess;
 using Common;
 using FamilyAsset.Context;
 using FamilyAsset.UICore;
@@ -15,6 +17,8 @@ namespace FamilyAsset.PopupWindow.SysConfigure
 {
     class ItemModifyPopWindowViewModel : ViewModelBase
     {
+        protected Timer _tmWaitForCallback = new Timer(5000);
+
         private string _itemModifyTitle;
         /// <summary>
         /// 弹窗左上角的标题栏
@@ -204,7 +208,7 @@ namespace FamilyAsset.PopupWindow.SysConfigure
 
 
         //业务处理类
-        protected IBussiness m_bussiness;
+        protected IItemConfigureProcess _bussiness;
         //一级条目对应的数据Model
         protected Model.JZItemOne m_item1;
         //二级条目对应的数据Model
@@ -221,7 +225,7 @@ namespace FamilyAsset.PopupWindow.SysConfigure
         public override void SetContext(IContext Context)
         {
             ItemConfigPopWindowContext context = Context as ItemConfigPopWindowContext;
-            this.m_bussiness = context.Bussiness;
+            this._bussiness = context.Bussiness;
             this.m_opType = context.OpType;
             this.m_item1 = context.ItemOne;
             this.m_item2 = context.ItemTwo;
@@ -248,16 +252,16 @@ namespace FamilyAsset.PopupWindow.SysConfigure
             }
 
             //响应Item的增删改
-            this.m_bussiness.ItemConfigureEvent -= m_bussiness_ItemConfigureEvent;
-            this.m_bussiness.ItemConfigureEvent += m_bussiness_ItemConfigureEvent;
-        }
+            this._bussiness.ItemChangedEvent -= OnItenChanged;
+            this._bussiness.ItemChangedEvent += OnItenChanged;
+        }        
 
-        void m_bussiness_ItemConfigureEvent(object sender, ItemConfigureEventArgs e)
+        protected void OnItenChanged(object sender, ItemChangedInfoArgs e)
         {
-            if (e.OptType != Common.OperationType.Search)
+            if (e.OperationType != Common.OperationType.Search)
             {
                 string msg = string.Empty;
-                msg += CommonEnumChsConverter.Instance.OperationTypeConvert(e.OptType);
+                msg += CommonEnumChsConverter.Instance.OperationTypeConvert(e.OperationType);
                 msg += CommonEnumChsConverter.Instance.ItemTypeConvert(e.ItemType);
                 msg += (bool)e.ItemInfo ? "成功" : "失败";
                 MsgManager.SendMsg<GeneralPopWindowContext>("ShowResult", new GeneralPopWindowContext() { Msg = msg });
@@ -282,7 +286,7 @@ namespace FamilyAsset.PopupWindow.SysConfigure
             if (Info.IsSucceed)
             {
                 string dstFile = Common.GlobalVariables.iconPath + m_iconName;
-                File.Copy(m_iconFullPath, dstFile, true);               
+                File.Copy(m_iconFullPath, dstFile, true);
             }
         }
     }

@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLL;
+using BLL.ItemConfigureProcess;
 using Common;
 
 namespace FamilyAsset.Context
 {    
     class ItemConfigPopWindowContext : IContext
     {
-        public IBussiness Bussiness { get; set; }
+        public IItemConfigureProcess Bussiness { get; set; }
         public OperationType OpType { get; set; }
         public ItemType ItemType { get; set; }
 

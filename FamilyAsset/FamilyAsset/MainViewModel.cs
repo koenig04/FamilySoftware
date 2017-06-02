@@ -12,8 +12,6 @@ namespace FamilyAsset
 {
     class MainViewModel : ViewModelBase
     {
-        private IBussiness m_bussiness = new BussinessManager();
-
         private SysConfigureViewModel _SysConfig;
 
         public SysConfigureViewModel SysConfig
@@ -22,7 +20,7 @@ namespace FamilyAsset
             {
                 if (_SysConfig == null)
                 {
-                    _SysConfig = new SysConfigureViewModel(ref m_bussiness);
+                    _SysConfig = new SysConfigureViewModel();
                     _SysConfig.UserControlMessageEvent += _SysConfig_UserControlMessageEvent;
                 }
                 return _SysConfig;
