@@ -30,5 +30,32 @@ namespace DAL
             DbHelperSQL.RunProcedure("Income_Update_LK", parameters, out rowsAffected);
             return true;
         }
+
+        public List<Model.Income> GetList(int incomeYear, int incomeMonth)
+        {
+            SqlParameter[] parameters = {
+                    new SqlParameter("@IncomeYear", SqlDbType.Int),
+					new SqlParameter("@IncomeMonth", SqlDbType.Int)
+                                        };
+            parameters[0].Value = incomeYear;
+            parameters[1].Value = incomeMonth;
+
+            DataSet ds = DbHelperSQL.RunProcedure("Income_GetList_LK", parameters, "");
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                return (from d in ds.Tables[0].AsEnumerable()
+                        select new Model.Income()
+                        {
+                            IncomeID = d.Field<string>("IncomeID"),
+                            ItemOneID = d.Field<string>("ItemOneID"),
+                            ItemTwoID = d.Field<string>("ItemTwoID"),
+                            IncomeAmount = d.Field<decimal>("IncomeAmount")
+                        }).ToList<Model.Income>();
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

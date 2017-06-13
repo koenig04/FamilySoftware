@@ -51,6 +51,9 @@
     <Compile Include="AssetInputAndOperationProcess\ItemLoading\ItemOneLoadingStrategy.cs" />
     <Compile Include="AssetInputAndOperationProcess\ItemLoading\ItemTwoAndPhrasesLoadingStrategy.cs" />
     <Compile Include="AssetInputAndOperationProcess\ItemLoading\PhrasesLoadingStrategy.cs" />
+    <Compile Include="BudgetParameters.cs" />
+    <Compile Include="BudgetProcess\BudgetProcessManager.cs" />
+    <Compile Include="BudgetProcess\IBudgetProcess.cs" />
     <Compile Include="BussinessEvents.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -80,9 +83,7 @@
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BudgetProcess\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
