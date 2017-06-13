@@ -27,12 +27,11 @@ namespace BLL
         public decimal AccountAmount { get; set; }
         public string Phrases { get; set; }
 
-        public implicit operator AccountInfo(AccountInputInfo info)
+        public implicit operator Model.AccountInfo(AccountInputInfo info)
         {
-            AccountInfo accountInfo = new AccountInfo()
+            Model.AccountInfo accountInfo = new Model.AccountInfo()
             {
                 AccountDate = info.AccountDate,
-                IsIncome = info.IsIncome,
                 ItemOneID = info.ItemOneID,
                 ItemTwoID = info.ItemTwoID,
                 AccountAmount = info.AccountAmount,

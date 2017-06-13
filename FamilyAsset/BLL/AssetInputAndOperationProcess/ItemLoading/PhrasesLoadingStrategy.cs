@@ -25,7 +25,7 @@ namespace BLL.AssetInputAndOperationProcess.ItemLoading
 
             hst.Add("Phrase", lstPhrase);
 
-            RaiseLoadedItemsEvent(new Common.HashtableEventArgs(hst));
+            RaiseLoadedItemsEvent(new ItemSearchedCollectionArgs() { ItemType = info.ItemType, ItemCollection = hst });
         }
     }
 }

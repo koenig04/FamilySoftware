@@ -10,7 +10,7 @@ namespace BLL.AssetInputAndOperationProcess.ItemLoading
 {
     class ItemLoadingStrategySuper
     {
-        public event EventHandler<HashtableEventArgs> LoadedItemsEvent;
+        public event EventHandler<ItemSearchedCollectionArgs> LoadedItemsEvent;
         protected ItemProcess _itemProcess = null;
 
         public ItemLoadingStrategySuper(ItemProcess ItemProcess)
@@ -20,7 +20,7 @@ namespace BLL.AssetInputAndOperationProcess.ItemLoading
 
         public abstract void LoadItems(ItemSelectedInfo info);
 
-        protected void RaiseLoadedItemsEvent(HashtableEventArgs e)
+        protected void RaiseLoadedItemsEvent(ItemSearchedCollectionArgs e)
         {
             if (LoadedItemsEvent != null)
             {

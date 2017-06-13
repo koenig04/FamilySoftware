@@ -3,33 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BLL.AssetInputAndOperationProcess.AccountOperation;
+using BLL.AssetInputAndOperationProcess.ItemLoading;
 using BLL.ItemConfigureProcess;
 using Common;
 
 namespace BLL.AssetInputAndOperationProcess
 {
-    public class AssetInputAndOperationProcessManage : IAssetInputAndOperationProcess
+    public class AssetInputAndOperationProcessManager : IAssetInputAndOperationProcess
     {
         public event EventHandler<ItemSearchedCollectionArgs> ItemSearchedResultEvent;
         public event EventHandler<AccountSearchedCollectionArgs> AccountSearchedResultEvent;
         public event EventHandler<BoolenEventArgs> AccountOperationResultEvent;
 
-        private ItemProcess _itemProcess;
+        private ItemLoadingContext _itemProcess;
         private AccountProcess _accountProcess;
 
-        public AssetInputAndOperationProcessManage()
+        public AssetInputAndOperationProcessManager()
         {
-            this._itemProcess = new ItemProcess();
+            this._itemProcess = new ItemLoadingContext();
+            this._itemProcess.LoadedItemsEvent += OnLoadedItems;
             this._accountProcess = new AccountProcess();
         }
 
+        private void OnLoadedItems(object sender, ItemSearchedCollectionArgs e)
+        {
+            if (ItemSearchedResultEvent != null)
+            {
+                ItemSearchedResultEvent(sender, e);
+            }
+        }       
+
         public void HandleItemSelected(ItemSelectedInfo info)
         {
-            switch (info.ItemType)
-            {
-                //case ItemType.None:
-                //    this._itemProcess.LoadItemOne(
-            }
+            _itemProcess.LoadItems(info);
         }
 
         public void HandleAccountInput(AccountInputInfo info)

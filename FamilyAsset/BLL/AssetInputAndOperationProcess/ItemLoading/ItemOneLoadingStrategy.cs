@@ -19,10 +19,10 @@ namespace BLL.AssetInputAndOperationProcess.ItemLoading
         public override void LoadItems(ItemSelectedInfo info)
         {
             List<Model.JZItemOne> lstItemOne;
-            Hashtable hst=new Hashtable();
+            Hashtable hst = new Hashtable();
             _itemProcess.LoadItemOne(info.IsIncome, out lstItemOne);
-            hst.Add("One",lstItemOne);
-            RaiseLoadedItemsEvent(new Common.HashtableEventArgs(hst));
+            hst.Add("One", lstItemOne);
+            RaiseLoadedItemsEvent(new ItemSearchedCollectionArgs() { ItemType = info.ItemType, ItemCollection = hst });
         }
     }
 }

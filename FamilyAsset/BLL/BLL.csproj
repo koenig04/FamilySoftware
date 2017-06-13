@@ -40,7 +40,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountOperationParameters.cs" />
-    <Compile Include="AssetInputAndOperationProcess\AccountProcess.cs" />
+    <Compile Include="AssetInputAndOperationProcess\AccountOperation\AccountInfoLoading\AccountInfoLoadingAll.cs" />
+    <Compile Include="AssetInputAndOperationProcess\AccountOperation\AccountInfoLoading\AccountInfoLoadingItemOne.cs" />
+    <Compile Include="AssetInputAndOperationProcess\AccountOperation\AccountInfoLoading\AccountInfoLoadingItemTwo.cs" />
+    <Compile Include="AssetInputAndOperationProcess\AccountOperation\AccountInfoLoading\AccountInfoLoadingSuper.cs" />
+    <Compile Include="AssetInputAndOperationProcess\AccountOperation\AccountInfoLoading\AccountLoadingContext.cs" />
+    <Compile Include="AssetInputAndOperationProcess\AccountOperation\AccountProcess.cs" />
     <Compile Include="AssetInputAndOperationProcess\ItemLoading\ItemLoadingContext.cs" />
     <Compile Include="AssetInputAndOperationProcess\ItemLoading\ItemLoadingStrategySuper.cs" />
     <Compile Include="AssetInputAndOperationProcess\ItemLoading\ItemOneLoadingStrategy.cs" />
@@ -58,7 +63,7 @@
     <Compile Include="ItemConfigureProcess\ItemConfigureProcessManager.cs" />
     <Compile Include="ItemConfigureProcess\ItemConfigureHandlers\ItemProcess.cs" />
     <Compile Include="AssetInputAndOperationProcess\IAssetInputAndOperationProcess.cs" />
-    <Compile Include="AssetInputAndOperationProcess\AssetInputAndOperationProcessManage.cs" />
+    <Compile Include="AssetInputAndOperationProcess\AssetInputAndOperationProcessManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +79,9 @@
       <Project>{0ac6cd85-c81a-436e-918f-d5b6e95057fc}</Project>
       <Name>Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BudgetProcess\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

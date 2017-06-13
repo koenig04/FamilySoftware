@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountInfo.cs" />
     <Compile Include="Budget.cs" />
     <Compile Include="Expenditure.cs" />
+    <Compile Include="Income.cs" />
     <Compile Include="JZItemOne.cs" />
     <Compile Include="JZItemTwo.cs" />
     <Compile Include="Phrase.cs" />

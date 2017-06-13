@@ -83,5 +83,29 @@ namespace DAL
                 return null;
             }
         }
+
+        public Model.JZItemTwo GetModel(string id)
+        {
+            SqlParameter[] parameters = {
+					new SqlParameter("@JZItemTwoID", SqlDbType.VarChar,50)
+                                        };
+            parameters[0].Value = id;
+
+            DataSet ds = DbHelperSQL.RunProcedure("JZItemTwo_GetModel_LK", parameters, "ds");
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                return new Model.JZItemTwo()
+                {
+                    JZItemOneID = ds.Tables[0].Rows[0]["JZItemOneID"].ToString(),
+                    JZItemTwoID = ds.Tables[0].Rows[0]["JZItemTwoID"].ToString(),
+                    JZItemTwoName = ds.Tables[0].Rows[0]["JZItemTwoName"].ToString(),
+                    IconName = ds.Tables[0].Rows[0]["IconName"].ToString()
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

@@ -1,115 +1,115 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DBUtility;
 
 namespace DAL
 {
     public class AccountInfo
     {
-        public AccountInfo()
-        { }
-        #region Model
-        private int _id;
-        private string _accountid;
-        private DateTime _accountdate;
-        private bool _isincome;
-        private string _itemoneid;
-        private string _itemtwoid;
-        private decimal _accountamount;
-        private string _notice;
-        private string _reserve1;
-        private string _reserve2;
-        private string _reserve3;
-        /// <summary>
-        /// 
-        /// </summary>
-        public int ID
+        public bool Add(Model.AccountInfo model)
         {
-            set { _id = value; }
-            get { return _id; }
+            int rowsAffected;
+            SqlParameter[] parameters = {
+					new SqlParameter("@AccountDate", SqlDbType.Date),
+                    new SqlParameter("@ItemOneID", SqlDbType.VarChar,50),
+                    new SqlParameter("@ItemTwoID", SqlDbType.VarChar,50),
+                    new SqlParameter("@AccountAmount",SqlDbType.Decimal,9),
+                    new SqlParameter("@Notice",SqlDbType.VarChar,200),
+                    new SqlParameter("@Reserve1",SqlDbType.VarChar,200),
+                    new SqlParameter("@Reserve2",SqlDbType.VarChar,200),
+                    new SqlParameter("@Reserve3",SqlDbType.VarChar,200)
+                                        };
+            parameters[0].Value = model.AccountDate;
+            parameters[1].Value = model.ItemOneID;
+            parameters[2].Value = model.ItemTwoID;
+            parameters[3].Value = model.AccountAmount;
+            parameters[4].Value = model.Notice;
+            parameters[5].Value = model.Reserve1;
+            parameters[6].Value = model.Reserve2;
+            parameters[7].Value = model.Reserve3;
+
+            DbHelperSQL.RunProcedure("AccountInfo_ADD_LK", parameters, out rowsAffected);
+            return true;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string AccountID
+
+        public bool Update(Model.AccountInfo model)
         {
-            set { _accountid = value; }
-            get { return _accountid; }
+            int rowsAffected;
+            SqlParameter[] parameters = {
+                    new SqlParameter("@AccountID", SqlDbType.VarChar,50),
+					new SqlParameter("@AccountDate", SqlDbType.Date),
+                    new SqlParameter("@ItemOneID", SqlDbType.VarChar,50),
+                    new SqlParameter("@ItemTwoID", SqlDbType.VarChar,50),
+                    new SqlParameter("@AccountAmount",SqlDbType.Decimal,9),
+                    new SqlParameter("@Notice",SqlDbType.VarChar,200),
+                    new SqlParameter("@Reserve1",SqlDbType.VarChar,200),
+                    new SqlParameter("@Reserve2",SqlDbType.VarChar,200),
+                    new SqlParameter("@Reserve3",SqlDbType.VarChar,200)
+                                        };
+            parameters[0].Value = model.AccountID;
+            parameters[1].Value = model.AccountDate;
+            parameters[2].Value = model.ItemOneID;
+            parameters[3].Value = model.ItemTwoID;
+            parameters[4].Value = model.AccountAmount;
+            parameters[5].Value = model.Notice;
+            parameters[6].Value = model.Reserve1;
+            parameters[7].Value = model.Reserve2;
+            parameters[8].Value = model.Reserve3;
+
+            DbHelperSQL.RunProcedure("AccountInfo_Update_LK", parameters, out rowsAffected);
+            return true;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public DateTime AccountDate
+
+        public bool Del(Model.AccountInfo model)
         {
-            set { _accountdate = value; }
-            get { return _accountdate; }
+            int rowsAffected;
+            SqlParameter[] parameters = {
+					new SqlParameter("@AccountID", SqlDbType.VarChar,50)
+                                        };
+            parameters[0].Value = model.AccountID;
+
+            DbHelperSQL.RunProcedure("AccountInfo_Del_LK", parameters, out rowsAffected);
+
+            return true;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool IsIncome
+
+        public List<Model.AccountInfo> GetList(string itemOneID, string itemTwoID, DateTime startDate, DateTime endDate, int isIncome)
         {
-            set { _isincome = value; }
-            get { return _isincome; }
+            SqlParameter[] parameters = {                   
+                    new SqlParameter("@ItemOneID", SqlDbType.VarChar,50),
+                    new SqlParameter("@ItemTwoID", SqlDbType.VarChar,50),
+                    new SqlParameter("@StartDate", SqlDbType.Date),
+					new SqlParameter("@EndDate", SqlDbType.Date),
+                    new SqlParameter("@IsIncome",SqlDbType.Bit)
+                                        };
+            parameters[0].Value = itemOneID;
+            parameters[1].Value = itemTwoID;
+            parameters[2].Value = startDate;
+            parameters[3].Value = endDate;
+            parameters[4].Value = isIncome;
+
+            DataSet ds = DbHelperSQL.RunProcedure("AccountInfo_GetList_LK", parameters, "");
+
+            List<Model.AccountInfo> lst = (from d in ds.Tables[0].AsEnumerable()
+                                           select new Model.AccountInfo()
+                                           {
+                                               AccountID = d.Field<string>("AccountID"),
+                                               AccountDate = d.Field<DateTime>("AccountDate"),
+                                               ItemOneID = d.Field<string>("ItemOneID"),
+                                               ItemTwoID = d.Field<string>("ItemTwoID"),
+                                               AccountAmount = d.Field<decimal>("AccountAmount"),
+                                               Notice = d.Field<string>("Notice"),
+                                               Reserve1 = d.Field<string>("Reserve1"),
+                                               Reserve2 = d.Field<string>("Reserve2"),
+                                               Reserve3 = d.Field<string>("Reserve3")
+                                           }).ToList<Model.AccountInfo>();
+            return lst;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string ItemOneID
-        {
-            set { _itemoneid = value; }
-            get { return _itemoneid; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string ItemTwoID
-        {
-            set { _itemtwoid = value; }
-            get { return _itemtwoid; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public decimal AccountAmount
-        {
-            set { _accountamount = value; }
-            get { return _accountamount; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Notice
-        {
-            set { _notice = value; }
-            get { return _notice; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Reserve1
-        {
-            set { _reserve1 = value; }
-            get { return _reserve1; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Reserve2
-        {
-            set { _reserve2 = value; }
-            get { return _reserve2; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Reserve3
-        {
-            set { _reserve3 = value; }
-            get { return _reserve3; }
-        }
-        #endregion Model
+
     }
 }

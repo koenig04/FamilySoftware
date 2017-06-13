@@ -10,7 +10,7 @@ namespace BLL.AssetInputAndOperationProcess.ItemLoading
 {
     class ItemLoadingContext
     {
-        public event EventHandler<HashtableEventArgs> LoadedItemsEvent;
+        public event EventHandler<ItemSearchedCollectionArgs> LoadedItemsEvent;
         private ItemLoadingStrategySuper _itemLoadingStrategy = null;
         private ItemProcess _itemProcess = null;
 
@@ -40,7 +40,7 @@ namespace BLL.AssetInputAndOperationProcess.ItemLoading
             _itemLoadingStrategy.LoadItems(info);
         }
 
-        private void RaiseLoadedItemsEvent(object sender,HashtableEventArgs e)
+        private void RaiseLoadedItemsEvent(object sender, ItemSearchedCollectionArgs e)
         {
             if (LoadedItemsEvent != null)
             {
