@@ -48,7 +48,7 @@ namespace BLL.ItemConfigureProcess
         private bool CheckValid(ItemConfigureOperationValidInfo info)
         {
             bool res = false;
-            if (info.Itemtype == ItemType.ItemOne)
+            if (info.Itemtype == ItemType.Phrase)
             {
                 if (((info.Optype == OperationType.Modify || info.Optype == OperationType.Delete) && (_selectedItem != null && !string.IsNullOrEmpty(_selectedItem.PhraseID)))
                     || (info.Optype == OperationType.Add && (_selectedItem != null && !string.IsNullOrEmpty(_selectedItem.ItemID))))
@@ -61,17 +61,27 @@ namespace BLL.ItemConfigureProcess
 
         public override void HandleItemOperation(ItemConfigureOperationInfo info)
         {
-            switch (info.OperationType)
+            if (info.ItemInfo.ItemType == ItemType.Phrase)
             {
-                case OperationType.Add:
-                    HandleItemAddOperation(info);
-                    break;
-                case OperationType.Modify:
-                    HandleItemModifyOperation(info);
-                    break;
-                case OperationType.Delete:
-                    HandleItemDeleteOperation(info);
-                    break;
+                switch (info.OperationType)
+                {
+                    case OperationType.Add:
+                        HandleItemAddOperation(info);
+                        break;
+                    case OperationType.Modify:
+                        HandleItemModifyOperation(info);
+                        break;
+                    case OperationType.Delete:
+                        HandleItemDeleteOperation(info);
+                        break;
+                }
+            }
+            else
+            {
+                if (_nextHandler != null)
+                {
+                    _nextHandler.HandleItemOperation(info);
+                }
             }
         }
 
@@ -79,42 +89,40 @@ namespace BLL.ItemConfigureProcess
         {
             string phraseID;
             Phrase model = info;
-            if (_itemProcessDal.AddPhrase(model, out phraseID))
+            bool res = _itemProcessDal.AddPhrase(model, out phraseID);
+            model.PhraseID = phraseID;
+            RaiseItemChangedEvent(new ItemChangedInfoArgs()
             {
-                model.PhraseID = phraseID;
-                RaiseItemChangedEvent(new ItemChangedInfoArgs()
-                {
-                    OperationType = OperationType.Add,
-                    ItemType = ItemType.Phrase,
-                    ItemInfo = model
-                });
-            }
+                IsSucceed = res,
+                OperationType = OperationType.Add,
+                ItemType = ItemType.Phrase,
+                ItemInfo = model
+            });
         }
 
         private void HandleItemModifyOperation(ItemConfigureOperationInfo info)
         {
-            if (_itemProcessDal.UpdatePhrase(info))
+            bool res = _itemProcessDal.UpdatePhrase(info);
+            RaiseItemChangedEvent(new ItemChangedInfoArgs()
             {
-                RaiseItemChangedEvent(new ItemChangedInfoArgs()
-                {
-                    OperationType = OperationType.Modify,
-                    ItemType = ItemType.Phrase,
-                    ItemInfo = info
-                });
-            }
+                IsSucceed = res,
+                OperationType = OperationType.Modify,
+                ItemType = ItemType.Phrase,
+                ItemInfo = info
+            });
         }
 
         private void HandleItemDeleteOperation(ItemConfigureOperationInfo info)
         {
-            if (_itemProcessDal.DelPhrase(info.ItemInfo.ItemID))
+            bool res = _itemProcessDal.DelPhrase(info.ItemInfo.ItemID);
+            RaiseItemChangedEvent(new ItemChangedInfoArgs()
             {
-                RaiseItemChangedEvent(new ItemChangedInfoArgs()
-                {
-                    OperationType = OperationType.Delete,
-                    ItemType = ItemType.Phrase,
-                    ItemInfo = info
-                });
-            }
+                IsSucceed = res,
+                OperationType = OperationType.Delete,
+                ItemType = ItemType.Phrase,
+                ItemInfo = info
+            });
+
         }
     }
 }

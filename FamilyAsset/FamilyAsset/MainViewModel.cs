@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BLL;
 using FamilyAsset.Context;
+using FamilyAsset.Pages;
 using FamilyAsset.Pages.SysConfigure;
 using FamilyAsset.UICore;
 
@@ -57,12 +58,7 @@ namespace FamilyAsset
 
         public override void ViewModelCallBack(ViewModelCallBackInfo Info)
         {
-            switch (Info.FuncType)
-            {
-                case Common.FunctionType.ItemConfig:
-
-                    break;
-            }
+            UserControlManager.SendCallBack(Info);
         }
     }
 }

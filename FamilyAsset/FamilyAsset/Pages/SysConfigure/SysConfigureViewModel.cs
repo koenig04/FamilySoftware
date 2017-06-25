@@ -23,6 +23,7 @@ namespace FamilyAsset.Pages.SysConfigure
                 {
                     _ItemConfig = new ItemConfigureViewModel();
                     _ItemConfig.UserControlMessageEvent += _ItemConfig_UserControlMessageEvent;
+                    UserControlManager.Register(_ItemConfig, "ItemConfigure");
                 }
                 return _ItemConfig;
             }

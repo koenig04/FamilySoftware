@@ -41,7 +41,7 @@ namespace BLL.AssetInputAndOperationProcess
 
         public void HandleAccountInput(AccountInputInfo info)
         {
-            throw new NotImplementedException();
+            _accountProcess.HandleAccountInput(info);
         }
 
         public void HandleAccountOperation(AccountOperationInfo info)

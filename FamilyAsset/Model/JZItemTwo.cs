@@ -16,6 +16,8 @@ namespace Model
         private string _jzitemoneid;
         private string _jzitemtwoname;
         private string _iconname;
+
+        public string IconNamePressed { get; set; }
         /// <summary>
         /// 
         /// </summary>

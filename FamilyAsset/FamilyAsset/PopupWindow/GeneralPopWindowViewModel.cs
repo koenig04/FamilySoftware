@@ -62,7 +62,7 @@ namespace FamilyAsset.PopupWindow
                         o =>
                         {
                             MsgManager.SendMsg<ViewModelCallBackInfo>("CloseWindow",
-                                new ViewModelCallBackInfo(FunctionType.ItemConfig, true));
+                                new ViewModelCallBackInfo(FunctionType.ItemConfig, "",true));
                         }));
                 }
                 return _cmdConfirm;

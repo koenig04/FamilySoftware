@@ -8,7 +8,7 @@ using Common;
 
 namespace BLL.AssetInputAndOperationProcess.ItemLoading
 {
-    class ItemLoadingStrategySuper
+    abstract class ItemLoadingStrategySuper
     {
         public event EventHandler<ItemSearchedCollectionArgs> LoadedItemsEvent;
         protected ItemProcess _itemProcess = null;

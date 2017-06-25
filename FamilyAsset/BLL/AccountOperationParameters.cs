@@ -27,7 +27,7 @@ namespace BLL
         public decimal AccountAmount { get; set; }
         public string Phrases { get; set; }
 
-        public implicit operator Model.AccountInfo(AccountInputInfo info)
+        public static implicit operator Model.AccountInfo(AccountInputInfo info)
         {
             Model.AccountInfo accountInfo = new Model.AccountInfo()
             {

@@ -23,7 +23,6 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         public ItemConfigure()
         {
             InitializeComponent();
-            //this.DataContext = new ItemConfigureViewModel();
         }
     }
 }

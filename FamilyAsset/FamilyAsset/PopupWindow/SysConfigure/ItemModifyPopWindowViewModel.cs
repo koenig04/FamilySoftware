@@ -89,6 +89,21 @@ namespace FamilyAsset.PopupWindow.SysConfigure
             }
         }
 
+        private BitmapImage _imgPressed;
+        /// <summary>
+        /// 该条目对应的选中图标
+        /// </summary>
+        public BitmapImage ImgPressed
+        {
+            get { return _imgPressed; }
+            set
+            {
+                _imgPressed = value;
+                RaisePropertyChanged("ImgPressed");
+            }
+        }
+
+
         private DelegateCommand _cmdConfirm;
         /// <summary>
         /// 按下确定键对应的操作
@@ -149,8 +164,8 @@ namespace FamilyAsset.PopupWindow.SysConfigure
                             if (ofd.ShowDialog() == true)
                             {
                                 Img = new BitmapImage(new Uri(ofd.FileName.Replace("\\", "/"), UriKind.Absolute));
-                                m_iconName = ofd.SafeFileName;
-                                m_iconFullPath = ofd.FileName;
+                                _iconName = ofd.SafeFileName;
+                                _iconFullPath = ofd.FileName;
                             }
                         }));
                 }
@@ -163,6 +178,40 @@ namespace FamilyAsset.PopupWindow.SysConfigure
             }
         }
 
+        private DelegateCommand _loadImgPressed;
+        /// <summary>
+        /// 按下载入图片对应的操作
+        /// 打开文件管理器，选择图片
+        /// 选择的图片会显示到窗口上
+        /// </summary>
+        public DelegateCommand LoadImgPressed
+        {
+            get
+            {
+                if (_loadImgPressed == null)
+                {
+                    _loadImgPressed = new DelegateCommand(new Action<object>(
+                        o =>
+                        {
+                            Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
+                            ofd.DefaultExt = ".png";
+                            ofd.Filter = "Image File|*.png;*.jpg;*.bmp";
+                            if (ofd.ShowDialog() == true)
+                            {
+                                ImgPressed = new BitmapImage(new Uri(ofd.FileName.Replace("\\", "/"), UriKind.Absolute));
+                                _iconPressedName = ofd.SafeFileName;
+                                _iconPressedFullPath = ofd.FileName;
+                            }
+                        }));
+                }
+                return _loadImgPressed;
+            }
+            set
+            {
+                _loadImgPressed = value;
+                RaisePropertyChanged("LoadImgPressed");
+            }
+        }
 
         private Visibility _confirmVisibility = Visibility.Visible;
         /// <summary>
@@ -210,26 +259,28 @@ namespace FamilyAsset.PopupWindow.SysConfigure
         //业务处理类
         protected IItemConfigureProcess _bussiness;
         //一级条目对应的数据Model
-        protected Model.JZItemOne m_item1;
+        protected Model.JZItemOne _itemOneModel;
         //二级条目对应的数据Model
-        protected Model.JZItemTwo m_item2;
+        protected Model.JZItemTwo _itemTwoModel;
         //常用语对应的数据Model
-        protected Model.Phrase m_phrase;
+        protected Model.Phrase _phraseModel;
         //操作类型（增、删、改、查）
-        protected Common.OperationType m_opType;
+        protected Common.OperationType _opType;
         //图标文件名称
-        protected string m_iconName;
+        protected string _iconName, _iconPressedName;
         //图标完整路径
-        private string m_iconFullPath;
+        private string _iconFullPath, _iconPressedFullPath;
+        //暂存的BLL回调信息
+        protected ItemChangedInfoArgs _itemChangedInfoStorage;
 
         public override void SetContext(IContext Context)
         {
             ItemConfigPopWindowContext context = Context as ItemConfigPopWindowContext;
             this._bussiness = context.Bussiness;
-            this.m_opType = context.OpType;
-            this.m_item1 = context.ItemOne;
-            this.m_item2 = context.ItemTwo;
-            this.m_phrase = context.Phrase;
+            this._opType = context.OpType;
+            this._itemOneModel = context.ItemOne;
+            this._itemTwoModel = context.ItemTwo;
+            this._phraseModel = context.Phrase;
 
             //设置标题栏和是否可以载入图标
             switch (context.OpType)
@@ -254,39 +305,53 @@ namespace FamilyAsset.PopupWindow.SysConfigure
             //响应Item的增删改
             this._bussiness.ItemChangedEvent -= OnItenChanged;
             this._bussiness.ItemChangedEvent += OnItenChanged;
-        }        
+        }
 
-        protected void OnItenChanged(object sender, ItemChangedInfoArgs e)
+        public void OnItenChanged(object sender, ItemChangedInfoArgs e)
         {
             if (e.OperationType != Common.OperationType.Search)
             {
+                _itemChangedInfoStorage = e;
                 string msg = string.Empty;
                 msg += CommonEnumChsConverter.Instance.OperationTypeConvert(e.OperationType);
                 msg += CommonEnumChsConverter.Instance.ItemTypeConvert(e.ItemType);
-                msg += (bool)e.ItemInfo ? "成功" : "失败";
+                msg += (bool)e.IsSucceed ? "成功" : "失败";
                 MsgManager.SendMsg<GeneralPopWindowContext>("ShowResult", new GeneralPopWindowContext() { Msg = msg });
             }
         }
 
         protected virtual void UpdateItemInfo()
         {
-            //m_item1 = new Model.JZItemOne();
-            //m_item2 = new Model.JZItemTwo();
-            //m_phrase = new Model.Phrase();
-            if (m_item1 != null)
-                m_item1.JZItemOneName = Item1 != null ? Item1.ItemValue : null;
-            if (m_item2 != null)
-                m_item2.JZItemTwoName = Item2 != null ? Item2.ItemValue : null;
-            if (m_phrase != null)
-                m_phrase.PhraseContent = Phrase != null ? Phrase.ItemValue : null;
+            //_itemOneModel = new Model.JZItemOne();
+            //_itemTwoModel = new Model.JZItemTwo();
+            //_phraseModel = new Model.Phrase();
+            if (_itemOneModel != null)
+                _itemOneModel.JZItemOneName = Item1 != null ? Item1.ItemValue : null;
+            if (_itemTwoModel != null)
+                _itemTwoModel.JZItemTwoName = Item2 != null ? Item2.ItemValue : null;
+            if (_phraseModel != null)
+                _phraseModel.PhraseContent = Phrase != null ? Phrase.ItemValue : null;
         }
 
         public override void ViewModelCallBack(ViewModelCallBackInfo Info)
         {
             if (Info.IsSucceed)
             {
-                string dstFile = Common.GlobalVariables.iconPath + m_iconName;
-                File.Copy(m_iconFullPath, dstFile, true);
+                if (_iconName != null && _iconPressedName != null)
+                {
+                    string dstFile = Common.GlobalVariables.iconPath + _iconName;
+                    string dstPressedFile = Common.GlobalVariables.iconPath + _iconPressedName;
+                    File.Copy(_iconFullPath, dstFile, true);
+                    File.Copy(_iconPressedFullPath, dstPressedFile, true);
+                }
+                MsgManager.SendMsg<ViewModelCallBackInfo>("CloseWindow",
+                       new ViewModelCallBackInfo(FunctionType.ItemConfig,
+                           "ItemConfigure",
+                           true,
+                           new ItemConfigCallBackContext()
+                           {
+                               Context = _itemChangedInfoStorage
+                           }));
             }
         }
     }

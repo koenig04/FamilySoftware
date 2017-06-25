@@ -55,7 +55,11 @@ namespace FamilyAsset.PopupWindow.SysConfigure
                         o =>
                         {
                             UpdateItemInfo();
-                            m_bussiness.ItemConfigure(m_opType, Common.ItemType.ItemOne, m_item2);
+                            _bussiness.HandleItemOperation(new ItemConfigureOperationInfo()
+                            {
+                                OperationType = _opType,
+                                ItemInfo = _itemTwoModel
+                            });
                         }));
                 }
                 return base.CmdConfirm;
@@ -65,21 +69,10 @@ namespace FamilyAsset.PopupWindow.SysConfigure
         protected override void UpdateItemInfo()
         {
             base.UpdateItemInfo();
-            m_item2.IconName = m_iconName;
-            m_item2.JZItemOneID = m_item1.JZItemOneID;
-            m_item2.JZItemTwoName = Item2.ItemValue;
-        }
-
-        public override void ViewModelCallBack(ViewModelCallBackInfo Info)
-        {
-            base.ViewModelCallBack(Info);
-            if (Info.IsSucceed == true)
-            {
-                MsgManager.SendMsg<ViewModelCallBackInfo>("CloseWindow",
-                       new ViewModelCallBackInfo(FunctionType.ItemConfig,
-                           true,
-                           new ItemConfigCallBackContext(ItemType.ItemTwo)));
-            }
+            _itemTwoModel.IconName = _iconName;
+            _itemTwoModel.JZItemOneID = _itemOneModel.JZItemOneID;
+            _itemTwoModel.JZItemTwoName = Item2.ItemValue;
+            _itemTwoModel.IconNamePressed = _iconPressedName;
         }
     }
 }

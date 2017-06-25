@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.AssetInputAndOperationProcess.AccountOperation.AccountInfoLoading
 {
-    class AccountInfoLoadingSuper
+    abstract class AccountInfoLoadingSuper
     {
         public event EventHandler<AccountSearchedCollectionArgs> AccountSearchedResultEvent;
         protected DAL.JZItemOne _itemOneDal;

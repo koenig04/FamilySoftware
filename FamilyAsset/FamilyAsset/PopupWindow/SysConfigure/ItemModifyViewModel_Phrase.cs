@@ -58,7 +58,12 @@ namespace FamilyAsset.PopupWindow.SysConfigure
                         o =>
                         {
                             UpdateItemInfo();
-                            m_bussiness.ItemConfigure(m_opType, Common.ItemType.ItemOne, m_phrase);
+                            _bussiness.HandleItemOperation(new ItemConfigureOperationInfo()
+                            {
+                                OperationType = _opType,
+                                ItemInfo = _phraseModel
+                            });
+                            
                         }));
                 }
                 return base.CmdConfirm;
@@ -68,20 +73,8 @@ namespace FamilyAsset.PopupWindow.SysConfigure
         protected override void UpdateItemInfo()
         {
             base.UpdateItemInfo();
-            m_phrase.PhraseContent = Phrase.ItemValue;
-            m_phrase.ItemID = Item2 == null ? m_item1.JZItemOneID : m_item2.JZItemTwoID;
-        }
-
-        public override void ViewModelCallBack(ViewModelCallBackInfo Info)
-        {
-            base.ViewModelCallBack(Info);
-            if (Info.IsSucceed == true)
-            {
-                MsgManager.SendMsg<ViewModelCallBackInfo>("CloseWindow",
-                       new ViewModelCallBackInfo(FunctionType.ItemConfig,
-                           true,
-                           new ItemConfigCallBackContext(ItemType.Phrase)));
-            }
+            _phraseModel.PhraseContent = Phrase.ItemValue;
+            _phraseModel.ItemID = Item2 == null ? _itemOneModel.JZItemOneID : _itemTwoModel.JZItemTwoID;
         }
     }
 }

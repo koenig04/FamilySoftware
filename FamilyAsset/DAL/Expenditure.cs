@@ -31,14 +31,18 @@ namespace DAL
             return true;
         }
 
-        public List<Model.Expenditure> GetList(int expenditureYear, int expenditureMonth)
+        public List<Model.Expenditure> GetList(int expenditureYear, int expenditureMonth,string itemOneID=null,string itemTwoID=null)
         {
             SqlParameter[] parameters = {
                     new SqlParameter("@ExpenditureYear", SqlDbType.Int),
-					new SqlParameter("@ExpenditureMonth", SqlDbType.Int)
+					new SqlParameter("@ExpenditureMonth", SqlDbType.Int),
+                    new SqlParameter("@ItemOneID", SqlDbType.VarChar,50),
+                    new SqlParameter("@ItemTwoID", SqlDbType.VarChar,50)
                                         };
             parameters[0].Value = expenditureYear;
             parameters[1].Value = expenditureMonth;
+            parameters[2].Value = itemOneID;
+            parameters[3].Value = itemTwoID;
 
             DataSet ds = DbHelperSQL.RunProcedure("Expenditure_GetList_LK", parameters, "");
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)

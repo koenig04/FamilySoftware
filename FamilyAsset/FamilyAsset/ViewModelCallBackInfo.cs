@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BLL;
 using BLL.ItemConfigureProcess;
 using Common;
 
@@ -14,13 +15,15 @@ namespace FamilyAsset
     class ViewModelCallBackInfo
     {
         public FunctionType FuncType { get; private set; }
+        public string Target { get; private set; }
         public bool IsSucceed { get; private set; }
         public IContext Context { get; private set; }
 
-        public ViewModelCallBackInfo(FunctionType FuncType, bool isSucceed, IContext context = null)
+        public ViewModelCallBackInfo(FunctionType FuncType,string Target, bool isSucceed, IContext context = null)
         {
             this.FuncType = FuncType;
             this.IsSucceed = isSucceed;
+            this.Target = Target;
             this.Context = context;
         }
 

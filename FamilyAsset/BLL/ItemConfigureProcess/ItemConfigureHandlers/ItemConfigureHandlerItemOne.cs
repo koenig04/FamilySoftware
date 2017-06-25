@@ -108,17 +108,27 @@ namespace BLL.ItemConfigureProcess
 
         public override void HandleItemOperation(ItemConfigureOperationInfo info)
         {
-            switch (info.OperationType)
+            if (info.ItemInfo.ItemType == ItemType.ItemOne)
             {
-                case OperationType.Add:
-                    HandleItemAddOperation(info);
-                    break;
-                case OperationType.Modify:
-                    HandleItemModifyOperation(info);
-                    break;
-                case OperationType.Delete:
-                    HandleItemDeleteOperation(info);
-                    break;
+                switch (info.OperationType)
+                {
+                    case OperationType.Add:
+                        HandleItemAddOperation(info);
+                        break;
+                    case OperationType.Modify:
+                        HandleItemModifyOperation(info);
+                        break;
+                    case OperationType.Delete:
+                        HandleItemDeleteOperation(info);
+                        break;
+                }
+            }
+            else
+            {
+                if (_nextHandler != null)
+                {
+                    _nextHandler.HandleItemOperation(info);
+                }
             }
         }
 
@@ -126,42 +136,39 @@ namespace BLL.ItemConfigureProcess
         {
             string itemOneID;
             JZItemOne model = info;
-            if (_itemProcessDal.AddItemOne(model, out itemOneID))
+            bool res = _itemProcessDal.AddItemOne(model, out itemOneID);
+            model.JZItemOneID = itemOneID;
+            RaiseItemChangedEvent(new ItemChangedInfoArgs()
             {
-                model.JZItemOneID = itemOneID;
-                RaiseItemChangedEvent(new ItemChangedInfoArgs()
-                {
-                    OperationType = OperationType.Add,
-                    ItemType = ItemType.ItemOne,
-                    ItemInfo = model
-                });
-            }
+                IsSucceed = res,
+                OperationType = OperationType.Add,
+                ItemType = ItemType.ItemOne,
+                ItemInfo = model
+            });
         }
 
         private void HandleItemModifyOperation(ItemConfigureOperationInfo info)
         {
-            if (_itemProcessDal.UpdateItemOne(info))
+            bool res = _itemProcessDal.UpdateItemOne(info);
+            RaiseItemChangedEvent(new ItemChangedInfoArgs()
             {
-                RaiseItemChangedEvent(new ItemChangedInfoArgs()
-                {
-                    OperationType = OperationType.Modify,
-                    ItemType = ItemType.ItemOne,
-                    ItemInfo = info
-                });
-            }
+                IsSucceed = res,
+                OperationType = OperationType.Modify,
+                ItemType = ItemType.ItemOne,
+                ItemInfo = info
+            });
         }
 
         private void HandleItemDeleteOperation(ItemConfigureOperationInfo info)
         {
-            if (_itemProcessDal.DelItemOne(info.ItemInfo.ItemID))
+            bool res = _itemProcessDal.DelItemOne(info.ItemInfo.ItemID);
+            RaiseItemChangedEvent(new ItemChangedInfoArgs()
             {
-                RaiseItemChangedEvent(new ItemChangedInfoArgs()
-                {
-                    OperationType = OperationType.Delete,
-                    ItemType = ItemType.ItemOne,
-                    ItemInfo = info
-                });
-            }
+                IsSucceed = res,
+                OperationType = OperationType.Delete,
+                ItemType = ItemType.ItemOne,
+                ItemInfo = info
+            });
         }
     }
 }

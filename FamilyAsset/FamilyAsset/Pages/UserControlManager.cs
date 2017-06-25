@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FamilyAsset.Pages
+{
+    class UserControlManager
+    {
+        private static Dictionary<string, IUserControlViewModel> _dicUserControl = new Dictionary<string, IUserControlViewModel>();
+
+        public static void Register(IUserControlViewModel usercontrol, string usercontrolName)
+        {
+            if (_dicUserControl.ContainsKey(usercontrolName))
+            {
+                _dicUserControl[usercontrolName] = usercontrol;
+            }
+            else
+            {
+                _dicUserControl.Add(usercontrolName, usercontrol);
+            }
+        }
+
+        public static void SendCallBack(ViewModelCallBackInfo info)
+        {
+            if (info != null && _dicUserControl.ContainsKey(info.Target))
+            {
+                _dicUserControl[info.Target].HandleViewModelCallBack(info);
+            }
+        }
+    }
+
+
+}

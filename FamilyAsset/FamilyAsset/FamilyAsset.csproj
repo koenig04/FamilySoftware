@@ -82,9 +82,11 @@
     <Compile Include="Pages\AccountRecord\AccountRecord.xaml.cs">
       <DependentUpon>AccountRecord.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AccountRecord\AccountRecordViewModel.cs" />
     <Compile Include="Pages\AccountRecord\Elements\AccountItem.xaml.cs">
       <DependentUpon>AccountItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AccountRecord\Elements\AccountItemViewModel.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\InOutSwitchViewModel.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigureButtonsViewModel.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigure.xaml.cs">
@@ -96,6 +98,7 @@
       <DependentUpon>SysConfigure.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SysConfigure\SysConfigureViewModel.cs" />
+    <Compile Include="Pages\UserControlManager.cs" />
     <Compile Include="PopupWindow\GeneralPopWindow.xaml.cs">
       <DependentUpon>GeneralPopWindow.xaml</DependentUpon>
     </Compile>

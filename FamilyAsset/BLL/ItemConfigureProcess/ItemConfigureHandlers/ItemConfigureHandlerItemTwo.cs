@@ -72,7 +72,7 @@ namespace BLL.ItemConfigureProcess
         private bool CheckValid(ItemConfigureOperationValidInfo info)
         {
             bool res = false;
-            if (info.Itemtype == ItemType.ItemOne)
+            if (info.Itemtype == ItemType.ItemTwo)
             {
                 if (((info.Optype == OperationType.Modify || info.Optype == OperationType.Delete) && (_selectedItem != null && !string.IsNullOrEmpty(_selectedItem.JZItemTwoID)))
                     || (info.Optype == OperationType.Add && (_selectedItem != null && !string.IsNullOrEmpty(_selectedItem.JZItemOneID))))
@@ -85,17 +85,27 @@ namespace BLL.ItemConfigureProcess
 
         public override void HandleItemOperation(ItemConfigureOperationInfo info)
         {
-            switch (info.OperationType)
+            if (info.ItemInfo.ItemType == ItemType.ItemTwo)
             {
-                case OperationType.Add:
-                    HandleItemAddOperation(info);
-                    break;
-                case OperationType.Modify:
-                    HandleItemModifyOperation(info);
-                    break;
-                case OperationType.Delete:
-                    HandleItemDeleteOperation(info);
-                    break;
+                switch (info.OperationType)
+                {
+                    case OperationType.Add:
+                        HandleItemAddOperation(info);
+                        break;
+                    case OperationType.Modify:
+                        HandleItemModifyOperation(info);
+                        break;
+                    case OperationType.Delete:
+                        HandleItemDeleteOperation(info);
+                        break;
+                }
+            }
+            else
+            {
+                if (_nextHandler != null)
+                {
+                    _nextHandler.HandleItemOperation(info);
+                }
             }
         }
 
@@ -103,42 +113,41 @@ namespace BLL.ItemConfigureProcess
         {
             string itemTwoID;
             JZItemTwo model = info;
-            if (_itemProcessDal.AddItemTwo(model, out itemTwoID))
+            bool res = _itemProcessDal.AddItemTwo(model, out itemTwoID);
+            model.JZItemOneID = itemTwoID;
+            RaiseItemChangedEvent(new ItemChangedInfoArgs()
             {
-                model.JZItemOneID = itemTwoID;
-                RaiseItemChangedEvent(new ItemChangedInfoArgs()
-                {
-                    OperationType = OperationType.Add,
-                    ItemType = ItemType.ItemTwo,
-                    ItemInfo = model
-                });
-            }
+                IsSucceed = res,
+                OperationType = OperationType.Add,
+                ItemType = ItemType.ItemTwo,
+                ItemInfo = model
+            });
         }
 
         private void HandleItemModifyOperation(ItemConfigureOperationInfo info)
         {
-            if (_itemProcessDal.UpdateItemTwo(info))
-            {
-                RaiseItemChangedEvent(new ItemChangedInfoArgs()
-                {
-                    OperationType = OperationType.Modify,
-                    ItemType = ItemType.ItemTwo,
-                    ItemInfo = info
-                });
-            }
+            bool res = _itemProcessDal.UpdateItemTwo(info);
+            RaiseItemChangedEvent(new ItemChangedInfoArgs()
+               {
+                   IsSucceed = res,
+                   OperationType = OperationType.Modify,
+                   ItemType = ItemType.ItemTwo,
+                   ItemInfo = info
+               });
+
         }
 
         private void HandleItemDeleteOperation(ItemConfigureOperationInfo info)
         {
-            if (_itemProcessDal.DelItemTwo(info.ItemInfo.ItemID))
+            bool res = _itemProcessDal.DelItemTwo(info.ItemInfo.ItemID);
+            RaiseItemChangedEvent(new ItemChangedInfoArgs()
             {
-                RaiseItemChangedEvent(new ItemChangedInfoArgs()
-                {
-                    OperationType = OperationType.Delete,
-                    ItemType = ItemType.ItemTwo,
-                    ItemInfo = info
-                });
-            }
+                IsSucceed = res,
+                OperationType = OperationType.Delete,
+                ItemType = ItemType.ItemTwo,
+                ItemInfo = info
+            });
+
         }
     }
 }

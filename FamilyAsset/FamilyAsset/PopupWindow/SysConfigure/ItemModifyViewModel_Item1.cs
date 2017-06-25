@@ -17,7 +17,7 @@ namespace FamilyAsset.PopupWindow.SysConfigure
             : base()
         {
 
-        }        
+        }
 
         public override void SetContext(Common.IContext Context)
         {
@@ -56,19 +56,12 @@ namespace FamilyAsset.PopupWindow.SysConfigure
                         o =>
                         {
                             UpdateItemInfo();
-                            _bussiness.HandleItemOperation(new BLL.ItemConfigureProcess.ItemConfigureOperationInfo()
+                            _bussiness.HandleItemOperation(new ItemConfigureOperationInfo()
                             {
-                                OperationType = this.m_opType,
-                                ItemInfo = new BLL.ItemConfigureProcess.ItemSelectedInfo()
-                                {
-                                    IsIncome = m_item1.IncomeOrCost,
-                                    ItemIcon = m_item1.IconName,
-                                    ItemID = m_item1.JZItemOneID,
-                                    ItemName = m_item1.JZItemOneName,
-                                    ItemType = Common.ItemType.ItemOne
-                                }
+                                OperationType = this._opType,
+                                ItemInfo = _itemOneModel
                             });
-                            _tmWaitForCallback.Start();
+                            //_tmWaitForCallback.Start();
                         }));
                 }
                 return base.CmdConfirm;
@@ -78,20 +71,9 @@ namespace FamilyAsset.PopupWindow.SysConfigure
         protected override void UpdateItemInfo()
         {
             base.UpdateItemInfo();
-            m_item1.JZItemOneName = Item1.ItemValue;
-            m_item1.IconName = m_iconName;
-        }
-
-        public override void ViewModelCallBack(ViewModelCallBackInfo Info)
-        {
-            base.ViewModelCallBack(Info);
-            if (Info.IsSucceed == true)
-            {
-                MsgManager.SendMsg<ViewModelCallBackInfo>("CloseWindow",
-                       new ViewModelCallBackInfo(FunctionType.ItemConfig,
-                           true,
-                           new ItemConfigCallBackContext(ItemType.ItemOne)));
-            }
-        }
+            _itemOneModel.JZItemOneName = Item1.ItemValue;
+            _itemOneModel.IconName = _iconName;
+            _itemOneModel.IconNamePressed = _iconPressedName;
+        }        
     }
 }

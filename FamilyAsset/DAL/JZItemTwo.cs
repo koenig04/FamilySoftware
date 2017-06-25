@@ -18,15 +18,17 @@ namespace DAL
 					new SqlParameter("@ItemOneID", SqlDbType.VarChar,10),
                     new SqlParameter("@ItemTwoName", SqlDbType.VarChar,50),
                     new SqlParameter("@IconName", SqlDbType.VarChar,50),
+                    new SqlParameter("@IconNamePressed", SqlDbType.VarChar,50),
                     new SqlParameter("@ID",SqlDbType.VarChar,50)
                                         };
             parameters[0].Value = model.JZItemOneID;
-            parameters[1].Value = model.JZItemTwoID;
+            parameters[1].Value = model.JZItemTwoName;
             parameters[2].Value = model.IconName;
-            parameters[3].Direction = ParameterDirection.Output;
+            parameters[3].Value = model.IconNamePressed;
+            parameters[4].Direction = ParameterDirection.Output;
 
             DbHelperSQL.RunProcedure("JZItemTwo_ADD", parameters, out rowsAffected);
-            itemTwoID = parameters[3].Value.ToString();
+            itemTwoID = parameters[4].Value.ToString();
 
             //return rowsAffected > 0 ? true : false;
             return true;
@@ -52,11 +54,13 @@ namespace DAL
             SqlParameter[] parameters = {
 					new SqlParameter("@ItemTwoID", SqlDbType.VarChar,10),
                     new SqlParameter("@ItemTwoName", SqlDbType.VarChar,50),
-                    new SqlParameter("@IconName", SqlDbType.VarChar,50)
+                    new SqlParameter("@IconName", SqlDbType.VarChar,50),
+                    new SqlParameter("@IconNamePressed", SqlDbType.VarChar,50)
                                         };
             parameters[0].Value = model.JZItemTwoID;
             parameters[1].Value = model.JZItemTwoName;
             parameters[2].Value = model.IconName;
+            parameters[4].Value = model.IconNamePressed;
 
             DbHelperSQL.RunProcedure("JZItemTwo_UPDATE_LK", parameters, out rowsAffected);
 
@@ -99,7 +103,8 @@ namespace DAL
                     JZItemOneID = ds.Tables[0].Rows[0]["JZItemOneID"].ToString(),
                     JZItemTwoID = ds.Tables[0].Rows[0]["JZItemTwoID"].ToString(),
                     JZItemTwoName = ds.Tables[0].Rows[0]["JZItemTwoName"].ToString(),
-                    IconName = ds.Tables[0].Rows[0]["IconName"].ToString()
+                    IconName = ds.Tables[0].Rows[0]["IconName"].ToString(),
+                    IconNamePressed = ds.Tables[0].Rows[0]["IconNamePressed"].ToString()
                 };
             }
             else

@@ -5,13 +5,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="750">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="InOutSwitch">
+            <StackPanel Height="30" Width="150" Orientation="Horizontal">
+                <ToggleButton Width="75" Style="{StaticResource ToggleButtonIncome}" 
+                              IsChecked="{Binding IsIncomeChecked}" Command="{Binding IncomeButtonPressed}"/>
+                <ToggleButton Width="75" Style="{StaticResource ToggleButtonExpand}" 
+                              IsChecked="{Binding IsExpandChecked}" Command="{Binding ExpandButtonPressed}"/>
+            </StackPanel>
+        </ControlTemplate>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="80"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="100"/>
             <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>        
+        <UserControl Template="{StaticResource InOutSwitch}" DataContext="{Binding InOrOut}" Grid.Row="0"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="3">
+            <TextBlock Text="日期" Style="{StaticResource TextBlockStyleBaseChs}" FontSize="20"/>
+            
+        </StackPanel>
     </Grid>
 </UserControl>

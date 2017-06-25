@@ -16,7 +16,7 @@
     </Window.Resources>
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -27,14 +27,27 @@
         <UserControl Grid.Row="0" Grid.Column="0" Template="{StaticResource Item}" DataContext="{Binding Item1}"/>
         <UserControl Grid.Row="1" Grid.Column="0" Template="{StaticResource Item}" DataContext="{Binding Item2}"/>
         <UserControl Grid.Row="2" Grid.Column="0" Template="{StaticResource Item}" DataContext="{Binding Phrase}"/>
-        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.RowSpan="3" Grid.Column="1">
-            <Label  Style="{StaticResource LabelStyleBaseChs}" Content="图 标"
+        <Grid Grid.Column="1" Grid.RowSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Column="0">
+                <Label  Style="{StaticResource LabelStyleBaseChs}" Content="未选中图标"
                VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Image Source="{Binding Img}" Margin="0,10,0,0"
+                <Image Source="{Binding Img}" Margin="0,10,0,0"
                Height="120" Width="120" Stretch="Fill" VerticalAlignment="Top"/>
-            <Button Style="{StaticResource ButtonStyleBaseChs}" Margin="0,10,0,0" Height="35" Width="100"
+                <Button Style="{StaticResource ButtonStyleBaseChs}" Margin="0,10,0,0" Height="35" Width="100"
                     Content="载入图片" Command="{Binding LoadImg}" IsEnabled="{Binding IsLoadImgAvailable}"/>
-        </StackPanel>        
-        
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="1">
+                <Label  Style="{StaticResource LabelStyleBaseChs}" Content="选中图标"
+               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Image Source="{Binding ImgPressed}" Margin="0,10,0,0"
+               Height="120" Width="120" Stretch="Fill" VerticalAlignment="Top"/>
+                <Button Style="{StaticResource ButtonStyleBaseChs}" Margin="0,10,0,0" Height="35" Width="100"
+                    Content="载入图片" Command="{Binding LoadImgPressed}" IsEnabled="{Binding IsLoadImgAvailable}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

@@ -21,7 +21,48 @@ namespace BLL
         public string ItemID { get; set; }
         public string ItemName { get; set; }
         public string ItemIcon { get; set; }
+        public string ItemIconPressed { get; set; }
         public bool IsIncome { get; set; }
+        public string ParentID { get; set; }
+
+        public static implicit operator ItemSelectedInfo(Model.JZItemOne model)
+        {
+            ItemSelectedInfo info = new ItemSelectedInfo()
+            {
+                ItemType = ItemType.ItemOne,
+                IsIncome = model.IncomeOrCost,
+                ItemIcon = model.IconName,
+                ItemIconPressed = model.IconNamePressed,
+                ItemID = model.JZItemOneID,
+                ItemName = model.JZItemOneName
+            };
+            return info;
+        }
+
+        public static implicit operator ItemSelectedInfo(Model.JZItemTwo model)
+        {
+            ItemSelectedInfo info = new ItemSelectedInfo()
+            {
+                ItemType = ItemType.ItemTwo,
+                ItemIcon = model.IconName,
+                ItemIconPressed = model.IconNamePressed,
+                ItemID = model.JZItemTwoID,
+                ItemName = model.JZItemTwoName,
+                ParentID=model.JZItemOneID
+            };
+            return info;
+        }
+
+        public static implicit operator ItemSelectedInfo(Model.Phrase model)
+        {
+            ItemSelectedInfo info = new ItemSelectedInfo()
+            {
+                ItemType = ItemType.Phrase,
+                ItemID = model.PhraseID,
+                ItemName = model.PhraseContent
+            };
+            return info;
+        }
     }
 
     public class CallBackInfo
@@ -43,6 +84,7 @@ namespace BLL
             item.JZItemOneName = info.ItemInfo.ItemName;
             item.IconName = info.ItemInfo.ItemIcon;
             item.IncomeOrCost = info.ItemInfo.IsIncome;
+            item.IconNamePressed = info.ItemInfo.ItemIconPressed;
             return item;
         }
 
@@ -52,8 +94,21 @@ namespace BLL
             item.JZItemTwoID = info.ItemInfo.ItemID;
             item.JZItemTwoName = info.ItemInfo.ItemName;
             item.IconName = info.ItemInfo.ItemIcon;
+            item.IconNamePressed = info.ItemInfo.ItemIconPressed;
+            item.JZItemOneID = info.ItemInfo.ParentID;
             return item;
         }
+
+        //public static explicit operator JZItemTwo(ItemConfigureOperationInfo info)
+        //{
+        //    JZItemTwo item = new JZItemTwo();
+        //    item.JZItemTwoID = info.ItemInfo.ItemID;
+        //    item.JZItemTwoName = info.ItemInfo.ItemName;
+        //    item.IconName = info.ItemInfo.ItemIcon;
+        //    item.IconNamePressed = info.ItemInfo.ItemIconPressed;
+        //    item.JZItemOneID = info.ItemInfo.ParentID;
+        //    return item;
+        //}
 
         public static implicit operator Phrase(ItemConfigureOperationInfo info)
         {
@@ -76,6 +131,7 @@ namespace BLL
 
     public class ItemChangedInfoArgs : EventArgs
     {
+        public bool IsSucceed { get; set; }
         public OperationType OperationType { get; set; }
         public ItemType ItemType { get; set; }
         public object ItemInfo { get; set; }

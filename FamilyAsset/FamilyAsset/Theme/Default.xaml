@@ -113,36 +113,65 @@
         <Setter Property="Foreground" Value="DeepSkyBlue"/>
     </Style>
 
-    <!--ItemConfig上的ToggleButton样式-->
-    <Style TargetType="{x:Type ToggleButton}" x:Key="ItemConfigToggleButton" BasedOn="{StaticResource ToggleButtonStyleBaseChs}">
-        <Setter Property="BorderBrush" >
+    <ControlTemplate TargetType="{x:Type ToggleButton}" x:Key="LeftRoundToggelButton">
+        <Border CornerRadius="10,0,0,10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
+            <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>        
+    </ControlTemplate>
+
+    <ControlTemplate TargetType="{x:Type ToggleButton}" x:Key="RightRoundToggelButton">
+        <Border CornerRadius="0,10,10,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
+            <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+    </ControlTemplate>
+    
+    <!--ItemConfig上的IncomeToggleButton样式-->
+    <Style TargetType="{x:Type ToggleButton}" x:Key="OutcomeToggleButton" BasedOn="{StaticResource ToggleButtonStyleBaseChs}">
+        <Setter Property="Template" Value="{StaticResource RightRoundToggelButton}"/>
+        <Setter Property="Content" Value="支出"/>
+        <Setter Property="BorderBrush">
             <Setter.Value>
-                <SolidColorBrush Color="MediumBlue"/>
+                <SolidColorBrush Color="Firebrick"/>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
                 <Trigger.Setters>
-                    <Setter Property="Background" Value="White"/>
-                    <Setter Property="Foreground" Value="MediumBlue"/>
+                    <Setter Property="Background" Value="Firebrick"/>
+                    <Setter Property="Foreground" Value="White"/>
                 </Trigger.Setters>
             </Trigger>
             <Trigger Property="IsChecked" Value="False">
                 <Trigger.Setters>
-                    <Setter Property="Background" Value="MediumBlue"/>
-                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Foreground" Value="Firebrick"/>
                 </Trigger.Setters>
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <!--ItemConfig中的收入ToggleButton样式-->
-    <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonIncome" BasedOn="{StaticResource ItemConfigToggleButton}">
+    <!--ItemConfig上的OutcomeToggleButton样式-->
+    <Style TargetType="{x:Type ToggleButton}" x:Key="IncomeToggleButton" BasedOn="{StaticResource ToggleButtonStyleBaseChs}">
+        <Setter Property="Template" Value="{StaticResource LeftRoundToggelButton}"/>
         <Setter Property="Content" Value="收入"/>
-    </Style>
-
-    <!--ItemConfig中的支出ToggleButton样式-->
-    <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonExpand" BasedOn="{StaticResource ItemConfigToggleButton}">
-        <Setter Property="Content" Value="支出"/>
-    </Style>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <SolidColorBrush Color="LimeGreen"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Trigger.Setters>
+                    <Setter Property="Background" Value="LimeGreen"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger.Setters>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="False">
+                <Trigger.Setters>
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Foreground" Value="LimeGreen"/>
+                </Trigger.Setters>
+            </Trigger>
+        </Style.Triggers>
+    </Style>  
 </ResourceDictionary>

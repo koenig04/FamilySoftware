@@ -18,15 +18,17 @@ namespace DAL
 					new SqlParameter("@ItemOneName", SqlDbType.VarChar,50),
                     new SqlParameter("@IncomeOrCost", SqlDbType.Bit),
                     new SqlParameter("@IconName", SqlDbType.VarChar,50),
+                    new SqlParameter("@IconNamePressed", SqlDbType.VarChar,50),
                     new SqlParameter("@ID",SqlDbType.VarChar,50)
                                         };
             parameters[0].Value = model.JZItemOneName;
             parameters[1].Value = model.IncomeOrCost;
             parameters[2].Value = model.IconName;
-            parameters[3].Direction = ParameterDirection.Output;
+            parameters[3].Value = model.IconNamePressed;
+            parameters[4].Direction = ParameterDirection.Output;
 
             DbHelperSQL.RunProcedure("JZItemOne_ADD_LK", parameters, out rowsAffected);
-            itemOneID = parameters[3].Value.ToString();
+            itemOneID = parameters[4].Value.ToString();
             //return rowsAffected > 0 ? true : false;
             return true;
         }
@@ -52,12 +54,14 @@ namespace DAL
 					new SqlParameter("@JZItemOneID", SqlDbType.VarChar,10),
                     new SqlParameter("@JZItemOneName", SqlDbType.VarChar,50),
                     new SqlParameter("@IncomeOrCost", SqlDbType.Bit),
-                    new SqlParameter("@IconName", SqlDbType.VarChar,50)
+                    new SqlParameter("@IconName", SqlDbType.VarChar,50),
+                    new SqlParameter("@IconNamePressed", SqlDbType.VarChar,50)
                                         };
             parameters[0].Value = model.JZItemOneID;
             parameters[1].Value = model.JZItemOneName;
             parameters[2].Value = model.IncomeOrCost;
             parameters[3].Value = model.IconName;
+            parameters[4].Value = model.IconNamePressed;
 
             DbHelperSQL.RunProcedure("JZItemOne_UPDATE_LK", parameters, out rowsAffected);
 
@@ -96,7 +100,8 @@ namespace DAL
                 {
                     JZItemOneID = ds.Tables[0].Rows[0]["JZItemOneID"].ToString(),
                     JZItemOneName = ds.Tables[0].Rows[0]["JZItemOneName"].ToString(),
-                    IconName = ds.Tables[0].Rows[0]["IconName"].ToString()
+                    IconName = ds.Tables[0].Rows[0]["IconName"].ToString(),
+                    IconNamePressed=ds.Tables[0].Rows[0]["IconNamePressed"].ToString()
                 };
             }
             else

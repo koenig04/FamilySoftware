@@ -14,13 +14,17 @@
                     <SolidColorBrush Color="{Binding ItemColor}"/>
                 </StackPanel.Background>
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Clicked">
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
                         <i:InvokeCommandAction Command="{Binding ItemClicked}" CommandParameter="{Binding SelectedItem}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Image Width="50" Height="50" Source="{Binding ItemImg}" />
+                <Image Width="50" Height="50" Source="{Binding ItemImg}"/>
                 <TextBlock Width="135" Text="{Binding ItemName}"
-                           Style="{StaticResource TextBlockStyleBaseChs}" Foreground="White"/>
+                           Style="{StaticResource TextBlockStyleBaseChs}">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{Binding ItemForeColor}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
             </StackPanel>
         </DataTemplate>
         <ControlTemplate x:Key="ItemListButtons">
@@ -37,9 +41,9 @@
         </ControlTemplate>
         <ControlTemplate x:Key="InOutSwitch">
             <StackPanel Height="30" Width="150" Orientation="Horizontal">
-                <ToggleButton Width="75" Style="{StaticResource ToggleButtonIncome}" 
+                <ToggleButton Width="75" Style="{StaticResource IncomeToggleButton}" 
                               IsChecked="{Binding IsIncomeChecked}" Command="{Binding IncomeButtonPressed}"/>
-                <ToggleButton Width="75" Style="{StaticResource ToggleButtonExpand}" 
+                <ToggleButton Width="75" Style="{StaticResource OutcomeToggleButton}" 
                               IsChecked="{Binding IsExpandChecked}" Command="{Binding ExpandButtonPressed}"/>
             </StackPanel>
         </ControlTemplate>

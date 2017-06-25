@@ -27,7 +27,6 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         {
             this._bussinessProcess = new ItemConfigureProcessManager();
             this._bussinessProcess.ItemSearchedResultEvent += OnItenSearchedResult;
-            this._bussinessProcess.ItemChangedEvent += OnItemChanged;
             this._bussinessProcess.ItemPopWindowEvent += OnPopWindow;
             //Load all the ItemOne
             try
@@ -54,10 +53,10 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
             });
         }
 
-       
+
 
         //Do the del/add/modify operation of item
-        private void OnItemChanged(object sender, ItemChangedInfoArgs e)
+        private void OnItemChanged(ItemChangedInfoArgs e)
         {
             switch (e.ItemType)
             {
@@ -76,12 +75,13 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         //Do the del/add/modify operation of item one
         private void OperateItemOneList(ItemChangedInfoArgs e)
         {
-            JZItemOne model = e.ItemInfo as JZItemOne;
+            JZItemOne model = (ItemConfigureOperationInfo)(e.ItemInfo);
             switch (e.OperationType)
             {
                 case OperationType.Add:
-                    ItemOnes.Add(new ItemViewModel(
-                                ItemType.ItemOne, model.JZItemOneID, model.IconName, model.JZItemOneName));
+                    ItemViewModel newItem = new ItemViewModel(ItemType.ItemOne, model, m_inorout);
+                    newItem.ItemClickedEvent += OnItemClicked;
+                    ItemOnes.Add(newItem);
                     break;
                 case OperationType.Delete:
                     ItemOnes.Remove(ItemOnes.Where(a => a.SelectedItem.ItemID == model.JZItemOneID).FirstOrDefault());
@@ -89,7 +89,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
                 case OperationType.Modify:
                     int index = ItemOnes.IndexOf(ItemOnes.Where(a => a.SelectedItem.ItemID == model.JZItemOneID).FirstOrDefault());
                     if (index >= 0)
-                        ItemOnes[index] = new ItemViewModel(ItemType.ItemOne, model.JZItemOneID, model.IconName, model.JZItemOneName);
+                        ItemOnes[index] = new ItemViewModel(ItemType.ItemOne, model, m_inorout);
                     break;
             }
         }
@@ -97,20 +97,21 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         //Do the del/add/modify operation of item two
         private void OperateItemTwoList(ItemChangedInfoArgs e)
         {
-            JZItemTwo model = e.ItemInfo as JZItemTwo;
+            //JZItemTwo model =(ItemConfigureOperationInfo)e.ItemInfo;
             switch (e.OperationType)
             {
                 case OperationType.Add:
-                    ItemTwos.Add(new ItemViewModel(
-                                ItemType.ItemTwo, model.JZItemTwoID, model.IconName, model.JZItemTwoName));
+                    ItemViewModel newItem = new ItemViewModel(ItemType.ItemTwo, e.ItemInfo, m_inorout);
+                    newItem.ItemClickedEvent += OnItemClicked;
+                    ItemTwos.Add(newItem);
                     break;
                 case OperationType.Delete:
-                    ItemTwos.Remove(ItemOnes.Where(a => a.SelectedItem.ItemID == model.JZItemTwoID).FirstOrDefault());
+                    ItemTwos.Remove(ItemOnes.Where(a => a.SelectedItem.ItemID ==((JZItemTwo) e.ItemInfo).JZItemTwoID).FirstOrDefault());
                     break;
                 case OperationType.Modify:
-                    int index = ItemTwos.IndexOf(ItemOnes.Where(a => a.SelectedItem.ItemID == model.JZItemTwoID).FirstOrDefault());
+                    int index = ItemTwos.IndexOf(ItemOnes.Where(a => a.SelectedItem.ItemID == ((JZItemTwo)e.ItemInfo).JZItemTwoID).FirstOrDefault());
                     if (index >= 0)
-                        ItemTwos[index] = new ItemViewModel(ItemType.ItemTwo, model.JZItemTwoID, model.IconName, model.JZItemTwoName);
+                        ItemTwos[index] = new ItemViewModel(ItemType.ItemTwo, e.ItemInfo, m_inorout);
                     break;
             }
         }
@@ -118,12 +119,13 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         //Do the del/add/modify operation of phrase
         private void OperatePhraseList(ItemChangedInfoArgs e)
         {
-            Phrase model = e.ItemInfo as Phrase;
+            Phrase model = (ItemConfigureOperationInfo)(e.ItemInfo);
             switch (e.OperationType)
             {
                 case OperationType.Add:
-                    Phrases.Add(new ItemViewModel(
-                                ItemType.Phrase, model.PhraseID, string.Empty, model.PhraseContent));
+                    ItemViewModel newItem = new ItemViewModel(ItemType.Phrase, model, m_inorout);
+                    newItem.ItemClickedEvent += OnItemClicked;
+                    Phrases.Add(newItem);
                     break;
                 case OperationType.Delete:
                     Phrases.Remove(ItemOnes.Where(a => a.SelectedItem.ItemID == model.PhraseID).FirstOrDefault());
@@ -131,7 +133,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
                 case OperationType.Modify:
                     int index = Phrases.IndexOf(ItemOnes.Where(a => a.SelectedItem.ItemID == model.PhraseID).FirstOrDefault());
                     if (index >= 0)
-                        Phrases[index] = new ItemViewModel(ItemType.Phrase, model.PhraseID, string.Empty, model.PhraseContent);
+                        Phrases[index] = new ItemViewModel(ItemType.Phrase, model, m_inorout);
                     break;
             }
         }
@@ -147,8 +149,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
                     {
                         foreach (JZItemOne item in (e.ItemCollection as Hashtable)["One"] as List<JZItemOne>)
                         {
-                            ItemViewModel ivm = new ItemViewModel(
-                                ItemType.ItemOne, item.JZItemOneID, item.IconName, item.JZItemOneName);
+                            ItemViewModel ivm = new ItemViewModel(ItemType.ItemOne, item, m_inorout);
                             ivm.ItemClickedEvent += OnItemClicked;
                             this.ItemOnes.Add(ivm);
                         }
@@ -160,8 +161,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
                     {
                         foreach (JZItemTwo item in (e.ItemCollection as Hashtable)["Two"] as List<JZItemTwo>)
                         {
-                            ItemViewModel ivm = new ItemViewModel(
-                                ItemType.ItemTwo, item.JZItemTwoID, item.IconName, item.JZItemTwoName);
+                            ItemViewModel ivm = new ItemViewModel(ItemType.ItemTwo, item, m_inorout);
                             ivm.ItemClickedEvent += OnItemClicked;
                             this.ItemTwos.Add(ivm);
                         }
@@ -171,10 +171,9 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
                     this.Phrases.Clear();
                     if (e.ItemCollection != null && (e.ItemCollection as Hashtable).ContainsKey("Phrase"))
                     {
-                        foreach (Phrase item in (e.ItemCollection as Hashtable)["Two"] as List<Phrase>)
+                        foreach (Phrase item in (e.ItemCollection as Hashtable)["Phrase"] as List<Phrase>)
                         {
-                            ItemViewModel ivm = new ItemViewModel(
-                                ItemType.Phrase, item.PhraseID, string.Empty, item.PhraseContent);
+                            ItemViewModel ivm = new ItemViewModel(ItemType.Phrase, item, m_inorout);
                             ivm.ItemClickedEvent += OnItemClicked;
                             this.ItemTwos.Add(ivm);
                         }
@@ -185,6 +184,52 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
 
         private void OnItemClicked(object sender, ItemClickedEventArgs e)
         {
+            switch (e.SelectedItem.ItemType)
+            {
+                case ItemType.ItemOne:
+                    foreach (ItemViewModel item in ItemOnes.Where(a => a.SelectedItem != e.SelectedItem))
+                    {
+                        item.ConvertToUnPressed();
+                    }
+                    m_selectedItemOne = new JZItemOne()
+                    {
+                        IconName = e.SelectedItem.ItemIcon,
+                        IconNamePressed = e.SelectedItem.ItemIconPressed,
+                        IncomeOrCost = m_inorout,
+                        JZItemOneID = e.SelectedItem.ItemID,
+                        JZItemOneName = e.SelectedItem.ItemName
+                    };
+                    m_selectedItemTwo = new JZItemTwo() { JZItemOneID = e.SelectedItem.ItemID };
+                    m_selectedPhrase = new Phrase() { ItemID = e.SelectedItem.ItemID };
+                    break;
+                case ItemType.ItemTwo:
+                    foreach (ItemViewModel item in ItemTwos.Where(a => a.SelectedItem != e.SelectedItem))
+                    {
+                        item.ConvertToUnPressed();
+                    }
+                    m_selectedItemTwo = new JZItemTwo()
+                    {
+                        IconName = e.SelectedItem.ItemIcon,
+                        IconNamePressed = e.SelectedItem.ItemIconPressed,
+                        JZItemOneID = m_selectedItemOne.JZItemOneID,
+                        JZItemTwoID = e.SelectedItem.ItemID,
+                        JZItemTwoName = e.SelectedItem.ItemName
+                    };
+                    m_selectedPhrase = new Phrase() { ItemID = e.SelectedItem.ItemID };
+                    break;
+                case ItemType.Phrase:
+                    foreach (ItemViewModel item in Phrases.Where(a => a.SelectedItem != e.SelectedItem))
+                    {
+                        item.ConvertToUnPressed();
+                    }
+                    m_selectedPhrase = new Phrase()
+                    {
+                        ItemID = m_selectedItemTwo == null ? m_selectedItemOne.JZItemOneID : m_selectedItemTwo.JZItemTwoID,
+                        PhraseID = e.SelectedItem.ItemID,
+                        PhraseContent = e.SelectedItem.ItemName
+                    };
+                    break;
+            }
             _bussinessProcess.HandleItemSelected(new ItemSelectedInfo()
             {
                 ItemType = e.SelectedItem.ItemType,
@@ -203,6 +248,10 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         {
             get
             {
+                if (_ItemOnes == null)
+                {
+                    _ItemOnes = new ObservableCollection<ItemViewModel>();
+                }
                 return _ItemOnes;
             }
             set
@@ -218,7 +267,14 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         /// </summary>
         public ObservableCollection<ItemViewModel> ItemTwos
         {
-            get { return _itemTwos; }
+            get
+            {
+                if (_itemTwos == null)
+                {
+                    _itemTwos = new ObservableCollection<ItemViewModel>();
+                }
+                return _itemTwos;
+            }
             set
             {
                 _itemTwos = value;
@@ -232,7 +288,14 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         /// </summary>
         public ObservableCollection<ItemViewModel> Phrases
         {
-            get { return _phrases; }
+            get
+            {
+                if (_phrases == null)
+                {
+                    _phrases = new ObservableCollection<ItemViewModel>();
+                }
+                return _phrases;
+            }
             set
             {
                 _phrases = value;
@@ -336,15 +399,14 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
                 m_selectedItemOne = null;
                 m_selectedItemTwo = null;
                 m_selectedPhrase = null;
+                ItemOnes.Clear();
+                ItemTwos.Clear();
+                Phrases.Clear();
+
                 m_inorout = obj;
-                this._bussinessProcess.HandleItemOperation(new ItemConfigureOperationInfo()
+                this._bussinessProcess.HandleItemSelected(new ItemSelectedInfo()
                 {
-                    OperationType = OperationType.Search,
-                    ItemInfo = new ItemSelectedInfo()
-                    {
-                        IsIncome = obj,
-                        ItemType = ItemType.None
-                    }
+                    IsIncome = obj
                 });
             }
         }
@@ -352,7 +414,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         private Model.JZItemOne m_selectedItemOne;
         private Model.JZItemTwo m_selectedItemTwo;
         private Model.Phrase m_selectedPhrase;
-        private bool m_inorout = true;        
+        private bool m_inorout = true;
 
 
         /// <summary>
@@ -367,145 +429,15 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
                 Itemtype = e.Itemtype,
                 Optype = e.Optype
             });
-        } 
-
-        void _bussiness_ItemConfigureEvent(object sender, ItemConfigureEventArgs e)
-        {
-            //ItemConif主界面只响应查找的返回
-            if (e.OptType == OperationType.Search)
-            {
-                ReLoad(e.ItemType, e.ItemInfo);
-            }
         }
 
-        private void ReLoad(ItemType ItemType, object ItemInfo)
-        {
-            switch (ItemType)
-            {
-                //载入所有的一级条目
-                case ItemType.ItemOne:
-
-                    //清理一级条目List
-                    if (ItemOnes != null)
-                    {
-                        ItemOnes.Clear();
-                    }
-                    else
-                    {
-                        ItemOnes = new ObservableCollection<ItemViewModel>();
-                    }
-
-                    //一级条目List重新赋值
-                    if ((ItemInfo as Hashtable)["One"] != null)
-                    {
-                        List<ItemViewModel> lstOne = (from i in ((ItemInfo as Hashtable)["One"] as List<Model.JZItemOne>)
-                                                      select new ItemViewModel()
-                                                      {
-                                                          ItemName = i.JZItemOneName,
-                                                          ItemImg = new BitmapImage(new Uri(Common.GlobalVariables.iconPath.Replace("\\", "/") + i.IconName, UriKind.Absolute)),
-                                                          ItemColor = m_inorout ? Colors.LimeGreen : Colors.Firebrick
-                                                      }).ToList<ItemViewModel>();
-                        foreach (ItemViewModel item in lstOne)
-                        {
-                            ItemOnes.Add(item);
-                        }
-                    }
-                    break;
-
-                //载入指定一级条目下辖的二级条目和常用语
-                case ItemType.ItemTwo:
-                    Hashtable hst = ItemInfo as Hashtable;
-
-                    //清理二级条目和常用语List
-                    if (Phrases != null)
-                    {
-                        Phrases.Clear();
-                    }
-                    else
-                    {
-                        Phrases = new ObservableCollection<ItemViewModel>();
-                    }
-
-                    if (ItemTwos != null)
-                    {
-                        ItemTwos.Clear();
-                    }
-                    else
-                    {
-                        ItemTwos = new ObservableCollection<ItemViewModel>();
-                    }
-
-                    //对二级条目和常用语List重新赋值
-                    List<ItemViewModel> lst;
-                    if (hst["Two"] != null)
-                    {//此一级条目下有二级条目
-                        lst = (from i in ((ItemInfo as Hashtable)["Two"] as List<Model.JZItemTwo>)
-                               select new ItemViewModel()
-                               {
-                                   ItemName = i.JZItemTwoName,
-                                   ItemImg = new BitmapImage(new Uri(Common.GlobalVariables.iconPath.Replace("\\", "/") + i.IconName, UriKind.Absolute)),
-                                   ItemColor = m_inorout ? Colors.LimeGreen : Colors.Firebrick
-                               }).ToList<ItemViewModel>();
-                        foreach (ItemViewModel item in lst)
-                        {
-                            ItemTwos.Add(item);
-                        }
-                    }
-                    if (hst["Phrase"] != null)
-                    {//此一级条目下有常用语
-                        lst = (from i in ((ItemInfo as Hashtable)["Phrase"] as List<Model.Phrase>)
-                               select new ItemViewModel()
-                               {
-                                   ItemName = i.PhraseContent
-                               }).ToList<ItemViewModel>();
-                        foreach (ItemViewModel item in lst)
-                        {
-                            Phrases.Add(item);
-                        }
-                    }
-                    break;
-
-                //载入指定二级条目下的常用语
-                case Common.ItemType.Phrase:
-
-                    //清理常用语List
-                    if (Phrases != null)
-                    {
-                        Phrases.Clear();
-                    }
-                    else
-                    {
-                        Phrases = new ObservableCollection<ItemViewModel>();
-                    }
-
-                    //对常用语List重新赋值
-                    List<ItemViewModel> lstPhrase = (from i in ((ItemInfo as Hashtable)["Phrase"] as List<Model.Phrase>)
-                                                     select new ItemViewModel()
-                                                     {
-                                                         ItemName = i.PhraseContent
-                                                     }).ToList<ItemViewModel>();
-                    foreach (ItemViewModel item in lstPhrase)
-                    {
-                        Phrases.Add(item);
-                    }
-                    break;
-            }
-        }
 
         public void HandleViewModelCallBack(ViewModelCallBackInfo callbackInfo)
         {
             if (callbackInfo.IsSucceed == true)
             {
                 ItemConfigCallBackContext context = callbackInfo.Context as ItemConfigCallBackContext;
-                switch (context.ItemType)
-                {
-                    case ItemType.ItemOne:
-                        this._bussiness.ItemConfigure(OperationType.Search, ItemType.ItemOne, m_inorout);
-                        break;
-                    case ItemType.ItemTwo:
-                        //this._bussiness.ItemConfigure(OperationType.Search,ItemType.ItemTwo,
-                        break;
-                }
+                OnItemChanged(context.Context);
             }
         }
     }

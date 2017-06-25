@@ -22,9 +22,9 @@
             <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Margin="0,20,0,0">
                 <Label Style="{StaticResource HomePageTitle}" Content="总 资 产（元）"/>
                 <Label Style="{StaticResource HomePageLabelBase}" Content="{Binding TotalCapital}" Foreground="{Binding TotalCapitalColor}"/>
-                <Label Style="{StaticResource HomePageTitle}" Content="总 配 额（元）"/>
+                <Label Style="{StaticResource HomePageTitle}" Content="本月预算（元）"/>
                 <Label Style="{StaticResource HomePageLabelBase}" Content="{Binding TotalLimit}" Foreground="{Binding TotalLimitColor}"/>
-                <Label Style="{StaticResource HomePageTitle}" Content="本 月 配 额（元）"/>
+                <Label Style="{StaticResource HomePageTitle}" Content="本月预算剩余（元）" Width="230"/>
                 <Label Style="{StaticResource HomePageLabelBase}" Content="{Binding MonthLimit}" Foreground="{Binding MonthLimitColor}"/>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">

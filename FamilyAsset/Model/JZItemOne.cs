@@ -16,6 +16,8 @@ namespace Model
         private string _jzitemonename;
         private bool _incomeorcost;
         private string _iconname;
+
+        public string IconNamePressed { get; set; }
         /// <summary>
         /// 
         /// </summary>

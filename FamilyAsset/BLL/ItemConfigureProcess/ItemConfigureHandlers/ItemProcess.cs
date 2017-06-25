@@ -29,7 +29,8 @@ namespace BLL.ItemConfigureProcess
                               {
                                   JZItemOneID = d.Field<string>("JZItemOneID"),
                                   JZItemOneName = d.Field<string>("JZItemOneName"),
-                                  IconName = d.Field<string>("IconName")
+                                  IconName = d.Field<string>("IconName"),
+                                  IconNamePressed=d.Field<string>("IconNamePressed")
                               }).ToList<Model.JZItemOne>();
             }
         }
@@ -56,7 +57,8 @@ namespace BLL.ItemConfigureProcess
                                   JZItemOneID = d.Field<string>("JZItemOneID"),
                                   JZItemTwoID = d.Field<string>("JZItemTwoID"),
                                   JZItemTwoName = d.Field<string>("JZItemTwoName"),
-                                  IconName = d.Field<string>("IconName")
+                                  IconName = d.Field<string>("IconName"),
+                                  IconNamePressed=d.Field<string>("IconNamePressed")
                               }).ToList<Model.JZItemTwo>();
             }
             if (dtPhrase != null)

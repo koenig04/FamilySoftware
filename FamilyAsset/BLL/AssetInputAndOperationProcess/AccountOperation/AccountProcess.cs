@@ -50,6 +50,12 @@ namespace BLL.AssetInputAndOperationProcess.AccountOperation
                 case OperationType.Search:
                     _accountLoading.LoadAccountInfo(info,_itemOneDal,_itemTwoDal,_accountInfoDal);
                     break;
+                case OperationType.Modify:
+                    UpdateAccount(info);
+                    break;
+                case OperationType.Delete:
+                    DelAccount(info);
+                    break;
             }
         }
 
