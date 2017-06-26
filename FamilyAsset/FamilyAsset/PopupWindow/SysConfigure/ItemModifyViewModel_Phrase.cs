@@ -46,6 +46,8 @@ namespace FamilyAsset.PopupWindow.SysConfigure
                 IsEditable = context.OpType == Common.OperationType.Delete ? false : true,
                 ItemValue = context.OpType == Common.OperationType.Add ? string.Empty : context.Phrase.PhraseContent
             };
+
+            IsLoadImgAvailable = false;
         }
 
         public override DelegateCommand CmdConfirm
@@ -74,7 +76,7 @@ namespace FamilyAsset.PopupWindow.SysConfigure
         {
             base.UpdateItemInfo();
             _phraseModel.PhraseContent = Phrase.ItemValue;
-            _phraseModel.ItemID = Item2 == null ? _itemOneModel.JZItemOneID : _itemTwoModel.JZItemTwoID;
+            _phraseModel.ItemID = string.IsNullOrEmpty(Item2.ItemValue) ? _itemOneModel.JZItemOneID : _itemTwoModel.JZItemTwoID;
         }
     }
 }

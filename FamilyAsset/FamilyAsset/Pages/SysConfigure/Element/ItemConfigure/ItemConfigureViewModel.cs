@@ -74,22 +74,21 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
 
         //Do the del/add/modify operation of item one
         private void OperateItemOneList(ItemChangedInfoArgs e)
-        {
-            JZItemOne model = (ItemConfigureOperationInfo)(e.ItemInfo);
+        {            
             switch (e.OperationType)
             {
                 case OperationType.Add:
-                    ItemViewModel newItem = new ItemViewModel(ItemType.ItemOne, model, m_inorout);
+                    ItemViewModel newItem = new ItemViewModel(ItemType.ItemOne, e.ItemInfo, m_inorout);
                     newItem.ItemClickedEvent += OnItemClicked;
                     ItemOnes.Add(newItem);
                     break;
                 case OperationType.Delete:
-                    ItemOnes.Remove(ItemOnes.Where(a => a.SelectedItem.ItemID == model.JZItemOneID).FirstOrDefault());
+                    ItemOnes.Remove(ItemOnes.Where(a => a.SelectedItem.ItemID == ((ItemConfigureOperationInfo)e.ItemInfo).ItemInfo.ItemID).FirstOrDefault());
                     break;
                 case OperationType.Modify:
-                    int index = ItemOnes.IndexOf(ItemOnes.Where(a => a.SelectedItem.ItemID == model.JZItemOneID).FirstOrDefault());
+                    int index = ItemOnes.IndexOf(ItemOnes.Where(a => a.SelectedItem.ItemID == ((ItemConfigureOperationInfo)e.ItemInfo).ItemInfo.ItemID).FirstOrDefault());
                     if (index >= 0)
-                        ItemOnes[index] = new ItemViewModel(ItemType.ItemOne, model, m_inorout);
+                        ItemOnes[index] = new ItemViewModel(ItemType.ItemOne, e.ItemInfo, m_inorout);
                     break;
             }
         }
@@ -97,7 +96,6 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         //Do the del/add/modify operation of item two
         private void OperateItemTwoList(ItemChangedInfoArgs e)
         {
-            //JZItemTwo model =(ItemConfigureOperationInfo)e.ItemInfo;
             switch (e.OperationType)
             {
                 case OperationType.Add:
@@ -106,10 +104,10 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
                     ItemTwos.Add(newItem);
                     break;
                 case OperationType.Delete:
-                    ItemTwos.Remove(ItemOnes.Where(a => a.SelectedItem.ItemID ==((JZItemTwo) e.ItemInfo).JZItemTwoID).FirstOrDefault());
+                    ItemTwos.Remove(ItemTwos.Where(a => a.SelectedItem.ItemID == ((ItemConfigureOperationInfo)e.ItemInfo).ItemInfo.ItemID).FirstOrDefault());
                     break;
                 case OperationType.Modify:
-                    int index = ItemTwos.IndexOf(ItemOnes.Where(a => a.SelectedItem.ItemID == ((JZItemTwo)e.ItemInfo).JZItemTwoID).FirstOrDefault());
+                    int index = ItemTwos.IndexOf(ItemTwos.Where(a => a.SelectedItem.ItemID == ((ItemConfigureOperationInfo)e.ItemInfo).ItemInfo.ItemID).FirstOrDefault());
                     if (index >= 0)
                         ItemTwos[index] = new ItemViewModel(ItemType.ItemTwo, e.ItemInfo, m_inorout);
                     break;
@@ -119,21 +117,20 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         //Do the del/add/modify operation of phrase
         private void OperatePhraseList(ItemChangedInfoArgs e)
         {
-            Phrase model = (ItemConfigureOperationInfo)(e.ItemInfo);
             switch (e.OperationType)
             {
                 case OperationType.Add:
-                    ItemViewModel newItem = new ItemViewModel(ItemType.Phrase, model, m_inorout);
+                    ItemViewModel newItem = new ItemViewModel(ItemType.Phrase, e.ItemInfo, m_inorout);
                     newItem.ItemClickedEvent += OnItemClicked;
                     Phrases.Add(newItem);
                     break;
                 case OperationType.Delete:
-                    Phrases.Remove(ItemOnes.Where(a => a.SelectedItem.ItemID == model.PhraseID).FirstOrDefault());
+                    Phrases.Remove(Phrases.Where(a => a.SelectedItem.ItemID == ((ItemConfigureOperationInfo)e.ItemInfo).ItemInfo.ItemID).FirstOrDefault());
                     break;
                 case OperationType.Modify:
-                    int index = Phrases.IndexOf(ItemOnes.Where(a => a.SelectedItem.ItemID == model.PhraseID).FirstOrDefault());
+                    int index = Phrases.IndexOf(Phrases.Where(a => a.SelectedItem.ItemID == ((ItemConfigureOperationInfo)e.ItemInfo).ItemInfo.ItemID).FirstOrDefault());
                     if (index >= 0)
-                        Phrases[index] = new ItemViewModel(ItemType.Phrase, model, m_inorout);
+                        Phrases[index] = new ItemViewModel(ItemType.Phrase, e.ItemInfo, m_inorout);
                     break;
             }
         }
@@ -175,7 +172,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
                         {
                             ItemViewModel ivm = new ItemViewModel(ItemType.Phrase, item, m_inorout);
                             ivm.ItemClickedEvent += OnItemClicked;
-                            this.ItemTwos.Add(ivm);
+                            this.Phrases.Add(ivm);
                         }
                     }
                     break;

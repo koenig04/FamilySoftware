@@ -43,6 +43,13 @@ namespace BLL.ItemConfigureProcess
                     Phrase = _selectedItem
                 });
             }
+            else
+            {
+                if (_nextHandler != null)
+                {
+                    _nextHandler.HandleItemValidOperation(info);
+                }
+            }
         }
 
         private bool CheckValid(ItemConfigureOperationValidInfo info)

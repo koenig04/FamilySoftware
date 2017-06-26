@@ -75,7 +75,7 @@
             <StackPanel Orientation="Vertical">
                 <Label Style="{StaticResource ItemConfigLabel}" Content="常用语"/>
                 <ListBox BorderBrush="DeepSkyBlue" Width="200" Height="250" >
-                    <ItemsControl ItemsSource="{Binding ItemPhrases}"/>
+                    <ItemsControl ItemsSource="{Binding Phrases}"/>
                 </ListBox>
                 <UserControl Template="{StaticResource ItemListButtons}" DataContext="{Binding PhraseButtons}"/>
             </StackPanel>

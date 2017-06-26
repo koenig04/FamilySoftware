@@ -104,20 +104,40 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
             switch (itemType)
             {
                 case Common.ItemType.ItemOne:
-                    ItemName = ((Model.JZItemOne)itemInfo).JZItemOneName;
-                    iconName = ((Model.JZItemOne)itemInfo).IconName;
-                    iconPressedName = ((Model.JZItemOne)itemInfo).IconNamePressed;
-                    itemID = ((Model.JZItemOne)itemInfo).JZItemOneID;
+                    ItemName = itemInfo.GetType() == typeof(Model.JZItemOne) ?
+                        ((Model.JZItemOne)itemInfo).JZItemOneName :
+                        ((ItemConfigureOperationInfo)itemInfo).ItemInfo.ItemName;
+                    iconName = itemInfo.GetType() == typeof(Model.JZItemOne) ?
+                        ((Model.JZItemOne)itemInfo).IconName :
+                         ((ItemConfigureOperationInfo)itemInfo).ItemInfo.ItemIcon;
+                    iconPressedName = itemInfo.GetType() == typeof(Model.JZItemOne) ?
+                        ((Model.JZItemOne)itemInfo).IconNamePressed :
+                        ((ItemConfigureOperationInfo)itemInfo).ItemInfo.ItemIconPressed;
+                    itemID = itemInfo.GetType() == typeof(Model.JZItemOne) ?
+                        ((Model.JZItemOne)itemInfo).JZItemOneID :
+                        ((ItemConfigureOperationInfo)itemInfo).ItemInfo.ItemID;
                     break;
                 case Common.ItemType.ItemTwo:
-                    ItemName = ((Model.JZItemTwo)itemInfo).JZItemTwoName;
-                    iconName = ((Model.JZItemTwo)itemInfo).IconName;
-                    iconPressedName = ((Model.JZItemTwo)itemInfo).IconNamePressed;
-                    itemID = ((Model.JZItemTwo)itemInfo).JZItemTwoID;
+                    ItemName = itemInfo.GetType() == typeof(Model.JZItemTwo) ?
+                        ((Model.JZItemTwo)itemInfo).JZItemTwoName :
+                        ((ItemConfigureOperationInfo)itemInfo).ItemInfo.ItemName;
+                    iconName = itemInfo.GetType() == typeof(Model.JZItemTwo) ?
+                        ((Model.JZItemTwo)itemInfo).IconName :
+                        ((ItemConfigureOperationInfo)itemInfo).ItemInfo.ItemIcon;
+                    iconPressedName = itemInfo.GetType() == typeof(Model.JZItemTwo) ?
+                        ((Model.JZItemTwo)itemInfo).IconNamePressed :
+                        ((ItemConfigureOperationInfo)itemInfo).ItemInfo.ItemIconPressed;
+                    itemID = itemInfo.GetType() == typeof(Model.JZItemTwo) ?
+                        ((Model.JZItemTwo)itemInfo).JZItemTwoID :
+                        ((ItemConfigureOperationInfo)itemInfo).ItemInfo.ItemID;
                     break;
                 case Common.ItemType.Phrase:
-                    ItemName = ((Model.Phrase)itemInfo).PhraseContent;
-                    itemID = ((Model.Phrase)itemInfo).PhraseID;
+                    ItemName = itemInfo.GetType() == typeof(Model.Phrase) ?
+                        ((Model.Phrase)itemInfo).PhraseContent:
+                        ((ItemConfigureOperationInfo)itemInfo).ItemInfo.ItemName;
+                    itemID = itemInfo.GetType() == typeof(Model.Phrase) ?
+                        ((Model.Phrase)itemInfo).PhraseID:
+                        ((ItemConfigureOperationInfo)itemInfo).ItemInfo.ItemID;
                     break;
             }
             this._inOrOut = inOrOut;

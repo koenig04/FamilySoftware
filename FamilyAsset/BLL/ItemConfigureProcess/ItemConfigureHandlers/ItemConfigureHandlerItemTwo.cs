@@ -60,6 +60,13 @@ namespace BLL.ItemConfigureProcess
                     ItemTwo = _selectedItem
                 });
             }
+            else
+            {
+                if (_nextHandler != null)
+                {
+                    _nextHandler.HandleItemValidOperation(info);
+                }
+            }
         }
 
         /// <summary>
@@ -114,7 +121,7 @@ namespace BLL.ItemConfigureProcess
             string itemTwoID;
             JZItemTwo model = info;
             bool res = _itemProcessDal.AddItemTwo(model, out itemTwoID);
-            model.JZItemOneID = itemTwoID;
+            model.JZItemTwoID = itemTwoID;
             RaiseItemChangedEvent(new ItemChangedInfoArgs()
             {
                 IsSucceed = res,

@@ -60,7 +60,7 @@ namespace DAL
             parameters[0].Value = model.JZItemTwoID;
             parameters[1].Value = model.JZItemTwoName;
             parameters[2].Value = model.IconName;
-            parameters[4].Value = model.IconNamePressed;
+            parameters[3].Value = model.IconNamePressed;
 
             DbHelperSQL.RunProcedure("JZItemTwo_UPDATE_LK", parameters, out rowsAffected);
 

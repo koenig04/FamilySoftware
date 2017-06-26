@@ -59,7 +59,8 @@ namespace BLL
             {
                 ItemType = ItemType.Phrase,
                 ItemID = model.PhraseID,
-                ItemName = model.PhraseContent
+                ItemName = model.PhraseContent,
+                ParentID=model.ItemID
             };
             return info;
         }
@@ -115,6 +116,7 @@ namespace BLL
             Phrase item = new Phrase();
             item.PhraseID = info.ItemInfo.ItemID;
             item.PhraseContent = info.ItemInfo.ItemName;
+            item.ItemID = info.ItemInfo.ParentID;
             return item;
         }
 
