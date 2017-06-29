@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using BLL;
 using FamilyAsset.Pages.SysConfigure.Element.ItemConfigure;
 using FamilyAsset.UICore;
 
 namespace FamilyAsset.Pages.SysConfigure
 {
-    class SysConfigureViewModel : NotificationObject, IUserControlViewModel
+    class SysConfigureViewModel : UserControlViewModelBase
     {
-        public event EventHandler<UserControlMessageEventArgs> UserControlMessageEvent;
-
         private ItemConfigureViewModel _ItemConfig;
 
         public ItemConfigureViewModel ItemConfig
@@ -23,7 +22,7 @@ namespace FamilyAsset.Pages.SysConfigure
                 {
                     _ItemConfig = new ItemConfigureViewModel();
                     _ItemConfig.UserControlMessageEvent += _ItemConfig_UserControlMessageEvent;
-                    UserControlManager.Register(_ItemConfig, "ItemConfigure");
+                    UserControlManager.Register(_ItemConfig, UIControlNames.ItemConfigure);
                 }
                 return _ItemConfig;
             }
@@ -32,24 +31,20 @@ namespace FamilyAsset.Pages.SysConfigure
                 _ItemConfig = value;
                 RaisePropertyChanged("ItemConfig");
             }
-        }
+        } 
 
         void _ItemConfig_UserControlMessageEvent(object sender, UserControlMessageEventArgs e)
         {
-            if (UserControlMessageEvent != null)
-            {
-                UserControlMessageEvent(null, e);
-            }
+            RaiseUserControlMessageEvent(e);
         }
 
-        
 
         public SysConfigureViewModel()
         {
-            
+            Vis = Visibility.Hidden;
         }
 
-        public void HandleViewModelCallBack(ViewModelCallBackInfo callbackInfo)
+        public override void HandleViewModelCallBack(ViewModelCallBackInfo callbackInfo)
         {
             switch (callbackInfo.FuncType)
             {
@@ -57,6 +52,6 @@ namespace FamilyAsset.Pages.SysConfigure
                     _ItemConfig.HandleViewModelCallBack(callbackInfo);
                     break;
             }
-        }
+        }       
     }
 }

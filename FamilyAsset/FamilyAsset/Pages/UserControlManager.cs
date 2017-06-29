@@ -29,6 +29,14 @@ namespace FamilyAsset.Pages
                 _dicUserControl[info.Target].HandleViewModelCallBack(info);
             }
         }
+
+        public static void ControlVisibility(string usercontrolerName, bool visibility)
+        {
+            if (_dicUserControl.ContainsKey(usercontrolerName))
+            {
+                _dicUserControl[usercontrolerName].HandleVisablilityControl(visibility);
+            }
+        }
     }
 
 

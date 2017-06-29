@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BLL;
@@ -17,10 +18,8 @@ using Model;
 
 namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
 {
-    class ItemConfigureViewModel : NotificationObject, IUserControlViewModel
+    class ItemConfigureViewModel : UserControlViewModelBase
     {
-        public event EventHandler<UserControlMessageEventArgs> UserControlMessageEvent;
-
         private IItemConfigureProcess _bussinessProcess;
 
         public ItemConfigureViewModel()
@@ -38,7 +37,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
 
         private void OnPopWindow(object sender, ItemPopWindowInfoArgs e)
         {
-            UserControlMessageEvent(null, new UserControlMessageEventArgs()
+            RaiseUserControlMessageEvent( new UserControlMessageEventArgs()
             {
                 Message = "PopItemConfigure",
                 Context = new ItemConfigPopWindowContext()
@@ -74,7 +73,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
 
         //Do the del/add/modify operation of item one
         private void OperateItemOneList(ItemChangedInfoArgs e)
-        {            
+        {
             switch (e.OperationType)
             {
                 case OperationType.Add:
@@ -406,7 +405,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
                     IsIncome = obj
                 });
             }
-        }
+        }       
 
         private Model.JZItemOne m_selectedItemOne;
         private Model.JZItemTwo m_selectedItemTwo;
@@ -429,7 +428,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
         }
 
 
-        public void HandleViewModelCallBack(ViewModelCallBackInfo callbackInfo)
+        public override void HandleViewModelCallBack(ViewModelCallBackInfo callbackInfo)
         {
             if (callbackInfo.IsSucceed == true)
             {
@@ -437,6 +436,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
                 OnItemChanged(context.Context);
             }
         }
+
     }
 
 }

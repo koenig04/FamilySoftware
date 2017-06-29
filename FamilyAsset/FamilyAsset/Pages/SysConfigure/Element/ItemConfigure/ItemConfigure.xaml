@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:FamilyAsset.Pages.SysConfigure.Element.ItemConfigure"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="750">
+             d:DesignHeight="500" d:DesignWidth="750" Visibility="{Binding Vis}">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type local:ItemViewModel}">
             <StackPanel Orientation="Horizontal">

@@ -346,7 +346,7 @@ namespace FamilyAsset.PopupWindow.SysConfigure
                 }
                 MsgManager.SendMsg<ViewModelCallBackInfo>("CloseWindow",
                        new ViewModelCallBackInfo(FunctionType.ItemConfig,
-                           "ItemConfigure",
+                           FamilyAsset.Pages.UIControlNames.ItemConfigure,
                            true,
                            new ItemConfigCallBackContext()
                            {

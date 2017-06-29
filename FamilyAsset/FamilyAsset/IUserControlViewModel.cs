@@ -11,6 +11,7 @@ namespace FamilyAsset
     {
         event EventHandler<UserControlMessageEventArgs> UserControlMessageEvent;
         void HandleViewModelCallBack(ViewModelCallBackInfo callbackInfo);
+        void HandleVisablilityControl(bool visibility);
     }
 
     class UserControlMessageEventArgs:EventArgs

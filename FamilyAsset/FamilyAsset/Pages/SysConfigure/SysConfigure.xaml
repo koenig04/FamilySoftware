@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:itemconfig="clr-namespace:FamilyAsset.Pages.SysConfigure.Element.ItemConfigure"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="750">
+             d:DesignHeight="700" d:DesignWidth="750" Visibility="{Binding Vis}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>

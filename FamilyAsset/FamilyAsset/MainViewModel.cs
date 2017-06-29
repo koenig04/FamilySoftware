@@ -23,6 +23,7 @@ namespace FamilyAsset
                 {
                     _SysConfig = new SysConfigureViewModel();
                     _SysConfig.UserControlMessageEvent += _SysConfig_UserControlMessageEvent;
+                    UserControlManager.Register(_SysConfig, UIControlNames.SysConfigure);
                 }
                 return _SysConfig;
             }
@@ -50,6 +51,11 @@ namespace FamilyAsset
         //        RaisePropertyChanged("TotalLimit");
         //    }
         //}
+
+        public MainViewModel()
+        {
+           
+        }
 
         public override void SetContext(Common.IContext Context)
         {

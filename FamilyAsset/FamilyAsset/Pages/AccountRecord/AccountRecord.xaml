@@ -3,31 +3,62 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FamilyAsset.Pages.AccountRecord.Elements"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="750">
     <UserControl.Resources>
         <ControlTemplate x:Key="InOutSwitch">
             <StackPanel Height="30" Width="150" Orientation="Horizontal">
-                <ToggleButton Width="75" Style="{StaticResource ToggleButtonIncome}" 
+                <ToggleButton Width="75" Style="{StaticResource IncomeToggleButton}" 
                               IsChecked="{Binding IsIncomeChecked}" Command="{Binding IncomeButtonPressed}"/>
-                <ToggleButton Width="75" Style="{StaticResource ToggleButtonExpand}" 
+                <ToggleButton Width="75" Style="{StaticResource OutcomeToggleButton}" 
                               IsChecked="{Binding IsExpandChecked}" Command="{Binding ExpandButtonPressed}"/>
             </StackPanel>
         </ControlTemplate>
+        <DataTemplate DataType="{x:Type local:AccountItemViewModel}">
+            <StackPanel Orientation="Horizontal" Height="50" Width="150">
+                <StackPanel.Background>
+                    <SolidColorBrush Color="{Binding ItemColor}"/>
+                </StackPanel.Background>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:InvokeCommandAction Command="{Binding ItemClicked}" CommandParameter="{Binding SelectedItem}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Image Width="50" Height="50" Source="{Binding ItemImg}"/>
+                <TextBlock Width="100" Text="{Binding ItemName}"
+                           Style="{StaticResource TextBlockStyleBaseChs}">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{Binding ItemForeColor}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+            </StackPanel>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             
             <RowDefinition Height="50"/>
             <RowDefinition Height="300"/>
+            <RowDefinition Height="1"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="1"/>            
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="80"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>        
         <UserControl Template="{StaticResource InOutSwitch}" DataContext="{Binding InOrOut}" Grid.Row="0"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="3">
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <ItemsControl ItemsSource="{Binding ItemOneCollection}"/>
+        </StackPanel>
+        <Rectangle Fill="#aaa" Height="1" Grid.Row="2"/>
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <ItemsControl ItemsSource="{Binding ItemTwoCollection}"/>            
+        </StackPanel>
+        <Rectangle Fill="#aaa" Height="1" Grid.Row="4"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="5">
             <TextBlock Text="日期" Style="{StaticResource TextBlockStyleBaseChs}" FontSize="20"/>
             
         </StackPanel>

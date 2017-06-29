@@ -83,9 +83,6 @@
       <DependentUpon>AccountRecord.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AccountRecord\AccountRecordViewModel.cs" />
-    <Compile Include="Pages\AccountRecord\Elements\AccountItem.xaml.cs">
-      <DependentUpon>AccountItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\AccountRecord\Elements\AccountItemViewModel.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\InOutSwitchViewModel.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigureButtonsViewModel.cs" />
@@ -98,6 +95,7 @@
       <DependentUpon>SysConfigure.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SysConfigure\SysConfigureViewModel.cs" />
+    <Compile Include="Pages\UIControlNames.cs" />
     <Compile Include="Pages\UserControlManager.cs" />
     <Compile Include="PopupWindow\GeneralPopWindow.xaml.cs">
       <DependentUpon>GeneralPopWindow.xaml</DependentUpon>
@@ -125,6 +123,7 @@
     <Compile Include="UICore\ViewModelBase.cs" />
     <Compile Include="UICore\ViewModelInfo.cs" />
     <Compile Include="UICore\ViewModelManager.cs" />
+    <Compile Include="UserControlViewModelBase.cs" />
     <Compile Include="ViewModelCallBackInfo.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -139,10 +138,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\AccountRecord\AccountRecord.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\AccountRecord\Elements\AccountItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
