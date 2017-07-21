@@ -69,6 +69,9 @@
     <Compile Include="AssetInputAndOperationProcess\AssetInputAndOperationProcessManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticProcess\IStatiticProcess.cs" />
+    <Compile Include="StaticProcess\StatisticProcessBySort.cs" />
+    <Compile Include="StaticProcess\StatisticProcessByTime.cs" />
+    <Compile Include="StaticProcess\StatisticProcessBase.cs" />
     <Compile Include="StaticProcess\StatisticProcessManager.cs" />
     <Compile Include="StatisticProcessParameters.cs" />
   </ItemGroup>

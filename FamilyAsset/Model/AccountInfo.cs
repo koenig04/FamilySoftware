@@ -20,6 +20,9 @@ namespace Model
         private string _reserve1;
         private string _reserve2;
         private string _reserve3;
+
+        public string ItemOneName { get; set; }
+        public string ItemTwoName { get; set; }
         /// <summary>
         /// 
         /// </summary>

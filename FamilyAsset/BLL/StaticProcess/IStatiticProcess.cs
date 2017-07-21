@@ -9,5 +9,7 @@ namespace BLL.StaticProcess
     interface IStatiticProcess
     {
         void GetStatisticInfo(StaticSearchInfo info);
+        event EventHandler<StatisticProcessByTime> StatisticByTimeCallbackEvent;
+        event EventHandler<StatisticBySort> StatisticBySortCallbackEvent;
     }
 }

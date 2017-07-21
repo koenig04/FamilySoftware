@@ -106,7 +106,9 @@ namespace DAL
                                                Notice = d.Field<string>("Notice"),
                                                Reserve1 = d.Field<string>("Reserve1"),
                                                Reserve2 = d.Field<string>("Reserve2"),
-                                               Reserve3 = d.Field<string>("Reserve3")
+                                               Reserve3 = d.Field<string>("Reserve3"),
+                                               ItemOneName = d.Field<string>("ItemOneName"),
+                                               ItemTwoName = d.Field<string>("ItemTwoName")
                                            }).ToList<Model.AccountInfo>();
             return lst;
         }
