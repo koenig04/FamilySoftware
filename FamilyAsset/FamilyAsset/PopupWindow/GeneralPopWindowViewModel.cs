@@ -62,7 +62,7 @@ namespace FamilyAsset.PopupWindow
                         o =>
                         {
                             MsgManager.SendMsg<ViewModelCallBackInfo>("CloseWindow",
-                                new ViewModelCallBackInfo(FunctionType.ItemConfig, "",true));
+                                new ViewModelCallBackInfo(_funcType, "", true));
                         }));
                 }
                 return _cmdConfirm;
@@ -74,10 +74,13 @@ namespace FamilyAsset.PopupWindow
             }
         }
 
+        private FunctionType _funcType;
+
         public override void SetContext(Common.IContext Context)
         {
             GeneralPopWindowContext context = Context as GeneralPopWindowContext;
             Message = context.Msg;
+            _funcType = context.FuncType;
         }
 
         public override void ViewModelCallBack(ViewModelCallBackInfo Info)

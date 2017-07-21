@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BLL;
 using FamilyAsset.Context;
 using FamilyAsset.Pages;
+using FamilyAsset.Pages.AccountRecord;
 using FamilyAsset.Pages.SysConfigure;
 using FamilyAsset.UICore;
 
@@ -34,32 +35,69 @@ namespace FamilyAsset
             }
         }
 
+        private AccountRecordViewModel _accountRecord;
+
+        public AccountRecordViewModel AccountRecord
+        {
+            get
+            {
+                if (_accountRecord == null)
+                {
+                    _accountRecord = new AccountRecordViewModel();
+                    _accountRecord.UserControlMessageEvent += OnAccountRecordMessage;
+                    UserControlManager.Register(_accountRecord, UIControlNames.AccountRecord);
+                }
+                return _accountRecord;
+            }
+            set
+            {
+                _accountRecord = value;
+                RaisePropertyChanged("AccountRecord");
+            }
+        }
+
+        private void OnAccountRecordMessage(object sender, UserControlMessageEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+
         void _SysConfig_UserControlMessageEvent(object sender, UserControlMessageEventArgs e)
         {
-            MsgManager.SendMsg<ItemConfigPopWindowContext>("PopItemConfigure", 
+            MsgManager.SendMsg<ItemConfigPopWindowContext>("PopItemConfigure",
                 e.Context as ItemConfigPopWindowContext);
         }
 
-        //private string _TotalLimit = "1000";
+        private DelegateCommand _addAccount;
 
-        //public string TotalLimit
-        //{
-        //    get { return _TotalLimit; }
-        //    set
-        //    {
-        //        _TotalLimit = value;
-        //        RaisePropertyChanged("TotalLimit");
-        //    }
-        //}
+        public DelegateCommand AddAccount
+        {
+            get {
+                if (_addAccount == null)
+                {
+                    _addAccount = new DelegateCommand(new Action<object>(
+                        o =>
+                        {
+                            UserControlManager.ControlVisibility(UIControlNames.AccountRecord, true);
+                        }));
+                }
+                return _addAccount; }
+            set
+            {
+                _addAccount = value;
+                RaisePropertyChanged("AddAccount");
+            }
+        }
+
 
         public MainViewModel()
         {
-           
+
         }
 
         public override void SetContext(Common.IContext Context)
         {
-            
+
         }
 
         public override void ViewModelCallBack(ViewModelCallBackInfo Info)

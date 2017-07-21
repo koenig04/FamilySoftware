@@ -8,6 +8,7 @@ namespace Common
 {
     public enum FunctionType
     {
+        None,
         ItemConfig
     }
 

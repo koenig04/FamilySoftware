@@ -8,6 +8,6 @@ namespace BLL.StaticProcess
 {
     interface IStatiticProcess
     {
-        void GetStatisticInfo(SearchStatisticInfo info);
+        void GetStatisticInfo(StaticSearchInfo info);
     }
 }

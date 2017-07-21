@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:FamilyAsset.Pages.AccountRecord.Elements"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="750">
+             d:DesignHeight="700" d:DesignWidth="750" Visibility="{Binding Vis}">
     <UserControl.Resources>
         <ControlTemplate x:Key="InOutSwitch">
             <StackPanel Height="30" Width="150" Orientation="Horizontal">
@@ -16,6 +16,9 @@
                               IsChecked="{Binding IsExpandChecked}" Command="{Binding ExpandButtonPressed}"/>
             </StackPanel>
         </ControlTemplate>
+        <DataTemplate DataType="{x:Type local:PhraseViewModel}">
+            <ToggleButton Content="{Binding PhraseName}" IsThreeState="False" IsChecked="{Binding IsSelected}"/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type local:AccountItemViewModel}">
             <StackPanel Orientation="Horizontal" Height="50" Width="150">
                 <StackPanel.Background>
@@ -60,7 +63,24 @@
         <Rectangle Fill="#aaa" Height="1" Grid.Row="4"/>
         <StackPanel Orientation="Horizontal" Grid.Row="5">
             <TextBlock Text="日期" Style="{StaticResource TextBlockStyleBaseChs}" FontSize="20"/>
-            
+            <DatePicker SelectedDate="{Binding AccountDate}" Margin="20,0,0,0" Width="200" Height="50"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="6">
+            <TextBlock Text="金额" Style="{StaticResource TextBlockStyleBaseChs}" FontSize="20"/>
+            <TextBox Style="{StaticResource TextBoxStyleBaseChs}" Text="{Binding AccountAmount}" Width="200" Margin="20,0,0,0"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="7">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="备注" Style="{StaticResource TextBlockStyleBaseChs}" FontSize="20"/>
+                <TextBox Style="{StaticResource TextBoxStyleBaseChs}" Text="{Binding Notice}" Width="500" Margin="20,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <ItemsControl ItemsSource="{Binding PhrasesCollection}"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="8">
+            <Button Style="{StaticResource HomePageGreenButton}" Content="确定" Width="150" Command="{Binding InputAccount}" Background="LimeGreen"/>
+            <Button Style="{StaticResource HomePageButton}" Content="清空" Width="150" Command="{Binding ClearInfo}" Margin="20,0,0,0"/>
         </StackPanel>
     </Grid>
 </UserControl>

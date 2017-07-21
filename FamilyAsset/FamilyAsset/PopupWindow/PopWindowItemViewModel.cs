@@ -54,7 +54,7 @@ namespace FamilyAsset.PopupWindow
             set
             {
                 _isEditable = value;
-                RaisePropertyChanged("Iseditable");
+                RaisePropertyChanged("IsEditable");
             }
         }
     }

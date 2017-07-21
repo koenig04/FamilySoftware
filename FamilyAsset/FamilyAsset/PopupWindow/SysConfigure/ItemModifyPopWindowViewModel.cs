@@ -316,7 +316,7 @@ namespace FamilyAsset.PopupWindow.SysConfigure
                 msg += CommonEnumChsConverter.Instance.OperationTypeConvert(e.OperationType);
                 msg += CommonEnumChsConverter.Instance.ItemTypeConvert(e.ItemType);
                 msg += (bool)e.IsSucceed ? "成功" : "失败";
-                MsgManager.SendMsg<GeneralPopWindowContext>("ShowResult", new GeneralPopWindowContext() { Msg = msg });
+                MsgManager.SendMsg<GeneralPopWindowContext>("ShowResult", new GeneralPopWindowContext() { Msg = msg, FuncType = FunctionType.ItemConfig });
             }
         }
 

@@ -27,6 +27,16 @@
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
 
+    <!--默认的中文TextBox样式-->
+    <Style TargetType="{x:Type TextBox}" x:Key="TextBoxStyleBaseChs">
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="微软雅黑"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
     <!--默认的中文ToggleButton样式-->
     <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonStyleBaseChs">
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -46,6 +56,22 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border BorderBrush="#459600" BorderThickness="1" Background="Firebrick" CornerRadius="10" >
+                        <TextBlock Text="{TemplateBinding Content}" FontSize="20" FontFamily="微软雅黑" FontWeight="ExtraBold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--主界面上左侧栏按钮样式-->
+    <Style TargetType="Button" x:Key="HomePageGreenButton">
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="#459600" BorderThickness="1" Background="LimeGreen" CornerRadius="10" >
                         <TextBlock Text="{TemplateBinding Content}" FontSize="20" FontFamily="微软雅黑" FontWeight="ExtraBold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
                     </Border>
                 </ControlTemplate>
@@ -173,5 +199,14 @@
                 </Trigger.Setters>
             </Trigger>
         </Style.Triggers>
-    </Style>  
+    </Style>
+
+    <Style TargetType="{x:Type Label}" x:Key="PopWindowItemTitle" BasedOn="{StaticResource LabelStyleBaseChs}">
+        <Setter Property="FontSize" Value="20"/>
+    </Style>
+
+    <Style TargetType="{x:Type Label}" x:Key="PopWindowItemContent" BasedOn="{StaticResource LabelStyleBaseChs}">
+        <Setter Property="FontWeight" Value="Normal"/>
+        <!--<Setter Property="FontWeight" Value="Normal"/>-->
+    </Style>
 </ResourceDictionary>

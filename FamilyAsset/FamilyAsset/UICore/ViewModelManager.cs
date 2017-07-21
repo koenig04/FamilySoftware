@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Common;
 using FamilyAsset.PopupWindow;
+using FamilyAsset.PopupWindow.AccountRecord;
 using FamilyAsset.PopupWindow.Message;
 using FamilyAsset.PopupWindow.SysConfigure;
 
@@ -129,6 +130,7 @@ namespace FamilyAsset.UICore
             Register<ItemModifyPopWindow, ItemModifyViewModel_Item1, ItemConfigPopWindowMessage>(ItemType.ItemOne.ToString());
             Register<ItemModifyPopWindow, ItemModifyViewModel_Item2, ItemConfigPopWindowMessage>(ItemType.ItemTwo.ToString());
             Register<ItemModifyPopWindow, ItemModifyViewModel_Phrase, ItemConfigPopWindowMessage>(ItemType.Phrase.ToString());
+            Register<AccountRecordWindows, AccountRecordViewModel, ItemConfigPopWindowMessage>();
             Register<GeneralPopWindow, GeneralPopWindowViewModel, MessageBase>();
         }
     }

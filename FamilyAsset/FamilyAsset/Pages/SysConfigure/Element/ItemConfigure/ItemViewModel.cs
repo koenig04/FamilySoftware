@@ -45,7 +45,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
 
         private DelegateCommand _itemClicked;
 
-        public DelegateCommand ItemClicked
+        public virtual DelegateCommand ItemClicked
         {
             get
             {
@@ -94,7 +94,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
             }
         }
 
-        private bool _inOrOut;
+        protected bool _inOrOut;
 
         public ItemViewModel() { }
         public ItemViewModel(Common.ItemType itemType, object itemInfo, bool inOrOut)
@@ -149,7 +149,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
             this.SelectedItem = new ItemSelectedModel(itemType, itemID, ItemName, iconName, iconPressedName);
         }
 
-        public void ConvertToUnPressed()
+        public virtual void ConvertToUnPressed()
         {
             if (!string.IsNullOrEmpty(SelectedItem.ItemIcon))
                 this.ItemImg = new BitmapImage(new Uri(Common.GlobalVariables.iconPath.Replace("\\", "/") + SelectedItem.ItemIcon, UriKind.RelativeOrAbsolute));
@@ -157,7 +157,7 @@ namespace FamilyAsset.Pages.SysConfigure.Element.ItemConfigure
             this.ItemForeColor = _inOrOut ? Colors.LimeGreen : Colors.Firebrick;
         }
 
-        private void RaiseEvent(ItemClickedEventArgs e)
+        protected void RaiseEvent(ItemClickedEventArgs e)
         {
             if (ItemClickedEvent != null)
             {

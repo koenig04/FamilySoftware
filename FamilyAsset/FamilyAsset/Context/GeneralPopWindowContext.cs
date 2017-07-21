@@ -10,5 +10,6 @@ namespace FamilyAsset.Context
     class GeneralPopWindowContext:IContext
     {
         public string Msg { get; set; }
+        public FunctionType FuncType { get; set; }
     }
 }

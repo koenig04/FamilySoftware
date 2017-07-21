@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:FamilyAsset"
         xmlns:sysconfig="clr-namespace:FamilyAsset.Pages.SysConfigure"
+        xmlns:accountrecord="clr-namespace:FamilyAsset.Pages.AccountRecord"
         Title="MainWindow" Height="700" Width="1000" WindowStyle="None" WindowStartupLocation="CenterScreen">
     <Grid>
         <!--<Grid.Background>
@@ -28,10 +29,11 @@
                 <Label Style="{StaticResource HomePageLabelBase}" Content="{Binding MonthLimit}" Foreground="{Binding MonthLimitColor}"/>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">
-                <Button Style="{StaticResource HomePageButton}" Content="记  账" Margin="0,30,0,0" Command="{Binding AddAcount}"/> 
+                <Button Style="{StaticResource HomePageButton}" Content="记  账" Margin="0,30,0,0" Command="{Binding AddAccount}"/> 
                 <Button Style="{StaticResource HomePageButton}" Content="账  目" Margin="0,30,0,0" Command="{Binding SeeAcount}"/>
             </StackPanel>
         </Grid>
         <sysconfig:SysConfigure Grid.Column="1" Grid.Row="0" DataContext="{Binding SysConfig}"/>
+        <accountrecord:AccountRecord Grid.Column="1" Grid.Row="0" DataContext="{Binding AccountRecord}"/>
     </Grid>
 </Window>

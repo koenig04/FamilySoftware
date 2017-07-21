@@ -73,6 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Context\AccountRecordPopWindowContext.cs" />
     <Compile Include="Context\GeneralPopWindowContext.cs" />
     <Compile Include="Context\ItemConfigCallBackContext.cs" />
     <Compile Include="Context\ItemConfigPopWindowContext.cs" />
@@ -84,6 +85,7 @@
     </Compile>
     <Compile Include="Pages\AccountRecord\AccountRecordViewModel.cs" />
     <Compile Include="Pages\AccountRecord\Elements\AccountItemViewModel.cs" />
+    <Compile Include="Pages\AccountRecord\Elements\PhraseViewModel.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\InOutSwitchViewModel.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigureButtonsViewModel.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigure.xaml.cs">
@@ -97,6 +99,11 @@
     <Compile Include="Pages\SysConfigure\SysConfigureViewModel.cs" />
     <Compile Include="Pages\UIControlNames.cs" />
     <Compile Include="Pages\UserControlManager.cs" />
+    <Compile Include="PopupWindow\AccountRecord\AccountItemViewModel.cs" />
+    <Compile Include="PopupWindow\AccountRecord\AccountRecordWindows.xaml.cs">
+      <DependentUpon>AccountRecordWindows.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopupWindow\AccountRecord\AccountRecordViewModel.cs" />
     <Compile Include="PopupWindow\GeneralPopWindow.xaml.cs">
       <DependentUpon>GeneralPopWindow.xaml</DependentUpon>
     </Compile>
@@ -146,6 +153,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SysConfigure\SysConfigure.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopupWindow\AccountRecord\AccountRecordWindows.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
