@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="FamilyAsset.Pages.Statistic.StatisticMain"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="750" Visibility="{Binding Vis}">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="YMDSwitcher">
+            <StackPanel Height="30" Width="90" Orientation="Horizontal">
+                <ToggleButton Style="{StaticResource YearToggleButton}" IsChecked="{Binding IsYearChecked}" Command="{Binding YearPressed}"/>
+                <ToggleButton Style="{StaticResource MonthToggleButton}" IsChecked="{Binding IsMonthChecked}" Command="{Binding MonthPressed}"/>
+                <ToggleButton Style="{StaticResource DayToggleButton}" IsChecked="{Binding IsDayChecked}" Command="{Binding DayPressed}"/>
+            </StackPanel>
+        </ControlTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <UserControl Template="{StaticResource YMDSwitcher}" Grid.Row="1" DataContext="{Binding YMDSwitcher}" HorizontalAlignment="Left" Margin="15,0,0,0"/>
+    </Grid>
+</UserControl>
