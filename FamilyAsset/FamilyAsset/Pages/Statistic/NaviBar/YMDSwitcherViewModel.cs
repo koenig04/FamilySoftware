@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FamilyAsset.UICore;
 
-namespace FamilyAsset.Pages.Statistic.MainElements
+namespace FamilyAsset.Pages.Statistic.NaviBar
 {
     class YMDSwitcherViewModel : NotificationObject
     {

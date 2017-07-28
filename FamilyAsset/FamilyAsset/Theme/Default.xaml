@@ -141,7 +141,7 @@
 
     <!--年月日的左圆ToggleButton-->
     <ControlTemplate TargetType="{x:Type ToggleButton}" x:Key="LeftRoundToggelButtonYMD">
-        <Border CornerRadius="5,0,0,5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
+        <Border CornerRadius="5,0,0,5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2,2,0,2" Background="{TemplateBinding Background}">
             <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
     </ControlTemplate>
@@ -211,7 +211,7 @@
     
     <!--年月日的右圆ToggleButton-->
     <ControlTemplate TargetType="{x:Type ToggleButton}" x:Key="RightRoundToggelButtonYMD">
-        <Border CornerRadius="0,5,5,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
+        <Border CornerRadius="0,5,5,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,2,2,2" Background="{TemplateBinding Background}">
             <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
     </ControlTemplate>
@@ -243,17 +243,30 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    <ControlTemplate TargetType="{x:Type ToggleButton}" x:Key="AllRoundToggelButton">
+        <Border CornerRadius="5,5,5,5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Background="{TemplateBinding Background}">
+            <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type ToggleButton}" x:Key="StatisticItemToggleButton" BasedOn="{StaticResource ToggleButtonStyleBaseChs}">
+        <Setter Property="Template" Value="{StaticResource AllRoundToggelButton}"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Width" Value="45"/>
+        <Setter Property="Background" Value="DimGray"/>
+    </Style>
 
     <!--左圆ToggleButton-->
     <ControlTemplate TargetType="{x:Type ToggleButton}" x:Key="LeftRoundToggelButton">
-        <Border CornerRadius="10,0,0,10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
+        <Border CornerRadius="10,0,0,10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2,2,1,2" Background="{TemplateBinding Background}">
             <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
     </ControlTemplate>
 
     <!--右圆ToggleButton-->
     <ControlTemplate TargetType="{x:Type ToggleButton}" x:Key="RightRoundToggelButton">
-        <Border CornerRadius="0,10,10,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
+        <Border CornerRadius="0,10,10,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,2,2,2" Background="{TemplateBinding Background}">
             <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
     </ControlTemplate>

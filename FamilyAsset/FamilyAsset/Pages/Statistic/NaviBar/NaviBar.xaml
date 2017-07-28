@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="FamilyAsset.Pages.Statistic.NaviBar.NaviBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="750">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="YMDSwitcher">
+            <StackPanel Height="30" Width="90" Orientation="Horizontal">
+                <ToggleButton Style="{StaticResource YearToggleButton}" IsChecked="{Binding IsYearChecked}" Command="{Binding YearPressed}"/>
+                <ToggleButton Style="{StaticResource MonthToggleButton}" IsChecked="{Binding IsMonthChecked}" Command="{Binding MonthPressed}"/>
+                <ToggleButton Style="{StaticResource DayToggleButton}" IsChecked="{Binding IsDayChecked}" Command="{Binding DayPressed}"/>
+            </StackPanel>
+        </ControlTemplate>
+        <ControlTemplate x:Key="StartEndDate">
+            <StackPanel Orientation="Horizontal" Height="30">
+                <Label Content="起始日期" Style="{StaticResource LabelStyleBaseChs}"/>
+                <DatePicker x:Name="Date_Begin" Height="25" Width="100" Margin="5,0,0,0" SelectedDate="{Binding StartDate}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectedDateChanged">
+                            <i:InvokeCommandAction Command="{Binding StartDateChanged}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </DatePicker>
+                <Label Content="截止日期" Style="{StaticResource LabelStyleBaseChs}" Margin="10,0,0,0"/>
+                <DatePicker DisplayDateStart="{Binding SelectedDate,ElementName=Date_Begin}" Height="25" Width="100" Margin="5,0,0,0" SelectedDate="{Binding EndDate}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectedDateChanged">
+                            <i:InvokeCommandAction Command="{Binding EndDateChanged}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </DatePicker>
+            </StackPanel>
+        </ControlTemplate>
+        <ControlTemplate x:Key="StatisticTypeSwitcher">
+            <Image Source="{Binding StatisticTypeImg}" Height="30" Width="30">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:InvokeCommandAction Command="{Binding StatisticTypeChanged}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Image>
+        </ControlTemplate>
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal">
+        <UserControl Template="{StaticResource YMDSwitcher}" DataContext="{Binding YMDSwitcher}" HorizontalAlignment="Left" Margin="15,0,0,0"/>
+        <UserControl Template="{StaticResource StartEndDate}" DataContext="{Binding StartEndDatePicker}" Margin="60,0,0,0"/>
+        <UserControl Template="{StaticResource StatisticTypeSwitcher}" DataContext="{Binding StatisticTypeSwitcher}" Margin="190,0,0,0"/>
+    </StackPanel>
+</UserControl>
