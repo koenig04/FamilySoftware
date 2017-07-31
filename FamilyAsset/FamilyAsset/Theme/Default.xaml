@@ -255,6 +255,8 @@
         <Setter Property="Height" Value="30"/>
         <Setter Property="Width" Value="45"/>
         <Setter Property="Background" Value="DimGray"/>
+        <Setter Property="Content" Value="{Binding ItemContent}"/>
+        <Setter Property="IsChecked" Value="{Binding IsSelected}"/>
     </Style>
 
     <!--左圆ToggleButton-->

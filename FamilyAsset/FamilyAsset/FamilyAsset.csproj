@@ -87,7 +87,8 @@
     <Compile Include="Pages\AccountRecord\Elements\AccountItemViewModel.cs" />
     <Compile Include="Pages\AccountRecord\Elements\PhraseViewModel.cs" />
     <Compile Include="Pages\Statistic\NaviBar\StartEndDatePickerViewModel.cs" />
-    <Compile Include="Pages\Statistic\NaviBar\StatisticItem.cs" />
+    <Compile Include="Pages\Statistic\NaviBar\StatisticItemSelecterViewModel.cs" />
+    <Compile Include="Pages\Statistic\NaviBar\StatisticItemViewModel.cs" />
     <Compile Include="Pages\Statistic\NaviBar\StatisticItemSelecter.xaml.cs">
       <DependentUpon>StatisticItemSelecter.xaml</DependentUpon>
     </Compile>

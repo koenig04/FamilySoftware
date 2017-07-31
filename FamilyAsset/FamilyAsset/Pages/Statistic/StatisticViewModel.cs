@@ -22,5 +22,10 @@ namespace FamilyAsset.Pages.Statistic
         }
 
 
+
+        public override void HandleViewModelCallBack(ViewModelCallBackInfo callbackInfo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
