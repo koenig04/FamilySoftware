@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FamilyAsset.Pages.Statistic.NaviBar
+namespace FamilyAsset.Pages.Statistic.StatisticItems
 {
     /// <summary>
     /// StatisticItemSelecter.xaml 的交互逻辑

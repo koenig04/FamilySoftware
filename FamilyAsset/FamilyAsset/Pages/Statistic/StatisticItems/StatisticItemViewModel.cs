@@ -7,7 +7,7 @@ using System.Windows.Media;
 using Common;
 using FamilyAsset.UICore;
 
-namespace FamilyAsset.Pages.Statistic.NaviBar
+namespace FamilyAsset.Pages.Statistic.StatisticItems
 {
     class StatisticItemViewModel : NotificationObject
     {
@@ -85,17 +85,25 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
             _canSelected = true;
         }
 
-        public void ConverToUnselected()
+        public void SwitchSelectionStatus(bool isSelected)
         {
-            IsSelected = false;
-            BorderColor = Colors.Black;
+            if (isSelected)
+            {
+                isSelected = true;
+                BorderColor = _isIncome ? Colors.LimeGreen : Colors.Firebrick;
+            }
+            else
+            {
+                IsSelected = false;
+                BorderColor = Colors.Black;
+            }
         }
 
         public void SwitchSelectable(bool selectable)
         {
             if (!selectable)
             {
-                ConverToUnselected();
+                SwitchSelectionStatus(false);
             }
             _canSelected = selectable;
         }

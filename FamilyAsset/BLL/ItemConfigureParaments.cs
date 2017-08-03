@@ -48,7 +48,7 @@ namespace BLL
                 ItemIconPressed = model.IconNamePressed,
                 ItemID = model.JZItemTwoID,
                 ItemName = model.JZItemTwoName,
-                ParentID=model.JZItemOneID
+                ParentID = model.JZItemOneID
             };
             return info;
         }
@@ -60,7 +60,7 @@ namespace BLL
                 ItemType = ItemType.Phrase,
                 ItemID = model.PhraseID,
                 ItemName = model.PhraseContent,
-                ParentID=model.ItemID
+                ParentID = model.ItemID
             };
             return info;
         }

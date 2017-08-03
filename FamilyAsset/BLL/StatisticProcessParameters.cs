@@ -87,4 +87,6 @@ namespace BLL
         public List<StatisticBySortListItem> StaticInfoCollection { get; set; }
         public List<AccountInfo> AccountCollection { get; set; }
     }
+
+
 }

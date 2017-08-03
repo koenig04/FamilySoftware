@@ -4,36 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.StaticProcess
+namespace BLL.StatisticProcess.DiagramRelative
 {
-    public class StatisticProcessManager : IStatiticProcess
+    class DiagramProcessController
     {
         public event EventHandler<StatisticByTime> StatisticByTimeCallbackEvent;
         public event EventHandler<StatisticBySort> StatisticBySortCallbackEvent;
 
-        private StatisticProcessBase _timeProcess;
-        private StatisticProcessBase _sortProcess;
+        private DiagramProcessByTime _timeProcess;
+        private DiagramProcessBySort _sortProcess;
 
-        public StatisticProcessManager()
+        public DiagramProcessController()
         {
-            _timeProcess = new StatisticProcessByTime();
-            _sortProcess = new StatisticProcessBySort();
+            _timeProcess = new DiagramProcessByTime();
+            _sortProcess = new DiagramProcessBySort();
 
             _timeProcess.StatisticByTimeCallbackEvent += OnStatisticByTimeCallbackEvent;
             _sortProcess.StatisticBySortCallbackEvent += OnStatisticBySortCallbackEvent;
-        }
-
-        public void GetStatisticInfo(StaticSearchInfo info)
-        {
-            switch (info.SearchType)
-            {
-                case StaticType.Time:
-                    _timeProcess.GetStatisticInfo(info);
-                    break;
-                case StaticType.Sort:
-                    _sortProcess.GetStatisticInfo(info);
-                    break;
-            }
         }
 
         private void OnStatisticByTimeCallbackEvent(object sender, StatisticByTime e)
@@ -49,6 +36,19 @@ namespace BLL.StaticProcess
             if (StatisticBySortCallbackEvent != null)
             {
                 StatisticBySortCallbackEvent(sender, e);
+            }
+        }
+
+        public void GetStatisticInfo(StaticSearchInfo info)
+        {
+            switch (info.SearchType)
+            {
+                case StaticType.Time:
+                    _timeProcess.GetStatisticInfo(info);
+                    break;
+                case StaticType.Sort:
+                    _sortProcess.GetStatisticInfo(info);
+                    break;
             }
         }
     }

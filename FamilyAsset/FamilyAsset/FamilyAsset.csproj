@@ -87,9 +87,10 @@
     <Compile Include="Pages\AccountRecord\Elements\AccountItemViewModel.cs" />
     <Compile Include="Pages\AccountRecord\Elements\PhraseViewModel.cs" />
     <Compile Include="Pages\Statistic\NaviBar\StartEndDatePickerViewModel.cs" />
-    <Compile Include="Pages\Statistic\NaviBar\StatisticItemSelecterViewModel.cs" />
-    <Compile Include="Pages\Statistic\NaviBar\StatisticItemViewModel.cs" />
-    <Compile Include="Pages\Statistic\NaviBar\StatisticItemSelecter.xaml.cs">
+    <Compile Include="Pages\Statistic\StatisticItems\StatisticItemSelecterViewModel.cs" />
+    <Compile Include="Pages\Statistic\NaviBar\StatisticItemsFilter.cs" />
+    <Compile Include="Pages\Statistic\StatisticItems\StatisticItemViewModel.cs" />
+    <Compile Include="Pages\Statistic\StatisticItems\StatisticItemSelecter.xaml.cs">
       <DependentUpon>StatisticItemSelecter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Statistic\NaviBar\StatisticTypeSwitcherViewModel.cs" />
@@ -168,7 +169,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Statistic\NaviBar\StatisticItemSelecter.xaml">
+    <Page Include="Pages\Statistic\StatisticItems\StatisticItemSelecter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -250,6 +251,7 @@
   <ItemGroup>
     <Folder Include="Pages\Statistic\MainElements\" />
     <Folder Include="Pages\Statistic\StatisticArea\" />
+    <Folder Include="Pages\Statistic\StatisticItems\StatisticItemsSelectStrategies\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FAIcon.ico" />

@@ -8,7 +8,7 @@ using BLL.ItemConfigureProcess;
 using Common;
 using FamilyAsset.UICore;
 
-namespace FamilyAsset.Pages.Statistic.NaviBar
+namespace FamilyAsset.Pages.Statistic.StatisticItems
 {
     class StatisticItemSelecterViewModel : NotificationObject
     {
@@ -86,12 +86,18 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
             }
         }
 
-        private List<SelectStatisticItemEventArgs> _lstSelectedStatisticItems;
+        //class StatisticItemsStructure
+        //{
+
+        //}
+        
         private IItemConfigureProcess _itemProcess;
-        private bool _isIncomeSelected;
+        private bool _isIncomeSelected, _ItemOneMultiSelected;
 
         public StatisticItemSelecterViewModel(IItemConfigureProcess process)
         {
+           
+
             _itemProcess = process;
             _itemProcess.ItemSearchedResultEvent += OnItemSearchedResult;
 
@@ -99,7 +105,6 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
             AllCost = new StatisticItemViewModel(false, null);
             AllIncome.StatisticItemIsSelected += OnAllItemSelected;
             AllCost.StatisticItemIsSelected += OnAllItemSelected;
-
         }
 
         private void OnAllItemSelected(object sender, SelectStatisticItemEventArgs e)
@@ -181,7 +186,7 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
 
         private void OnStatisticItemSelected(object sender, SelectStatisticItemEventArgs e)
         {
-            throw new NotImplementedException();
+           
         }
     }
 }

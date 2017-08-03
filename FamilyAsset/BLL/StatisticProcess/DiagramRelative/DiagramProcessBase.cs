@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Model;
 
-namespace BLL.StaticProcess
+namespace BLL.StatisticProcess.DiagramRelative
 {
-    abstract class StatisticProcessBase
+    abstract class DiagramProcessBase
     {
         public abstract void GetStatisticInfo(StaticSearchInfo info);
         public event EventHandler<StatisticByTime> StatisticByTimeCallbackEvent;
@@ -16,7 +16,7 @@ namespace BLL.StaticProcess
         private DAL.AccountInfo _dalAccount;
         protected DAL.Statistic _dalStatistic;
 
-        public StatisticProcessBase()
+        public DiagramProcessBase()
         {
             _dalAccount = new DAL.AccountInfo();
             _dalStatistic = new DAL.Statistic();

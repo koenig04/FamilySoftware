@@ -68,11 +68,17 @@
     <Compile Include="AssetInputAndOperationProcess\IAssetInputAndOperationProcess.cs" />
     <Compile Include="AssetInputAndOperationProcess\AssetInputAndOperationProcessManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StaticProcess\IStatiticProcess.cs" />
-    <Compile Include="StaticProcess\StatisticProcessBySort.cs" />
-    <Compile Include="StaticProcess\StatisticProcessByTime.cs" />
-    <Compile Include="StaticProcess\StatisticProcessBase.cs" />
-    <Compile Include="StaticProcess\StatisticProcessManager.cs" />
+    <Compile Include="StatisticProcess\DiagramRelative\DiagramProcessController.cs" />
+    <Compile Include="StatisticProcess\IStatiticProcess.cs" />
+    <Compile Include="StatisticProcess\DiagramRelative\DiagramProcessBySort.cs" />
+    <Compile Include="StatisticProcess\DiagramRelative\DiagramProcessByTime.cs" />
+    <Compile Include="StatisticProcess\DiagramRelative\DiagramProcessBase.cs" />
+    <Compile Include="StatisticProcess\StatisticItemRelative\StatisticItemCotroller.cs" />
+    <Compile Include="StatisticProcess\StatisticItemRelative\StatisticItemsSelectStrategies\InOrOutItemSelectStrategy.cs" />
+    <Compile Include="StatisticProcess\StatisticItemRelative\StatisticItemsSelectStrategies\ItemOneSelectStrategy.cs" />
+    <Compile Include="StatisticProcess\StatisticItemRelative\StatisticItemsSelectStrategies\ItemTwoSelectStrategy.cs" />
+    <Compile Include="StatisticProcess\StatisticItemRelative\StatisticItemsSelectStrategies\StatisticItemSelectBase.cs" />
+    <Compile Include="StatisticProcess\StatisticProcessManager.cs" />
     <Compile Include="StatisticProcessParameters.cs" />
   </ItemGroup>
   <ItemGroup>

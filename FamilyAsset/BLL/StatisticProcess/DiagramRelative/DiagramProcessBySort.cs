@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Model;
 
-namespace BLL.StaticProcess
+namespace BLL.StatisticProcess.DiagramRelative
 {
-    class StatisticProcessBySort : StatisticProcessBase
+    class DiagramProcessBySort : DiagramProcessBase
     {
         public override void GetStatisticInfo(StaticSearchInfo info)
         {
