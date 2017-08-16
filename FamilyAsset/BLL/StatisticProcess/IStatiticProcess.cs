@@ -7,7 +7,7 @@ using BLL.StatisticProcess.StatisticItemRelative;
 
 namespace BLL.StatisticProcess
 {
-    interface IStatiticProcess
+    public interface IStatiticProcess
     {
         //Diagram Relative
         void GetStatisticInfo(StaticSearchInfo info);

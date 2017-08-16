@@ -12,6 +12,12 @@ namespace BLL.StatisticProcess.StatisticItemRelative.StatisticItemsSelectStrateg
     {
         private bool _isAllIncomeSelected, _isAllCostSelected;
 
+        public InOrOutItemSelectStrategy(BLL.ItemConfigureProcess.IItemConfigureProcess itemProcess)
+            : base(itemProcess)
+        {
+
+        }
+
         public override void ProceedSelectedItem(SelectedStatisticItemInfo selectedItem)
         {
             if (string.IsNullOrEmpty(selectedItem.ItemID))//代表按下的是AllIncome/AllCost

@@ -47,6 +47,13 @@
         <Setter Property="IsThreeState" Value="False"/>
     </Style>
 
+    <Style TargetType="{x:Type TextBlock}" x:Key="PageTitle" BasedOn="{StaticResource TextBlockStyleBaseChs}">
+        <Setter Property="FontSize" Value="25"/>
+        <Setter Property="FontFamily" Value="微软幼圆"/>
+        <Setter Property="FontWeight" Value="ExtraBold"/>
+        <Setter Property="Foreground" Value="BurlyWood"/>
+    </Style>
+    
     <!--主界面上左侧栏按钮样式-->
     <Style TargetType="Button" x:Key="HomePageButton">
         <Setter Property="Height" Value="50"/>

@@ -41,6 +41,14 @@ namespace DAL
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="itemOneID">when it's null, it means we select all income or all cost</param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="isIncome"></param>
+        /// <returns></returns>
         public List<SortStatistic> GetStatisticBySort(string itemOneID, DateTime startDate, DateTime endDate, int isIncome)
         {
             SqlParameter[] parameters = {
@@ -62,7 +70,9 @@ namespace DAL
                         {
                             SortAmount = d.Field<decimal>("SortAmount"),
                             SortID = d.Field<string>("SortID"),
-                            SortName = d.Field<string>("SortName")
+                            SortName = d.Field<string>("SortName"),
+                            IsIncome = isIncome == 0 ? false : true,
+                            ItemIcon = d.Field<string>("ItemIcon")
                         }).ToList<SortStatistic>();
             }
             else

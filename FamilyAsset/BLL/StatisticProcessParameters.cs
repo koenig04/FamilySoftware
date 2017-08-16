@@ -54,7 +54,7 @@ namespace BLL
                 ItemDate = info.StatisticTime
             };
             return model;
-        }       
+        }
     }
 
     public class StatisticByTime
@@ -69,6 +69,8 @@ namespace BLL
         public string ItemID { get; set; }
         public string ItemName { get; set; }
         public decimal ItemAmount { get; set; }
+        public bool isIncome { get; set; }
+        public string ItemIcon { get; set; }
 
         public static implicit operator StatisticBySortListItem(Model.SortStatistic info)
         {
@@ -76,7 +78,9 @@ namespace BLL
             {
                 ItemAmount = info.SortAmount,
                 ItemID = info.SortID,
-                ItemName = info.SortName
+                ItemName = info.SortName,
+                isIncome = info.IsIncome,
+                ItemIcon = info.ItemIcon
             };
             return model;
         }

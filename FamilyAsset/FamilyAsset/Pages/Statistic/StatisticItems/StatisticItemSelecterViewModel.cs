@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BLL.ItemConfigureProcess;
+using System.Windows;
+using BLL.StatisticProcess;
+using BLL.StatisticProcess.StatisticItemRelative;
 using Common;
 using FamilyAsset.UICore;
 
@@ -13,6 +15,15 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
     class StatisticItemSelecterViewModel : NotificationObject
     {
         public event EventHandler<List<SelectStatisticItemEventArgs>> SelectedStatisticItemsEvent;
+
+        private Visibility _vis = Visibility.Hidden;
+
+        public Visibility Vis
+        {
+            get { return _vis; }
+            set { _vis = value; }
+        }
+
 
         private StatisticItemViewModel _allIncome;
 
@@ -86,107 +97,165 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             }
         }
 
-        //class StatisticItemsStructure
-        //{
+        private DelegateCommand _confirm;
 
-        //}
-        
-        private IItemConfigureProcess _itemProcess;
-        private bool _isIncomeSelected, _ItemOneMultiSelected;
-
-        public StatisticItemSelecterViewModel(IItemConfigureProcess process)
+        public DelegateCommand Confirm
         {
-           
+            get
+            {
+                if (_confirm == null)
+                {
+                    _confirm = new DelegateCommand(new Action<object>(
+                        o =>
+                        {
+                            if (SelectedStatisticItemsEvent != null)
+                            {
+                                SelectedStatisticItemsEvent(null, _lstSelectedItems);
+                            }
+                            Vis = Visibility.Hidden;
+                        }));
+                }
+                return _confirm;
+            }
+            set
+            {
+                _confirm = value;
+                RaisePropertyChanged("Confirm");
+            }
+        }
 
-            _itemProcess = process;
-            _itemProcess.ItemSearchedResultEvent += OnItemSearchedResult;
+        private DelegateCommand _cancel;
+
+        public DelegateCommand Cancel
+        {
+            get
+            {
+                if (_cancel == null)
+                {
+                    _cancel = new DelegateCommand(new Action<object>(
+                        o =>
+                        {
+                            Vis = Visibility.Hidden;
+                        }));
+                }
+                return _cancel;
+            }
+            set
+            {
+                _cancel = value;
+                RaisePropertyChanged("Cancel");
+            }
+        }
+
+
+        private IStatiticProcess _statisticProcess;
+        private bool _isIncomeSelected, _ItemOneMultiSelected;
+        private List<SelectStatisticItemEventArgs> _lstSelectedItems;
+        private ItemCollectionController _incomeItemOneController, _incomeItemTwoController,
+            _costItemOneController, _costItemTwoController,
+            _allIncomeController, _allCostController;
+
+        public StatisticItemSelecterViewModel(IStatiticProcess process)
+        {
+            _statisticProcess = process;
+            _statisticProcess.ItemCollectionAddEvent += OnItemCollectionAdd;
+            _statisticProcess.ItemCollectionClearEvent += OnItemCollectionClear;
+
+            _lstSelectedItems = new List<SelectStatisticItemEventArgs>();
 
             AllIncome = new StatisticItemViewModel(true, null);
             AllCost = new StatisticItemViewModel(false, null);
-            AllIncome.StatisticItemIsSelected += OnAllItemSelected;
-            AllCost.StatisticItemIsSelected += OnAllItemSelected;
+
+            _incomeItemOneController = new ItemCollectionController(IncomeItemOnes, true, ItemType.ItemOne);
+            _incomeItemTwoController = new ItemCollectionController(IncomeItemTwos, true, ItemType.ItemTwo);
+            _costItemOneController = new ItemCollectionController(CostItemOnes, true, ItemType.ItemOne);
+            _costItemTwoController = new ItemCollectionController(CostItemTwos, true, ItemType.ItemTwo);
+            _allIncomeController = new ItemCollectionController(AllIncome, true, ItemType.None);
+            _allCostController = new ItemCollectionController(AllCost, false, ItemType.None);
+
+            _incomeItemOneController.StatisticItemSelected += OnStatisticItemSelected;
+            _incomeItemTwoController.StatisticItemSelected += OnStatisticItemSelected;
+            _costItemOneController.StatisticItemSelected += OnStatisticItemSelected;
+            _costItemTwoController.StatisticItemSelected += OnStatisticItemSelected;
+            _allIncomeController.StatisticItemSelected += OnStatisticItemSelected;
+            _allCostController.StatisticItemSelected += OnStatisticItemSelected;
+
+            _incomeItemOneController.StatisticItemsListOperation += OnStatisticItemsListOperation;
+            _incomeItemTwoController.StatisticItemsListOperation += OnStatisticItemsListOperation;
+            _costItemOneController.StatisticItemsListOperation += OnStatisticItemsListOperation;
+            _costItemTwoController.StatisticItemsListOperation += OnStatisticItemsListOperation;
+            _allIncomeController.StatisticItemsListOperation += OnStatisticItemsListOperation;
+            _allCostController.StatisticItemsListOperation += OnStatisticItemsListOperation;
+
+            _statisticProcess.InitializeItemOnes();
         }
 
-        private void OnAllItemSelected(object sender, SelectStatisticItemEventArgs e)
+        private void OnStatisticItemsListOperation(object sender, StatisticItemsListOperationEventArgs e)
         {
-            if (e.IsIncome)
+            switch (e.OperationType)
             {
-                if (e.IsSelected)//选中时，清空收入二级目录
-                    IncomeItemTwos.Clear();
-                foreach (StatisticItemViewModel item in IncomeItemOnes)//根据是否选中，改变收入一级目录是否使能
+                case StatisticItemsListOperationType.Add:
+                    foreach (SelectStatisticItemEventArgs item in e.OperationItems)
+                    {
+                        _lstSelectedItems.Add(item);
+                    }
+                    break;
+                case StatisticItemsListOperationType.Remove:
+                    while (_lstSelectedItems.Where(a => a.IsIncome == e.IsIncome && a.ItemType == e.StatisticItemType).First() != null)
+                    {
+                        _lstSelectedItems.Remove(_lstSelectedItems.Where(a => a.IsIncome == e.IsIncome && a.ItemType == e.StatisticItemType).First());
+                    }
+                    break;
+            }
+        }
+
+        private ItemCollectionController ItemCollectionIdentify(bool isIncome, ItemType itemType)
+        {
+            if (isIncome)
+            {
+                if (itemType == ItemType.ItemOne)
                 {
-                    item.SwitchSelectable(!e.IsSelected);
+                    return _incomeItemOneController;
+                }
+                else if (itemType == ItemType.ItemTwo)
+                {
+                    return _incomeItemTwoController;
+                }
+                else
+                {
+                    return _allIncomeController;
                 }
             }
             else
             {
-                if (e.IsSelected)//选中时，清空二级目录
-                    CostItemTwos.Clear();
-                foreach (StatisticItemViewModel item in CostItemOnes)//根据是否选中，改变支出一级目录是否使能
+                if (itemType == ItemType.ItemOne)
                 {
-                    item.SwitchSelectable(!e.IsSelected);
+                    return _costItemOneController;
+                }
+                else if (itemType == ItemType.ItemTwo)
+                {
+                    return _costItemTwoController;
+                }
+                else
+                {
+                    return _allCostController;
                 }
             }
         }
 
-        private void OnItemSearchedResult(object sender, BLL.ItemSearchedCollectionArgs e)
+        private void OnItemCollectionClear(object sender, ClearItemsArgs e)
         {
-            switch (e.ItemType)
-            {
-                case ItemType.ItemOne:
-                    List<Model.JZItemOne> lstItemOnes = e.ItemCollection["One"] as List<Model.JZItemOne>;
-                    if (lstItemOnes.Count > 0)
-                    {
-                        if (lstItemOnes[0].IncomeOrCost)
-                        {
-                            IncomeItemOnes.Clear();
-                            foreach (Model.JZItemOne item in lstItemOnes)
-                            {
-                                IncomeItemOnes.Add(item);
-                                IncomeItemOnes.Last().StatisticItemIsSelected += OnStatisticItemSelected;
-                            }
-                        }
-                        else
-                        {
-                            CostItemOnes.Clear();
-                            foreach (Model.JZItemOne item in lstItemOnes)
-                            {
-                                CostItemOnes.Add(item);
-                                IncomeItemOnes.Last().StatisticItemIsSelected += OnStatisticItemSelected;
-                            }
-                        }
-                    }
-                    break;
-                case ItemType.ItemTwo:
-                    List<Model.JZItemTwo> lstItemTwos = e.ItemCollection["Two"] as List<Model.JZItemTwo>;
-                    if (lstItemTwos.Count > 0)
-                    {
-                        if (_isIncomeSelected)
-                        {
-                            IncomeItemTwos.Clear();
-                            foreach (Model.JZItemTwo item in lstItemTwos)
-                            {
-                                IncomeItemTwos.Add(StatisticItemViewModel.ConvertFromJZTwo(item, _isIncomeSelected));
-                                IncomeItemOnes.Last().StatisticItemIsSelected += OnStatisticItemSelected;
-                            }
-                        }
-                        else
-                        {
-                            CostItemTwos.Clear();
-                            foreach (Model.JZItemTwo item in lstItemTwos)
-                            {
-                                CostItemTwos.Add(StatisticItemViewModel.ConvertFromJZTwo(item, _isIncomeSelected));
-                                IncomeItemOnes.Last().StatisticItemIsSelected += OnStatisticItemSelected;
-                            }
-                        }
-                    }
-                    break;
-            }
+            ItemCollectionIdentify(e.IsIncome, e.ClearedItemType).ClearItems(e);
+        }
+
+        private void OnItemCollectionAdd(object sender, ItemCollectionOperationArgs e)
+        {
+            ItemCollectionIdentify(e.IsIncome, e.ItemOneCollection != null ? ItemType.ItemOne : ItemType.ItemTwo).AddItems(e);
         }
 
         private void OnStatisticItemSelected(object sender, SelectStatisticItemEventArgs e)
         {
-           
+            _statisticProcess.ProceedSelectedItem(e);
         }
     }
 }

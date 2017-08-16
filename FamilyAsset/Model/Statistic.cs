@@ -17,5 +17,7 @@ namespace Model
         public string SortID { get; set; }
         public string SortName { get; set; }
         public decimal SortAmount { get; set; }
+        public bool IsIncome { get; set; }
+        public string ItemIcon { get; set; }
     }
 }

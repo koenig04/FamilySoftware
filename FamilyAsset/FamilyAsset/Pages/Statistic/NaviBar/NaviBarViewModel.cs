@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BLL.StatisticProcess;
+using FamilyAsset.Pages.Statistic.StatisticItems;
 using FamilyAsset.UICore;
 
 namespace FamilyAsset.Pages.Statistic.NaviBar
@@ -48,7 +50,18 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
             }
         }
 
-        public NaviBarViewModel()
+        private StatisticItemSelecterViewModel _itemSelecter;
+
+        public StatisticItemSelecterViewModel ItemSelecter
+        {
+            get { return _itemSelecter; }
+            set { _itemSelecter = value; }
+        }
+
+        private IStatiticProcess _statisticProcess;
+        private List<SelectStatisticItemEventArgs> _statisticItemCollection;
+
+        public NaviBarViewModel(IStatiticProcess statisticProcess)
         {
             YMDSwitcher = new YMDSwitcherViewModel();
             YMDSwitcher.YMDSwitcherEvent += OnYMDChanged;
@@ -56,6 +69,15 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
             StartEndDatePicker.PickedDateChanged += OnPickedDateChanged;
             StatisticTypeSwitcher = new StatisticTypeSwitcherViewModel();
             StatisticTypeSwitcher.StatisticTypeChangedEvent += OnStatisticTypeChanged;
+            ItemSelecter = new StatisticItemSelecterViewModel(statisticProcess);
+            ItemSelecter.SelectedStatisticItemsEvent += OnSelectStatisticItems;
+
+            _statisticProcess = statisticProcess;
+        }
+
+        private void OnSelectStatisticItems(object sender, List<SelectStatisticItemEventArgs> e)
+        {
+            _statisticItemCollection = e;
         }
 
         private void OnStatisticTypeChanged(object sender, StatisticTypeChangedEvnetArgs e)

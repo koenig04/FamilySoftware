@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using BLL.StatisticProcess.StatisticItemRelative;
 using Common;
 using FamilyAsset.UICore;
 
@@ -108,16 +109,9 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             _canSelected = selectable;
         }
 
-        public static implicit operator StatisticItemViewModel(Model.JZItemOne model)
+        public static implicit operator StatisticItemViewModel(SelectedStatisticItemInfo model)
         {
-            StatisticItemViewModel res = new StatisticItemViewModel(model.IncomeOrCost, model.JZItemOneID);
-            return res;
-        }
-
-        public static StatisticItemViewModel ConvertFromJZTwo(Model.JZItemTwo model, bool isIncome)
-        {
-            StatisticItemViewModel res = new StatisticItemViewModel(isIncome, model.JZItemTwoID);
-            return res;
+            return new StatisticItemViewModel(model.IsIncome, model.ItemID);
         }
 
         private void RaiseStatisticItemSelectedEvent()
@@ -143,5 +137,15 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
         public string ItemID { get; set; }
         public bool IsIncome { get; set; }
         public ItemType ItemType { get; set; }
+
+        public static implicit operator SelectedStatisticItemInfo(SelectStatisticItemEventArgs e)
+        {
+            SelectedStatisticItemInfo res = new SelectedStatisticItemInfo();
+            res.IsIncome = e.IsIncome;
+            res.IsSelected = e.IsSelected;
+            res.ItemID = e.ItemID;
+            res.ItemType = e.ItemType;
+            return res;
+        }
     }
 }

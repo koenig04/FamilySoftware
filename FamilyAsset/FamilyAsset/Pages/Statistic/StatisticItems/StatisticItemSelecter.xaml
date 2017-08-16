@@ -26,7 +26,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="300"/>
+            <RowDefinition Height="250"/>
+            <RowDefinition Height="200"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <UserControl ContentTemplate="{StaticResource StatisticItem}" Margin="10,0,0,0"
@@ -44,6 +45,10 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
             <ItemsControl ItemsSource="{Binding CostItemTwos}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+            <Button Style="{StaticResource HomePageGreenButton}" Width="150" Content="确定" Margin="0,0,10,0" Command="{Binding Confirm}"/>
+            <Button Style="{StaticResource HomePageButton}" Width="150" Content="取消" Margin="40,0,10,0" Command="{Binding Cancel}"/>
         </StackPanel>
     </Grid>
 </UserControl>

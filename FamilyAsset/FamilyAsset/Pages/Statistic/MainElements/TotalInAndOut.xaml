@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="FamilyAsset.Pages.Statistic.MainElements.TotalInAndOut"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FamilyAsset.Pages.Statistic.MainElements"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="750">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="TotalItem">
+            <StackPanel Height="50" Width="280" Orientation="Vertical">
+                <Label Content="{Binding ItemTitle}" Style="{StaticResource LabelStyleBaseChs}" Foreground="{Binding ItemColor}"/>
+                <Label Content="{Binding ItemAmount}" Style="{StaticResource LabelStyleBaseChs}" Foreground="{Binding ItemColor}"/>
+            </StackPanel>
+        </ControlTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <UserControl Template="{StaticResource TotalItem}" Grid.Column="0" DataContext="{Binding TotalIncome}"/>
+        <UserControl Template="{StaticResource TotalItem}" Grid.Column="1" DataContext="{Binding TotalCost}"/>
+        <UserControl Template="{StaticResource TotalItem}" Grid.Column="2" DataContext="{Binding Diff}"/>
+    </Grid>
+</UserControl>

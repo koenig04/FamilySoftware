@@ -86,9 +86,21 @@
     <Compile Include="Pages\AccountRecord\AccountRecordViewModel.cs" />
     <Compile Include="Pages\AccountRecord\Elements\AccountItemViewModel.cs" />
     <Compile Include="Pages\AccountRecord\Elements\PhraseViewModel.cs" />
+    <Compile Include="Pages\Statistic\AccountDetail\AccountSortCollection.xaml.cs">
+      <DependentUpon>AccountSortCollection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Statistic\AccountDetail\AccountSortDetail.xaml.cs">
+      <DependentUpon>AccountSortDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Statistic\AccountDetail\AccountSortDetailViewModel.cs" />
+    <Compile Include="Pages\Statistic\MainElements\TotalInAndOut.xaml.cs">
+      <DependentUpon>TotalInAndOut.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Statistic\MainElements\TotalInAndOutViewModel.cs" />
+    <Compile Include="Pages\Statistic\MainElements\TotalInfoViewModel.cs" />
     <Compile Include="Pages\Statistic\NaviBar\StartEndDatePickerViewModel.cs" />
+    <Compile Include="Pages\Statistic\StatisticItems\ItemCollectionController.cs" />
     <Compile Include="Pages\Statistic\StatisticItems\StatisticItemSelecterViewModel.cs" />
-    <Compile Include="Pages\Statistic\NaviBar\StatisticItemsFilter.cs" />
     <Compile Include="Pages\Statistic\StatisticItems\StatisticItemViewModel.cs" />
     <Compile Include="Pages\Statistic\StatisticItems\StatisticItemSelecter.xaml.cs">
       <DependentUpon>StatisticItemSelecter.xaml</DependentUpon>
@@ -162,6 +174,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\AccountRecord\AccountRecord.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Statistic\AccountDetail\AccountSortCollection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Statistic\AccountDetail\AccountSortDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Statistic\MainElements\TotalInAndOut.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -249,9 +273,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pages\Statistic\MainElements\" />
     <Folder Include="Pages\Statistic\StatisticArea\" />
-    <Folder Include="Pages\Statistic\StatisticItems\StatisticItemsSelectStrategies\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FAIcon.ico" />
