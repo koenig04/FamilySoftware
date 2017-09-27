@@ -10,8 +10,7 @@ namespace BLL.StatisticProcess
 {
     public class StatisticProcessManager : IStatiticProcess
     {
-        public event EventHandler<CurveData> CurveDataDisplayEvent;
-        public event EventHandler<PieData> PieDataDisplayEvent;
+        public event EventHandler<DiagramData> DiagramDataDisplayEvent;
 
         public event EventHandler<StatisticItemRelative.ClearItemsArgs> ItemCollectionClearEvent;
         public event EventHandler<StatisticItemRelative.SelectItemArgs> ItemSelectEvent;
@@ -25,28 +24,19 @@ namespace BLL.StatisticProcess
             _diagramProcess = new DiagramProcessController();
             _statisticItemProcess = new StatisticItemCotroller();
 
-            _diagramProcess.CurveDataDisplayEvent += OnCurveDataDisplay;
-            _diagramProcess.PieDataDisplayEvent += OnPieDataDisplay;
+            _diagramProcess.DiagramDataDisplayEvent += OnDiagramDataDisplay;
             _statisticItemProcess.ItemCollectionAddEvent += OnItemCollectionAddEvent;
             _statisticItemProcess.ItemCollectionClearEvent += OnItemCollectionClearEvent;
             _statisticItemProcess.ItemSelectEvent += OnItemSelectEvent;
         }
 
-        private void OnPieDataDisplay(object sender, PieData e)
+        private void OnDiagramDataDisplay(object sender, DiagramData e)
         {
-            if (PieDataDisplayEvent != null)
+            if (DiagramDataDisplayEvent != null)
             {
-                PieDataDisplayEvent(sender, e);
+                DiagramDataDisplayEvent(sender, e);
             }
-        }
-
-        private void OnCurveDataDisplay(object sender, CurveData e)
-        {
-            if (CurveDataDisplayEvent != null)
-            {
-                CurveDataDisplayEvent(sender, e);
-            }
-        }
+        }        
 
         private void OnItemSelectEvent(object sender, SelectItemArgs e)
         {
@@ -86,10 +76,6 @@ namespace BLL.StatisticProcess
         {
             _diagramProcess.SearchDiagramData(info);
         }
-
-        public void UpdateDiagramData(bool IsCurve)
-        {
-            _diagramProcess.UpdateDiagramData(IsCurve);
-        }
+        
     }
 }

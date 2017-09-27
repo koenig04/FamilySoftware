@@ -99,7 +99,7 @@ namespace BLL.StatisticProcess.DiagramRelative
         public List<CurveDataDetail> CurveDataDetailCollection { get; set; }
     }
 
-    public class CurveData : EventArgs
+    public class CurveData 
     {
         public List<CurveDataDetailSet> CurveDataDetailCollectioion { get; set; }
         public List<AccountDetailByDate> Details { get; set; }
@@ -120,9 +120,15 @@ namespace BLL.StatisticProcess.DiagramRelative
         }
     }
 
-    public class PieData : EventArgs
+    public class PieData 
     {
         public List<PieDataDetail> PieDataDetailCollection { get; set; }
         public List<AccountDetailBySort> Details { get; set; }
+    }
+
+    public class DiagramData : EventArgs
+    {
+        public PieData PieDataSet { get; set; }
+        public CurveData CurveDataSet { get; set; }
     }
 }

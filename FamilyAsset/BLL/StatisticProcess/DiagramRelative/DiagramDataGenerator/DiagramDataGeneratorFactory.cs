@@ -8,20 +8,33 @@ namespace BLL.StatisticProcess.DiagramRelative.DiagramDataGenerator
 {
     class DiagramDataGeneratorFactory
     {
+        private static DiagramDataGeneratorForAll _all, _itemOne, _itemTwo;
         public static DiagramDataGeneratorBase CreateGenerator(StaticSearchInfo info, DAL.Statistic dal)
         {
             if ((info.ItemOneIDs == null || info.ItemOneIDs.Count == 0) &&
                (info.ItemTwoIDs == null || info.ItemTwoIDs.Count == 0))
             {
-                return new DiagramDataGeneratorForAll(dal);
+                if (_all == null)
+                {
+                    _all = new DiagramDataGeneratorForAll(dal);
+                }
+                return _all;
             }
             else if (info.ItemOneIDs != null && info.ItemOneIDs.Count > 0)
             {
-                return new DiagramDataGeneratorForItemOne(dal);
+                if (_itemOne == null)
+                {
+                    _itemOne = new DiagramDataGeneratorForAll(dal);
+                }
+                return _itemOne;
             }
             else
             {
-                return new DiagramDataGeneratorForItemTwo(dal);
+                if (_itemTwo == null)
+                {
+                    _itemTwo = new DiagramDataGeneratorForAll(dal);
+                }
+                return _itemTwo;
             }
         }
     }

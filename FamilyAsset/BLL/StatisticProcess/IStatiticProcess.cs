@@ -12,9 +12,7 @@ namespace BLL.StatisticProcess
     {
         //Diagram Relative
         void SearchDiagramData(StaticSearchInfo info);
-        void UpdateDiagramData(bool IsCurve);
-        event EventHandler<CurveData> CurveDataDisplayEvent;
-        event EventHandler<PieData> PieDataDisplayEvent;
+        event EventHandler<DiagramData> DiagramDataDisplayEvent;
 
         //Statistic Item Relative
         void ProceedSelectedItem(SelectedStatisticItemInfo selectedItem);
