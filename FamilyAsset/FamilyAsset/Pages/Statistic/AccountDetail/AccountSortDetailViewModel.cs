@@ -10,7 +10,7 @@ using FamilyAsset.UICore;
 
 namespace FamilyAsset.Pages.Statistic.AccountDetail
 {
-    class AccountSortDetailViewModel : NotificationObject
+    class AccountSortDetailViewModel : AccountDetailBase
     {
         private BitmapImage _itemImg;
 
@@ -96,9 +96,50 @@ namespace FamilyAsset.Pages.Statistic.AccountDetail
             }
         }
 
-        private int _totalRecLength = 450;
+        private string _itemAccountCount;
 
-        public AccountSortDetailViewModel(StatisticBySortListItem sortInfo, decimal totalAmount, Color recColor)
+        public string ItemAccountCount
+        {
+            get { return _itemAccountCount; }
+            set
+            {
+                _itemAccountCount = value;
+                RaisePropertyChanged("ItemAccountCount");
+            }
+        }
+
+        private DelegateCommand _itemClicked;
+
+        public DelegateCommand ItemClicked
+        {
+            get
+            {
+                if (_itemClicked == null)
+                {
+                    _itemClicked = new DelegateCommand(
+                        o =>
+                        {
+                            RaiseItemClickedEvent(new StatisticItemClickedEvnetArgs()
+                            {
+                                ItemID = _sortID,
+                                ItemType = 0
+                            });
+                        });
+                }
+                return _itemClicked;
+            }
+            set
+            {
+                _itemClicked = value;
+                RaisePropertyChanged("ItemClicked");
+            }
+        }
+
+
+        private int _totalRecLength = 450;
+        private string _sortID;
+
+        public AccountSortDetailViewModel(StatisticBySortListItem sortInfo, decimal totalAmount, Color recColor, int accountCount)
         {
             ItemImg = new BitmapImage(new Uri(Common.GlobalVariables.iconPath.Replace("\\", "/") + sortInfo.ItemIcon,
                 UriKind.RelativeOrAbsolute));
@@ -108,6 +149,8 @@ namespace FamilyAsset.Pages.Statistic.AccountDetail
             itemPrecent = (sortInfo.ItemAmount / totalAmount).ToString() + "%";
             ItemTotal = sortInfo.ItemAmount.ToString() + "元";
             ItemTotalColor = sortInfo.isIncome ? Colors.Firebrick : Colors.LimeGreen;
+            ItemAccountCount = accountCount.ToString() + "笔";
+            _sortID = sortInfo.ItemID;
         }
     }
 }

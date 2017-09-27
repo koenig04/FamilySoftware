@@ -5,13 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FamilyAsset.Pages.Statistic.AccountDetail"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="250" d:DesignWidth="750">
     <UserControl.Resources>
         <DataTemplate DataType="local:AccountSortDetailViewModel">
             <local:AccountSortDetail/>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid>
-            
-    </Grid>
+    <Canvas>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Height="250" Visibility="{Binding SortVis}">
+            <StackPanel Orientation="Vertical">
+                <ItemsControl ItemsSource="{Binding SortCollection}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Canvas>
 </UserControl>

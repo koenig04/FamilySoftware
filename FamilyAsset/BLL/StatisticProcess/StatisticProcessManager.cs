@@ -10,8 +10,8 @@ namespace BLL.StatisticProcess
 {
     public class StatisticProcessManager : IStatiticProcess
     {
-        public event EventHandler<StatisticByTime> StatisticByTimeCallbackEvent;
-        public event EventHandler<StatisticBySort> StatisticBySortCallbackEvent;
+        public event EventHandler<CurveData> CurveDataDisplayEvent;
+        public event EventHandler<PieData> PieDataDisplayEvent;
 
         public event EventHandler<StatisticItemRelative.ClearItemsArgs> ItemCollectionClearEvent;
         public event EventHandler<StatisticItemRelative.SelectItemArgs> ItemSelectEvent;
@@ -25,11 +25,27 @@ namespace BLL.StatisticProcess
             _diagramProcess = new DiagramProcessController();
             _statisticItemProcess = new StatisticItemCotroller();
 
-            _diagramProcess.StatisticByTimeCallbackEvent += OnStatisticByTimeCallbackEvent;
-            _diagramProcess.StatisticBySortCallbackEvent += OnStatisticBySortCallbackEvent;
+            _diagramProcess.CurveDataDisplayEvent += OnCurveDataDisplay;
+            _diagramProcess.PieDataDisplayEvent += OnPieDataDisplay;
             _statisticItemProcess.ItemCollectionAddEvent += OnItemCollectionAddEvent;
             _statisticItemProcess.ItemCollectionClearEvent += OnItemCollectionClearEvent;
             _statisticItemProcess.ItemSelectEvent += OnItemSelectEvent;
+        }
+
+        private void OnPieDataDisplay(object sender, PieData e)
+        {
+            if (PieDataDisplayEvent != null)
+            {
+                PieDataDisplayEvent(sender, e);
+            }
+        }
+
+        private void OnCurveDataDisplay(object sender, CurveData e)
+        {
+            if (CurveDataDisplayEvent != null)
+            {
+                CurveDataDisplayEvent(sender, e);
+            }
         }
 
         private void OnItemSelectEvent(object sender, SelectItemArgs e)
@@ -54,28 +70,7 @@ namespace BLL.StatisticProcess
             {
                 ItemCollectionAddEvent(null, e);
             }
-        }
-
-        public void GetStatisticInfo(StaticSearchInfo info)
-        {
-            _diagramProcess.GetStatisticInfo(info);
-        }
-
-        private void OnStatisticByTimeCallbackEvent(object sender, StatisticByTime e)
-        {
-            if (StatisticByTimeCallbackEvent != null)
-            {
-                StatisticByTimeCallbackEvent(sender, e);
-            }
-        }
-
-        private void OnStatisticBySortCallbackEvent(object sender, StatisticBySort e)
-        {
-            if (StatisticBySortCallbackEvent != null)
-            {
-                StatisticBySortCallbackEvent(sender, e);
-            }
-        }
+        }  
 
         public void InitializeItemOnes()
         {
@@ -85,6 +80,16 @@ namespace BLL.StatisticProcess
         public void ProceedSelectedItem(StatisticItemRelative.SelectedStatisticItemInfo selectedItem)
         {
             _statisticItemProcess.ProceedSelectedItem(selectedItem);
-        }        
+        }
+
+        public void SearchDiagramData(StaticSearchInfo info)
+        {
+            _diagramProcess.SearchDiagramData(info);
+        }
+
+        public void UpdateDiagramData(bool IsCurve)
+        {
+            _diagramProcess.UpdateDiagramData(IsCurve);
+        }
     }
 }

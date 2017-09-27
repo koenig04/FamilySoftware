@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BLL.StatisticProcess.DiagramRelative;
 using BLL.StatisticProcess.StatisticItemRelative;
 
 namespace BLL.StatisticProcess
@@ -10,9 +11,10 @@ namespace BLL.StatisticProcess
     public interface IStatiticProcess
     {
         //Diagram Relative
-        void GetStatisticInfo(StaticSearchInfo info);
-        event EventHandler<StatisticByTime> StatisticByTimeCallbackEvent;
-        event EventHandler<StatisticBySort> StatisticBySortCallbackEvent;
+        void SearchDiagramData(StaticSearchInfo info);
+        void UpdateDiagramData(bool IsCurve);
+        event EventHandler<CurveData> CurveDataDisplayEvent;
+        event EventHandler<PieData> PieDataDisplayEvent;
 
         //Statistic Item Relative
         void ProceedSelectedItem(SelectedStatisticItemInfo selectedItem);

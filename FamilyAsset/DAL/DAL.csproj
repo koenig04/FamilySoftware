@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="AccountInfo.cs" />
     <Compile Include="Budget.cs" />
+    <Compile Include="DALModel.cs" />
     <Compile Include="Expenditure.cs" />
     <Compile Include="Income.cs" />
     <Compile Include="JZItemOne.cs" />

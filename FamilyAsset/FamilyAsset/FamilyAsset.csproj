@@ -86,6 +86,10 @@
     <Compile Include="Pages\AccountRecord\AccountRecordViewModel.cs" />
     <Compile Include="Pages\AccountRecord\Elements\AccountItemViewModel.cs" />
     <Compile Include="Pages\AccountRecord\Elements\PhraseViewModel.cs" />
+    <Compile Include="Pages\Statistic\AccountDetail\AccountDetail.xaml.cs">
+      <DependentUpon>AccountDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Statistic\AccountDetail\AccountDetailViewModel.cs" />
     <Compile Include="Pages\Statistic\AccountDetail\AccountSortCollection.xaml.cs">
       <DependentUpon>AccountSortCollection.xaml</DependentUpon>
     </Compile>
@@ -115,6 +119,7 @@
       <DependentUpon>StatisticMain.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Statistic\StatisticViewModel.cs" />
+    <Compile Include="Pages\Statistic\AccountDetail\AccountDetailBase.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\InOutSwitchViewModel.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigureButtonsViewModel.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigure.xaml.cs">
@@ -174,6 +179,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\AccountRecord\AccountRecord.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Statistic\AccountDetail\AccountDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

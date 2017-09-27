@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="FamilyAsset.Pages.Statistic.AccountDetail.AccountDetail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:FamilyAsset.Pages.Statistic.AccountDetail"
+             mc:Ignorable="d" 
+             d:DesignHeight="{Binding AccountItemSetHeight}" d:DesignWidth="750">
+    <UserControl.Resources>
+        <DataTemplate DataType="local:AccountDetailViewModel">
+            <StackPanel Orientation="Horizontal" Height="50" Width="350">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:InvokeCommandAction Command="{Binding ItemClicked}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Image Height="50" Width="50" Source="{Binding ItemImg}"/>
+                <TextBlock Style="{StaticResource TextBlockStyleBaseChs}" Text="{Binding ItemName}"/>
+                <TextBlock Style="{StaticResource TextBlockStyleBaseChs}" Text="{Binding Amount}">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{Binding AmountColor}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Style="{StaticResource TextBlockStyleBaseChs}" FontSize="12" Foreground="DimGray" Text="{Binding AccountDate}"/>
+        <ScrollViewer Height="{Binding AccountHeight}" Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <ItemsControl ItemsSource="{Binding AccountCollection}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

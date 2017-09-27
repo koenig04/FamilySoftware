@@ -12,28 +12,33 @@ namespace DAL
 {
     public class Statistic
     {
-        public List<TimeStatistic> GetStatisticByTime(int timeType, DateTime startDate, DateTime endDate, int isIncome)
+        public List<SingleCurveData> GetSignalCurveData(DateTime startDate, DateTime endDate, int statisticMode,
+            int inOrOutFlag, string itemOneID, string itemTwoID)
         {
             SqlParameter[] parameters = {
-					new SqlParameter("@TimeType", SqlDbType.Int),
-                    new SqlParameter("@StartDate", SqlDbType.Date),
+					new SqlParameter("@StartDate", SqlDbType.Date),
                     new SqlParameter("@EndDate", SqlDbType.Date),
-                    new SqlParameter("@IsIncome", SqlDbType.Bit)
+                    new SqlParameter("@StatisticMode", SqlDbType.Int),
+                    new SqlParameter("@InOrOutFlag", SqlDbType.Int),
+                    new SqlParameter("@ItemOneID", SqlDbType.VarChar,50),
+                    new SqlParameter("@ItemTwoID", SqlDbType.VarChar,50)
                                         };
-            parameters[0].Value = timeType;
-            parameters[1].Value = startDate;
-            parameters[2].Value = endDate;
-            parameters[3].Value = isIncome;
+            parameters[0].Value = startDate;
+            parameters[1].Value = endDate;
+            parameters[2].Value = statisticMode;
+            parameters[3].Value = inOrOutFlag;
+            parameters[4].Value = itemOneID;
+            parameters[5].Value = itemTwoID;
 
-            DataSet ds = DbHelperSQL.RunProcedure("StatisticByTime_LK", parameters, "");
+            DataSet ds = DbHelperSQL.RunProcedure("Get_Curve_Data_LK", parameters, "");
             if (ds != null && ds.Tables.Count > 0)
             {
                 return (from d in ds.Tables[0].AsEnumerable()
-                        select new TimeStatistic()
+                        select new SingleCurveData()
                         {
-                            StatisticTime = d.Field<string>("StatisticTime"),
-                            StatisticAmount = d.Field<decimal>("StatisticAmount")
-                        }).ToList<TimeStatistic>();
+                            CurveDate = d.Field<string>("StatisticDate"),
+                            CurveAmount = d.Field<decimal>("StatisticAmount")
+                        }).ToList();
             }
             else
             {
@@ -41,39 +46,74 @@ namespace DAL
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="itemOneID">when it's null, it means we select all income or all cost</param>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
-        /// <param name="isIncome"></param>
-        /// <returns></returns>
-        public List<SortStatistic> GetStatisticBySort(string itemOneID, DateTime startDate, DateTime endDate, int isIncome)
+        public List<SinglePieData> GetPieData(DateTime startDate, DateTime endDate, int statisticMode, int inOrOutFlag, string itemOneID)
         {
             SqlParameter[] parameters = {
-					new SqlParameter("@ItemOneID", SqlDbType.VarChar,50),
-                    new SqlParameter("@StartDate", SqlDbType.Date),
+					new SqlParameter("@StartDate", SqlDbType.Date),
                     new SqlParameter("@EndDate", SqlDbType.Date),
-                    new SqlParameter("@IsIncome", SqlDbType.Bit)
+                    new SqlParameter("@StatisticMode", SqlDbType.Int),
+                    new SqlParameter("@InOrOutFlag", SqlDbType.Int),
+                    new SqlParameter("@ItemOneID", SqlDbType.VarChar,50)
                                         };
-            parameters[0].Value = itemOneID;
-            parameters[1].Value = startDate;
-            parameters[2].Value = endDate;
-            parameters[3].Value = isIncome;
+            parameters[0].Value = startDate;
+            parameters[1].Value = endDate;
+            parameters[2].Value = statisticMode;
+            parameters[3].Value = inOrOutFlag;
+            parameters[4].Value = itemOneID;
 
-            DataSet ds = DbHelperSQL.RunProcedure("StatisticBySort_LK", parameters, "");
+            DataSet ds = DbHelperSQL.RunProcedure("Get_Next_ItemSum_LK", parameters, "");
             if (ds != null && ds.Tables.Count > 0)
             {
                 return (from d in ds.Tables[0].AsEnumerable()
-                        select new SortStatistic()
+                        select new SinglePieData()
                         {
-                            SortAmount = d.Field<decimal>("SortAmount"),
-                            SortID = d.Field<string>("SortID"),
-                            SortName = d.Field<string>("SortName"),
-                            IsIncome = isIncome == 0 ? false : true,
-                            ItemIcon = d.Field<string>("ItemIcon")
-                        }).ToList<SortStatistic>();
+                            ItemID = d.Field<string>("ItemID"),
+                            ItemName = d.Field<string>("ItemName"),
+                            Icon = d.Field<string>("Icon"),
+                            IsIncome = d.Field<bool>("IsIncome"),
+                            SumAmount = d.Field<decimal>("SumAmount")
+                        }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<AccountDetail> GetAccountDetails(DateTime startDate, DateTime endDate, int statisticMode,
+            int inOrOutFlag, string itemOneID, string itemTwoID)
+        {
+            SqlParameter[] parameters = {
+					new SqlParameter("@StartDate", SqlDbType.Date),
+                    new SqlParameter("@EndDate", SqlDbType.Date),
+                    new SqlParameter("@StatisticMode", SqlDbType.Int),
+                    new SqlParameter("@InOrOutFlag", SqlDbType.Int),
+                    new SqlParameter("@ItemOneID", SqlDbType.VarChar,50),
+                    new SqlParameter("@ItemTwoID", SqlDbType.VarChar,50)
+                                        };
+            parameters[0].Value = startDate;
+            parameters[1].Value = endDate;
+            parameters[2].Value = statisticMode;
+            parameters[3].Value = inOrOutFlag;
+            parameters[4].Value = itemOneID;
+            parameters[5].Value = itemTwoID;
+
+            DataSet ds = DbHelperSQL.RunProcedure("Get_AccountDetail_LK", parameters, "");
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                return (from d in ds.Tables[0].AsEnumerable()
+                        select new AccountDetail()
+                        {
+                            AccountID = d.Field<string>("AccountID"),
+                            AccountAmount = d.Field<decimal>("AccountAmount"),
+                            AccountDate = d.Field<DateTime>("AccountDate"),
+                            IconName = d.Field<string>("IconName"),
+                            IncomeOrCost = d.Field<bool>("IncomeOrCost"),
+                            ItemOneID = d.Field<string>("ItemOneID"),
+                            ItemTwoID = d.Field<string>("ItemTwoID"),
+                            JZItemOneName = d.Field<string>("JZItemOneName"),
+                            JZItemTwoName = d.Field<string>("JZItemTwoName")
+                        }).ToList();
             }
             else
             {
