@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BLL;
+using BLL.StatisticProcess.DiagramRelative;
+using Common;
 using FamilyAsset.UICore;
 
 namespace FamilyAsset.Pages.Statistic.AccountDetail
 {
-    class AccountSortDetailViewModel : AccountDetailBase
+    class AccountSortDetailViewModel : NotificationObject
     {
         private BitmapImage _itemImg;
 
@@ -108,49 +111,48 @@ namespace FamilyAsset.Pages.Statistic.AccountDetail
             }
         }
 
-        private DelegateCommand _itemClicked;
+        private ObservableCollection<AccountDetailViewModel> _detailCollection;
 
-        public DelegateCommand ItemClicked
+        public ObservableCollection<AccountDetailViewModel> DetailCollection
         {
-            get
-            {
-                if (_itemClicked == null)
-                {
-                    _itemClicked = new DelegateCommand(
-                        o =>
-                        {
-                            RaiseItemClickedEvent(new StatisticItemClickedEvnetArgs()
-                            {
-                                ItemID = _sortID,
-                                ItemType = 0
-                            });
-                        });
-                }
-                return _itemClicked;
-            }
+            get { return _detailCollection; }
             set
             {
-                _itemClicked = value;
-                RaisePropertyChanged("ItemClicked");
+                _detailCollection = value;
+                RaisePropertyChanged("DetailCollection");
             }
         }
 
+        public event EventHandler<StringEventArgs> ItemClickedEvent;
+
+        private void OnItemClickedEvent(object sender,StringEventArgs e)
+        {
+            if (ItemClickedEvent != null)
+            {
+                ItemClickedEvent(null, e);
+            }
+        }
 
         private int _totalRecLength = 450;
-        private string _sortID;
 
-        public AccountSortDetailViewModel(StatisticBySortListItem sortInfo, decimal totalAmount, Color recColor, int accountCount)
+        public AccountSortDetailViewModel(AccountDetailBySort sortInfo, Color recColor, decimal segmentPercent)
         {
-            ItemImg = new BitmapImage(new Uri(Common.GlobalVariables.iconPath.Replace("\\", "/") + sortInfo.ItemIcon,
+            ItemImg = new BitmapImage(new Uri(Common.GlobalVariables.iconPath.Replace("\\", "/") + sortInfo.IconURL,
                 UriKind.RelativeOrAbsolute));
-            RecLength = (int)(sortInfo.ItemAmount / totalAmount * _totalRecLength);
-            RecColor = RecColor;
+            RecLength = (int)(segmentPercent * _totalRecLength);
+            RecColor = recColor;
             ItemName = sortInfo.ItemName;
-            itemPrecent = (sortInfo.ItemAmount / totalAmount).ToString() + "%";
-            ItemTotal = sortInfo.ItemAmount.ToString() + "元";
-            ItemTotalColor = sortInfo.isIncome ? Colors.Firebrick : Colors.LimeGreen;
-            ItemAccountCount = accountCount.ToString() + "笔";
-            _sortID = sortInfo.ItemID;
+            itemPrecent = (segmentPercent * 100).ToString() + "%";
+            ItemTotal = (from d in sortInfo.AccountDetailCollection
+                         select d.AccountAmount).Sum().ToString() + "元";
+            ItemTotalColor = sortInfo.AccountDetailCollection[0].IsIncome ? Colors.Firebrick : Colors.LimeGreen;
+            ItemAccountCount = sortInfo.AccountDetailCollection.Count().ToString() + "笔";
+            DetailCollection = new ObservableCollection<AccountDetailViewModel>();
+            foreach (BLL.StatisticProcess.DiagramRelative.AccountDetail item in sortInfo.AccountDetailCollection)
+            {
+                DetailCollection.Add(new AccountDetailViewModel(item));
+                DetailCollection[DetailCollection.Count - 1].ItemClickedEvent += OnItemClickedEvent;
+            }
         }
     }
 }

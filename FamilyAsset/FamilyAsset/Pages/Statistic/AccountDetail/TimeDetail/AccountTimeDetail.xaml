@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="FamilyAsset.Pages.Statistic.AccountDetail.AccountTimeDetail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:local="clr-namespace:FamilyAsset.Pages.Statistic.AccountDetail"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignWidth="750">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type local:AccountDetailViewModel}">
+            <local:AccountDetail/>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Canvas>
+        <StackPanel Orientation="Vertical">
+            <Label Content="{Binding DetailDate}" Style="{StaticResource LabelBlockStyleBaseChs}"/>
+            <StackPanel Orientation="Vertical">
+                <ItemsControl ItemsSource="{Binding DetailCollection}"/>
+            </StackPanel>
+        </StackPanel>
+    </Canvas>
+</UserControl>

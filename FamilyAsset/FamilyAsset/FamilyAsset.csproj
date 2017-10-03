@@ -90,19 +90,29 @@
       <DependentUpon>AccountDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Statistic\AccountDetail\AccountDetailViewModel.cs" />
-    <Compile Include="Pages\Statistic\AccountDetail\AccountSortCollection.xaml.cs">
+    <Compile Include="Pages\Statistic\AccountDetail\SortDetail\AccountSortCollection.xaml.cs">
       <DependentUpon>AccountSortCollection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Statistic\AccountDetail\AccountSortDetail.xaml.cs">
+    <Compile Include="Pages\Statistic\AccountDetail\SortDetail\AccountSortCollectionViewModel.cs" />
+    <Compile Include="Pages\Statistic\AccountDetail\SortDetail\AccountSortDetail.xaml.cs">
       <DependentUpon>AccountSortDetail.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Statistic\AccountDetail\AccountSortDetailViewModel.cs" />
+    <Compile Include="Pages\Statistic\AccountDetail\SortDetail\AccountSortDetailViewModel.cs" />
+    <Compile Include="Pages\Statistic\AccountDetail\TimeDetail\AccountTimeCollection.xaml.cs">
+      <DependentUpon>AccountTimeCollection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Statistic\AccountDetail\TimeDetail\AccountTimeCollectionViewModel.cs" />
+    <Compile Include="Pages\Statistic\AccountDetail\TimeDetail\AccountTimeDetail.xaml.cs">
+      <DependentUpon>AccountTimeDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Statistic\AccountDetail\TimeDetail\AccountTimeDetailViewModel.cs" />
     <Compile Include="Pages\Statistic\MainElements\TotalInAndOut.xaml.cs">
       <DependentUpon>TotalInAndOut.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Statistic\MainElements\TotalInAndOutViewModel.cs" />
     <Compile Include="Pages\Statistic\MainElements\TotalInfoViewModel.cs" />
     <Compile Include="Pages\Statistic\NaviBar\StartEndDatePickerViewModel.cs" />
+    <Compile Include="Pages\Statistic\StatisticGlobal.cs" />
     <Compile Include="Pages\Statistic\StatisticItems\ItemCollectionController.cs" />
     <Compile Include="Pages\Statistic\StatisticItems\StatisticItemSelecterViewModel.cs" />
     <Compile Include="Pages\Statistic\StatisticItems\StatisticItemViewModel.cs" />
@@ -119,7 +129,6 @@
       <DependentUpon>StatisticMain.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Statistic\StatisticViewModel.cs" />
-    <Compile Include="Pages\Statistic\AccountDetail\AccountDetailBase.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\InOutSwitchViewModel.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigureButtonsViewModel.cs" />
     <Compile Include="Pages\SysConfigure\Element\ItemConfigure\ItemConfigure.xaml.cs">
@@ -186,11 +195,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Statistic\AccountDetail\AccountSortCollection.xaml">
+    <Page Include="Pages\Statistic\AccountDetail\SortDetail\AccountSortCollection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Statistic\AccountDetail\AccountSortDetail.xaml">
+    <Page Include="Pages\Statistic\AccountDetail\SortDetail\AccountSortDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Statistic\AccountDetail\TimeDetail\AccountTimeCollection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Statistic\AccountDetail\TimeDetail\AccountTimeDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

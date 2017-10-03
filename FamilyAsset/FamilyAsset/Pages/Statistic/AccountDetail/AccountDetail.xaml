@@ -6,35 +6,28 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:FamilyAsset.Pages.Statistic.AccountDetail"
              mc:Ignorable="d" 
-             d:DesignHeight="{Binding AccountItemSetHeight}" d:DesignWidth="750">
-    <UserControl.Resources>
-        <DataTemplate DataType="local:AccountDetailViewModel">
-            <StackPanel Orientation="Horizontal" Height="50" Width="350">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseLeftButtonDown">
-                        <i:InvokeCommandAction Command="{Binding ItemClicked}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <Image Height="50" Width="50" Source="{Binding ItemImg}"/>
-                <TextBlock Style="{StaticResource TextBlockStyleBaseChs}" Text="{Binding ItemName}"/>
-                <TextBlock Style="{StaticResource TextBlockStyleBaseChs}" Text="{Binding Amount}">
-                    <TextBlock.Foreground>
-                        <SolidColorBrush Color="{Binding AmountColor}"/>
-                    </TextBlock.Foreground>
-                </TextBlock>
-            </StackPanel>
-        </DataTemplate>
-    </UserControl.Resources>
+             d:DesignHeight="50" d:DesignWidth="750">    
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Style="{StaticResource TextBlockStyleBaseChs}" FontSize="12" Foreground="DimGray" Text="{Binding AccountDate}"/>
-        <ScrollViewer Height="{Binding AccountHeight}" Grid.Row="1">
-            <StackPanel Orientation="Horizontal">
-                <ItemsControl ItemsSource="{Binding AccountCollection}"/>
-            </StackPanel>
-        </ScrollViewer>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="350"/>
+        </Grid.ColumnDefinitions>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseLeftButtonDown">
+                <i:InvokeCommandAction Command="{Binding AccountItemClicked}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <Label Grid.Column="0" Style="{StaticResource LabelStyleBaseChs}" Content="{Binding AccountDate}"/>
+        <Label Grid.Column="1" Style="{StaticResource LabelStyleBaseChs}" Content="{Binding ItemName}">
+            <Label.Foreground>
+                <SolidColorBrush Color="{Binding AccountColor}"/>
+            </Label.Foreground>
+        </Label>
+        <Label Grid.Column="2" Style="{StaticResource LabelStyleBaseChs}" Content="{Binding Amount}">
+            <Label.Foreground>
+                <SolidColorBrush Color="{Binding AccountColor}"/>
+            </Label.Foreground>
+        </Label>
     </Grid>
 </UserControl>
