@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using BLL.StatisticProcess.DiagramRelative;
 using FamilyAsset.UICore;
 
 namespace FamilyAsset.Pages.Statistic.MainElements
@@ -56,7 +57,29 @@ namespace FamilyAsset.Pages.Statistic.MainElements
             TotalCost.ItemColor = Colors.Firebrick;
             TotalCost.ItemTitle = "总支出";
             Diff.ItemColor = Colors.DeepSkyBlue;
-            Diff.ItemTitle = "结余";
+            Diff.ItemTitle = "差额";
+        }
+
+        public void InputIncomeAndCost(DiagramData data)
+        {
+            decimal income, cost;
+            income = cost = 0;
+            foreach (AccountDetailBySort item in data.PieDataSet.Details)
+            {
+                if (item.AccountDetailCollection[0].IsIncome)
+                {
+                    income += (from a in item.AccountDetailCollection
+                               select a.AccountAmount).Sum();
+                }
+                else
+                {
+                    cost += (from a in item.AccountDetailCollection
+                             select a.AccountAmount).Sum();
+                }
+            }
+            TotalIncome.ItemAmount = income.ToString();
+            TotalCost.ItemAmount = cost.ToString();
+            Diff.ItemAmount = (income - cost).ToString();
         }
 
         public void InputIncomeAndCost(decimal income, decimal cost)

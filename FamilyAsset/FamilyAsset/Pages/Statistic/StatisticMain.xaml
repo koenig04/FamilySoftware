@@ -5,8 +5,8 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:navi="clr-namespace:FamilyAsset.Pages.Statistic.NaviBar"
-             xmlns:item="clr-namespace:FamilyAsset.Pages.Statistic.StatisticItems"
              xmlns:mainElement="clr-namespace:FamilyAsset.Pages.Statistic.MainElements"
+             xmlns:detail="clr-namespace:FamilyAsset.Pages.Statistic.AccountDetail"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="750" Visibility="{Binding Vis}">
     <UserControl.Resources>        
@@ -20,8 +20,9 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="账 单" Style="{StaticResource PageTitle}"/>
-        <navi:NaviBar Grid.Row="1" DataContext="{Binding NaviBar}"/>
+        <navi:NaviBar Grid.Row="1" Grid.RowSpan="4" DataContext="{Binding NaviBar}"/>
         <mainElement:TotalInAndOut Grid.Row="2" DataContext="TotalInOut"/>
-        <item:StatisticItemSelecter Grid.Row="2" DataContext="{Binding ItemSelecter}"/>
+        <detail:AccountSortCollection Grid.Row="4" DataContext="{Binding SortDetail}"/>
+        <detail:AccountTimeCollection Grid.Row="4" DataContext="{Binding TimeDetail}"/>
     </Grid>
 </UserControl>

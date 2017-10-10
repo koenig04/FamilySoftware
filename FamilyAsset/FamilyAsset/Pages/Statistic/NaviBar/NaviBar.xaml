@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+             xmlns:items="clr-namespace:FamilyAsset.Pages.Statistic.StatisticItems"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="750">
+             d:DesignHeight="650" d:DesignWidth="750">
     <UserControl.Resources>
         <ControlTemplate x:Key="YMDSwitcher">
             <StackPanel Height="30" Width="90" Orientation="Horizontal">
@@ -44,9 +45,24 @@
             </Image>
         </ControlTemplate>
     </UserControl.Resources>
-    <StackPanel Orientation="Horizontal">
-        <UserControl Template="{StaticResource YMDSwitcher}" DataContext="{Binding YMDSwitcher}" HorizontalAlignment="Left" Margin="15,0,0,0"/>
-        <UserControl Template="{StaticResource StartEndDate}" DataContext="{Binding StartEndDatePicker}" Margin="60,0,0,0"/>
-        <UserControl Template="{StaticResource StatisticTypeSwitcher}" DataContext="{Binding StatisticTypeSwitcher}" Margin="190,0,0,0"/>
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="1,0,-1,0">
+            <UserControl Template="{StaticResource YMDSwitcher}" DataContext="{Binding YMDSwitcher}" HorizontalAlignment="Left" Margin="15,0,0,0"/>
+            <UserControl Template="{StaticResource StartEndDate}" DataContext="{Binding StartEndDatePicker}" Margin="60,0,0,0"/>
+            <StackPanel Orientation="Horizontal" Margin="50,0,0,0">
+                <Button Template="{StaticResource RoundButton}" FontFamily="微软雅黑" FontSize="13" FontWeight="Bold"
+                Background="Transparent" Content="筛 选" Command="{Binding SelectItem}"
+                Height="30" Width="53"/>
+                <Rectangle Width="1" Height="30" Fill="#aaa"/>
+                <UserControl Template="{StaticResource StatisticTypeSwitcher}" DataContext="{Binding StatisticTypeSwitcher}"/>
+            </StackPanel>
+            <Button Template="{StaticResource RoundButtonWithBorder}" Style="{StaticResource ButtonStyleBaseChs}" Background="Transparent"
+                Command="{Binding Search}" Height="30" Width="60" Content="查找" Margin="20,0,0,0"/>
+        </StackPanel>
+        <items:StatisticItemSelecter Grid.Row="1" DataContext="{Binding ItemSelecter}"/>
+    </Grid>
 </UserControl>

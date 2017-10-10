@@ -12,12 +12,21 @@ using FamilyAsset.UICore;
 
 namespace FamilyAsset.Pages.Statistic.StatisticItems
 {
+    /// <summary>
+    /// View Model for
+    /// Statistic Item Selection Interface
+    /// </summary>
     class StatisticItemSelecterViewModel : NotificationObject
     {
+        //this event is never used. check wether this event is necessary later
         public event EventHandler<List<SelectStatisticItemEventArgs>> SelectedStatisticItemsEvent;
+        public event EventHandler<StatisticItemsListOperationEventArgs> StatisticItemOperatedEvent;
 
-        private Visibility _vis = Visibility.Hidden;
-
+        private Visibility _vis = Visibility.Collapsed;
+        /// <summary>
+        /// control the visibility of interface.
+        /// It is controled by filter button on navi bar
+        /// </summary>
         public Visibility Vis
         {
             get { return _vis; }
@@ -26,7 +35,9 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
 
 
         private StatisticItemViewModel _allIncome;
-
+        /// <summary>
+        /// all income item(it is always shown)
+        /// </summary>
         public StatisticItemViewModel AllIncome
         {
             get { return _allIncome; }
@@ -38,7 +49,9 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
         }
 
         private StatisticItemViewModel _allCost;
-
+        /// <summary>
+        /// all cost item(it is always shown)
+        /// </summary>
         public StatisticItemViewModel AllCost
         {
             get { return _allCost; }
@@ -50,7 +63,9 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
         }
 
         private ObservableCollection<StatisticItemViewModel> _incomeItemOnes;
-
+        /// <summary>
+        /// all the item one which belongs income(they are shown when all income item is selected)
+        /// </summary>
         public ObservableCollection<StatisticItemViewModel> IncomeItemOnes
         {
             get { return _incomeItemOnes; }
@@ -62,7 +77,9 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
         }
 
         private ObservableCollection<StatisticItemViewModel> _costItemOnes;
-
+        /// <summary>
+        /// all the item one which belongs cost(they are shown when all cost item is selected)
+        /// </summary>
         public ObservableCollection<StatisticItemViewModel> CostItemOnes
         {
             get { return _costItemOnes; }
@@ -74,7 +91,9 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
         }
 
         private ObservableCollection<StatisticItemViewModel> _incomeItemTwos;
-
+        /// <summary>
+        /// all the item two which belong to selected income item one
+        /// </summary>
         public ObservableCollection<StatisticItemViewModel> IncomeItemTwos
         {
             get { return _incomeItemTwos; }
@@ -86,7 +105,9 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
         }
 
         private ObservableCollection<StatisticItemViewModel> _costItemTwos;
-
+        /// <summary>
+        /// all the item two which belong to selected cost item one
+        /// </summary>
         public ObservableCollection<StatisticItemViewModel> CostItemTwos
         {
             get { return _costItemTwos; }
@@ -95,62 +116,13 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
                 _costItemTwos = value;
                 RaisePropertyChanged("CostItemTwos");
             }
-        }
+        } 
 
-        private DelegateCommand _confirm;
-
-        public DelegateCommand Confirm
-        {
-            get
-            {
-                if (_confirm == null)
-                {
-                    _confirm = new DelegateCommand(new Action<object>(
-                        o =>
-                        {
-                            if (SelectedStatisticItemsEvent != null)
-                            {
-                                SelectedStatisticItemsEvent(null, _lstSelectedItems);
-                            }
-                            Vis = Visibility.Hidden;
-                        }));
-                }
-                return _confirm;
-            }
-            set
-            {
-                _confirm = value;
-                RaisePropertyChanged("Confirm");
-            }
-        }
-
-        private DelegateCommand _cancel;
-
-        public DelegateCommand Cancel
-        {
-            get
-            {
-                if (_cancel == null)
-                {
-                    _cancel = new DelegateCommand(new Action<object>(
-                        o =>
-                        {
-                            Vis = Visibility.Hidden;
-                        }));
-                }
-                return _cancel;
-            }
-            set
-            {
-                _cancel = value;
-                RaisePropertyChanged("Cancel");
-            }
-        }
-
-
+        /// <summary>
+        /// bll statistic process
+        /// </summary>
         private IStatiticProcess _statisticProcess;
         private bool _isIncomeSelected, _ItemOneMultiSelected;
-        private List<SelectStatisticItemEventArgs> _lstSelectedItems;
         private ItemCollectionController _incomeItemOneController, _incomeItemTwoController,
             _costItemOneController, _costItemTwoController,
             _allIncomeController, _allCostController;
@@ -160,8 +132,7 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             _statisticProcess = process;
             _statisticProcess.ItemCollectionAddEvent += OnItemCollectionAdd;
             _statisticProcess.ItemCollectionClearEvent += OnItemCollectionClear;
-
-            _lstSelectedItems = new List<SelectStatisticItemEventArgs>();
+            _statisticProcess.ItemSelectEvent += OnItemSelected;
 
             AllIncome = new StatisticItemViewModel(true, null);
             AllCost = new StatisticItemViewModel(false, null);
@@ -180,35 +151,45 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             _allIncomeController.StatisticItemSelected += OnStatisticItemSelected;
             _allCostController.StatisticItemSelected += OnStatisticItemSelected;
 
-            _incomeItemOneController.StatisticItemsListOperation += OnStatisticItemsListOperation;
-            _incomeItemTwoController.StatisticItemsListOperation += OnStatisticItemsListOperation;
-            _costItemOneController.StatisticItemsListOperation += OnStatisticItemsListOperation;
-            _costItemTwoController.StatisticItemsListOperation += OnStatisticItemsListOperation;
-            _allIncomeController.StatisticItemsListOperation += OnStatisticItemsListOperation;
-            _allCostController.StatisticItemsListOperation += OnStatisticItemsListOperation;
+            _incomeItemOneController.StatisticItemsListOperation += OnStatisticItemOperated;
+            _incomeItemTwoController.StatisticItemsListOperation += OnStatisticItemOperated;
+            _costItemOneController.StatisticItemsListOperation += OnStatisticItemOperated;
+            _costItemTwoController.StatisticItemsListOperation += OnStatisticItemOperated;
+            _allIncomeController.StatisticItemsListOperation += OnStatisticItemOperated;
+            _allCostController.StatisticItemsListOperation += OnStatisticItemOperated;
 
             _statisticProcess.InitializeItemOnes();
         }
 
-        private void OnStatisticItemsListOperation(object sender, StatisticItemsListOperationEventArgs e)
+        /// <summary>
+        /// After bll process, some statistic item is selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnItemSelected(object sender, SelectItemArgs e)
         {
-            switch (e.OperationType)
-            {
-                case StatisticItemsListOperationType.Add:
-                    foreach (SelectStatisticItemEventArgs item in e.OperationItems)
-                    {
-                        _lstSelectedItems.Add(item);
-                    }
-                    break;
-                case StatisticItemsListOperationType.Remove:
-                    while (_lstSelectedItems.Where(a => a.IsIncome == e.IsIncome && a.ItemType == e.StatisticItemType).First() != null)
-                    {
-                        _lstSelectedItems.Remove(_lstSelectedItems.Where(a => a.IsIncome == e.IsIncome && a.ItemType == e.StatisticItemType).First());
-                    }
-                    break;
-            }
+            ItemCollectionIdentify(e.ItemInfo.IsIncome, e.ItemInfo.ItemType).SelectItems(e);
         }
 
+        /// <summary>
+        /// This method is called when available statistic item is seleted or unseleted
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnStatisticItemOperated(object sender, StatisticItemsListOperationEventArgs e)
+        {
+            if (StatisticItemOperatedEvent != null)
+            {
+                StatisticItemOperatedEvent(sender, e);
+            }
+        }        
+
+        /// <summary>
+        /// Get the suitable item colletion controller
+        /// </summary>
+        /// <param name="isIncome"></param>
+        /// <param name="itemType"></param>
+        /// <returns></returns>
         private ItemCollectionController ItemCollectionIdentify(bool isIncome, ItemType itemType)
         {
             if (isIncome)
@@ -243,16 +224,35 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             }
         }
 
+        /// <summary>
+        /// Find the suitable controller, then clear all the items which it controls.
+        /// This method is called when bll process raise the clear event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnItemCollectionClear(object sender, ClearItemsArgs e)
         {
             ItemCollectionIdentify(e.IsIncome, e.ClearedItemType).ClearItems(e);
         }
 
+        /// <summary>
+        /// Find the suitable controller, then add the items.
+        /// This method is called when allitem or item one is selected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnItemCollectionAdd(object sender, ItemCollectionOperationArgs e)
         {
             ItemCollectionIdentify(e.IsIncome, e.ItemOneCollection != null ? ItemType.ItemOne : ItemType.ItemTwo).AddItems(e);
         }
 
+        /// <summary>
+        /// When the statistic item is selected,this method will be called.
+        /// This is from item collection controller.
+        /// bll process will do the following work
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnStatisticItemSelected(object sender, SelectStatisticItemEventArgs e)
         {
             _statisticProcess.ProceedSelectedItem(e);

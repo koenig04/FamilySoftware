@@ -146,6 +146,20 @@
         <Setter Property="Foreground" Value="DeepSkyBlue"/>
     </Style>
 
+    <!--圆角button无边框-->
+    <ControlTemplate TargetType="{x:Type Button}" x:Key="RoundButton">
+        <Border CornerRadius="5,5,5,5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Background="{TemplateBinding Background}">
+            <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+    </ControlTemplate>
+
+    <!--圆角button有边框-->
+    <ControlTemplate TargetType="{x:Type Button}" x:Key="RoundButtonWithBorder">
+        <Border CornerRadius="5,5,5,5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
+            <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+    </ControlTemplate>
+
     <!--年月日的左圆ToggleButton-->
     <ControlTemplate TargetType="{x:Type ToggleButton}" x:Key="LeftRoundToggelButtonYMD">
         <Border CornerRadius="5,0,0,5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2,2,0,2" Background="{TemplateBinding Background}">

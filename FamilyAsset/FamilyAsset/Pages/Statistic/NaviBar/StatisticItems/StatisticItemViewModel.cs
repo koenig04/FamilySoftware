@@ -75,13 +75,14 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             }
         }
 
-
+        public string ItemID;
         private string _itemID;
         private bool _isIncome, _canSelected;
 
         public StatisticItemViewModel(bool isIncome, string itemID)
         {
             this._itemID = itemID;
+            ItemID = itemID;
             this._isIncome = isIncome;
             _canSelected = true;
         }

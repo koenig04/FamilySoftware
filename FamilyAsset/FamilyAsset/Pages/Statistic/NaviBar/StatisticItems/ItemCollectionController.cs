@@ -9,6 +9,10 @@ using Common;
 
 namespace FamilyAsset.Pages.Statistic.StatisticItems
 {
+    /// <summary>
+    /// 对于统计界面的Item选择的封装类
+    /// 
+    /// </summary>
     class ItemCollectionController
     {
         public event EventHandler<StatisticItemsListOperationEventArgs> StatisticItemsListOperation;
@@ -53,6 +57,28 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             }
         }
 
+        public void SelectItems(SelectItemArgs e)
+        {
+            if (e.ConverToSelected)
+            {
+                _itemCollection.Where(a => a.ItemID == e.ItemInfo.ItemID).First().SwitchSelectable(true);
+            }
+            RaiseStatisticItemsListOperation(
+                    new StatisticItemsListOperationEventArgs(StatisticItemsListOperationType.Add,
+                        new List<SelectStatisticItemEventArgs>()
+                        {
+                            new SelectStatisticItemEventArgs()
+                            {
+                                IsIncome=_isIncome,
+                                IsSelected=true,
+                                ItemID=e.ItemInfo.ItemID,
+                                ItemType=_itemType
+                            }
+                        },
+                        _isIncome,
+                        _itemType));
+        }
+
         public void ClearItems(ClearItemsArgs e)
         {
             if (e.ConvertToUnselected)
@@ -79,7 +105,7 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
                         _isIncome,
                         _itemType));
             }
-        }        
+        }
 
         private void RaiseStatisticItemsListOperation(StatisticItemsListOperationEventArgs args)
         {
@@ -87,7 +113,7 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             {
                 StatisticItemsListOperation(null, args);
             }
-        }        
+        }
     }
 
     enum StatisticItemsListOperationType

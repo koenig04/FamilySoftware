@@ -25,9 +25,6 @@ namespace BLL.StatisticProcess
             _statisticItemProcess = new StatisticItemCotroller();
 
             _diagramProcess.DiagramDataDisplayEvent += OnDiagramDataDisplay;
-            _statisticItemProcess.ItemCollectionAddEvent += OnItemCollectionAddEvent;
-            _statisticItemProcess.ItemCollectionClearEvent += OnItemCollectionClearEvent;
-            _statisticItemProcess.ItemSelectEvent += OnItemSelectEvent;
         }
 
         private void OnDiagramDataDisplay(object sender, DiagramData e)

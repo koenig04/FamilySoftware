@@ -38,7 +38,7 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
                     _statisticTypeChanged = new DelegateCommand(new Action<object>(
                         o =>
                         {
-                            _statisticType = _statisticType == StatisticType.Pie ? StatisticType.Volumn : StatisticType.Pie;
+                            _statisticType = _statisticType == StatisticType.Pie ? StatisticType.Curve : StatisticType.Pie;
                             SwitchStatisticImg(_statisticType);
                             RaiseStatisticTypeChangedEvent(_statisticType);
                         }));
@@ -51,10 +51,10 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
         public StatisticTypeSwitcherViewModel()
         {
             _dicStatisticTypeImg = new Dictionary<StatisticType, string>();
-            _dicStatisticTypeImg.Add(StatisticType.Volumn, "pie.png");
-            _dicStatisticTypeImg.Add(StatisticType.Pie, "volumn.png");
+            _dicStatisticTypeImg.Add(StatisticType.Curve, "pie.png");
+            _dicStatisticTypeImg.Add(StatisticType.Pie, "curve.png");
 
-            _statisticType = StatisticType.Volumn;
+            _statisticType = StatisticType.Curve;
             SwitchStatisticImg(_statisticType);
         }
 
@@ -75,7 +75,7 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
 
     enum StatisticType
     {
-        Volumn,
+        Curve,
         Pie
     }
 

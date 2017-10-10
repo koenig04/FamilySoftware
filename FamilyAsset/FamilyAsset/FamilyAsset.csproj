@@ -112,11 +112,18 @@
     <Compile Include="Pages\Statistic\MainElements\TotalInAndOutViewModel.cs" />
     <Compile Include="Pages\Statistic\MainElements\TotalInfoViewModel.cs" />
     <Compile Include="Pages\Statistic\NaviBar\StartEndDatePickerViewModel.cs" />
+    <Compile Include="Pages\Statistic\StatisticArea\CurveChartArea.xaml.cs">
+      <DependentUpon>CurveChartArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Statistic\StatisticArea\PieChartArea.xaml.cs">
+      <DependentUpon>PieChartArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Statistic\StatisticArea\PieChartAreaViewModel.cs" />
     <Compile Include="Pages\Statistic\StatisticGlobal.cs" />
-    <Compile Include="Pages\Statistic\StatisticItems\ItemCollectionController.cs" />
-    <Compile Include="Pages\Statistic\StatisticItems\StatisticItemSelecterViewModel.cs" />
-    <Compile Include="Pages\Statistic\StatisticItems\StatisticItemViewModel.cs" />
-    <Compile Include="Pages\Statistic\StatisticItems\StatisticItemSelecter.xaml.cs">
+    <Compile Include="Pages\Statistic\NaviBar\StatisticItems\ItemCollectionController.cs" />
+    <Compile Include="Pages\Statistic\NaviBar\StatisticItems\StatisticItemSelecterViewModel.cs" />
+    <Compile Include="Pages\Statistic\NaviBar\StatisticItems\StatisticItemViewModel.cs" />
+    <Compile Include="Pages\Statistic\NaviBar\StatisticItems\StatisticItemSelecter.xaml.cs">
       <DependentUpon>StatisticItemSelecter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Statistic\NaviBar\StatisticTypeSwitcherViewModel.cs" />
@@ -219,7 +226,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Statistic\StatisticItems\StatisticItemSelecter.xaml">
+    <Page Include="Pages\Statistic\NaviBar\StatisticItems\StatisticItemSelecter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Statistic\StatisticArea\CurveChartArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Statistic\StatisticArea\PieChartArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -298,9 +313,7 @@
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\Statistic\StatisticArea\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="FAIcon.ico" />
   </ItemGroup>
