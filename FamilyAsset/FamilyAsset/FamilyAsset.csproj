@@ -115,6 +115,7 @@
     <Compile Include="Pages\Statistic\StatisticArea\CurveChartArea.xaml.cs">
       <DependentUpon>CurveChartArea.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Statistic\StatisticArea\CurveChartAreaViewModel.cs" />
     <Compile Include="Pages\Statistic\StatisticArea\PieChartArea.xaml.cs">
       <DependentUpon>PieChartArea.xaml</DependentUpon>
     </Compile>

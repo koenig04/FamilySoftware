@@ -97,9 +97,23 @@ namespace BLL.StatisticProcess.DiagramRelative
     {
         public string ItemName { get; set; }
         public List<CurveDataDetail> CurveDataDetailCollection { get; set; }
+
+        public string[] OutputDateStringArray()
+        {
+            return (from s in CurveDataDetailCollection
+                    orderby DateTime.Parse(s.TimeIntervalTitle)
+                    select s.TimeIntervalTitle).ToArray<string>();
+        }
+
+        public List<decimal> OutputAmounts()
+        {
+            return (from s in CurveDataDetailCollection
+                    orderby DateTime.Parse(s.TimeIntervalTitle)
+                    select s.SumAmount).ToList();
+        }
     }
 
-    public class CurveData 
+    public class CurveData
     {
         public List<CurveDataDetailSet> CurveDataDetailCollectioion { get; set; }
         public List<AccountDetailByDate> Details { get; set; }
@@ -120,7 +134,7 @@ namespace BLL.StatisticProcess.DiagramRelative
         }
     }
 
-    public class PieData 
+    public class PieData
     {
         public List<PieDataDetail> PieDataDetailCollection { get; set; }
         public List<AccountDetailBySort> Details { get; set; }

@@ -45,7 +45,7 @@ namespace FamilyAsset.Pages.Statistic.StatisticArea
         public PieChartAreaViewModel()
         {
             PointLabel = chartPoint =>
-            string.Format("{0}:{1}(2:P)", chartPoint.X, chartPoint.Y, chartPoint.Sum);
+            string.Format("{0}:{1}(2:P)", chartPoint.SeriesView.Title, chartPoint.Y, chartPoint.Participation);
         }
 
         public void UpdatePieData(PieData data)
