@@ -47,6 +47,12 @@ namespace BLL.AssetInputAndOperationProcess
         public void HandleAccountOperation(AccountOperationInfo info)
         {
             throw new NotImplementedException();
-        }        
+        }
+
+
+        public Model.AccountInfo GetAccountModel(string accountID)
+        {
+            return _accountProcess.GetAccountModel(accountID);
+        }
     }
 }

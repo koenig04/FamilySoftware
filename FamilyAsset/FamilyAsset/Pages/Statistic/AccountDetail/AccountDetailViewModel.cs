@@ -70,7 +70,7 @@ namespace FamilyAsset.Pages.Statistic.AccountDetail
                 {
                     _accountItemClicked = new DelegateCommand(o =>
                         {
-                            RaiseItemClickedEvent(_detailID);
+                            RaiseItemClickedEvent(_detailID, AccountColor == Colors.LimeGreen ? true : false);
                         });
                 }
                 return _accountItemClicked;
@@ -83,13 +83,13 @@ namespace FamilyAsset.Pages.Statistic.AccountDetail
         }
 
 
-        public event EventHandler<StringEventArgs> ItemClickedEvent;
+        public event EventHandler<ItemModifyArgs> ItemClickedEvent;
 
-        protected void RaiseItemClickedEvent(string e)
+        protected void RaiseItemClickedEvent(string e, bool isIncome)
         {
             if (ItemClickedEvent != null)
             {
-                ItemClickedEvent(null, new StringEventArgs(e));
+                ItemClickedEvent(null, new ItemModifyArgs() { AccountID = e, IsIncome = isIncome });
             }
         }
 
@@ -103,5 +103,11 @@ namespace FamilyAsset.Pages.Statistic.AccountDetail
             AccountColor = detail.IsIncome ? Colors.LimeGreen : Colors.Firebrick;
             ItemName = detail.ItemOneName + (string.IsNullOrEmpty(detail.ItemTwoName) ? "" : ("-" + detail.ItemTwoName));
         }
+    }
+
+    public class ItemModifyArgs : EventArgs
+    {
+        public string AccountID { get; set; }
+        public bool IsIncome { get; set; }
     }
 }

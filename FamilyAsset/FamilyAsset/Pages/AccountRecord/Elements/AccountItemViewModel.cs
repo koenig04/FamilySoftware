@@ -40,6 +40,11 @@ namespace FamilyAsset.Pages.AccountRecord.Elements
             }
         }
 
+        public void ConvertToPressed()
+        {
+            ItemClicked.Execute(null);
+        }
+
         public override DelegateCommand ItemClicked
         {
             get

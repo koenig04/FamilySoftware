@@ -19,6 +19,7 @@ namespace BLL.AssetInputAndOperationProcess
         /// </summary>
         /// <param name="info"></param>
         void HandleAccountOperation(AccountOperationInfo info);
+        Model.AccountInfo GetAccountModel(string accountID);
 
         event EventHandler<ItemSearchedCollectionArgs> ItemSearchedResultEvent;
         event EventHandler<AccountSearchedCollectionArgs> AccountSearchedResultEvent;

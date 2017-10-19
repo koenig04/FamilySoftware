@@ -59,6 +59,11 @@ namespace BLL.AssetInputAndOperationProcess.AccountOperation
             }
         }
 
+        public Model.AccountInfo GetAccountModel(string accountID)
+        {
+            return _accountInfoDal.GetModel(accountID);
+        }
+
         private void UpdateAccount(AccountOperationInfo info)
         {
             bool res = _accountInfoDal.Update(info.AccountInfo);            

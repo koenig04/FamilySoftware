@@ -113,5 +113,36 @@ namespace DAL
             return lst;
         }
 
+        public Model.AccountInfo GetModel(string accountID)
+        {
+            SqlParameter[] parameters = {                   
+                    new SqlParameter("@AccountID", SqlDbType.VarChar,50)
+                                        };
+            parameters[0].Value = accountID;
+
+            DataSet ds = DbHelperSQL.RunProcedure("AccountInfo_GetModel_LK", parameters, "");
+
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                return new Model.AccountInfo()
+                {
+                    AccountID = ds.Tables[0].Rows[0].Field<string>("AccountID"),
+                    AccountDate = ds.Tables[0].Rows[0].Field<DateTime>("AccountDate"),
+                    ItemOneID = ds.Tables[0].Rows[0].Field<string>("ItemOneID"),
+                    ItemTwoID = ds.Tables[0].Rows[0].Field<string>("ItemTwoID"),
+                    AccountAmount = ds.Tables[0].Rows[0].Field<decimal>("AccountAmount"),
+                    Notice = ds.Tables[0].Rows[0].Field<string>("Notice"),
+                    Reserve1 = ds.Tables[0].Rows[0].Field<string>("Reserve1"),
+                    Reserve2 = ds.Tables[0].Rows[0].Field<string>("Reserve2"),
+                    Reserve3 = ds.Tables[0].Rows[0].Field<string>("Reserve3"),
+                    ItemOneName = ds.Tables[0].Rows[0].Field<string>("ItemOneName"),
+                    ItemTwoName = ds.Tables[0].Rows[0].Field<string>("ItemTwoName")
+                };
+            }
+            else
+            {
+                return null;
+            }            
+        }
     }
 }
