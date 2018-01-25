@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using FamilyAsset.Context;
+using FamilyAsset.PopupWindow.AccountRecord;
 using FamilyAsset.PopupWindow.SysConfigure;
 using FamilyAsset.UICore;
 
@@ -18,6 +19,11 @@ namespace FamilyAsset
                 {
                     new ItemModifyPopWindow(s,s.ItemType.ToString()).Show();
                 });
+
+            RegisterMsg<AccountRecordPopWindowContext>("PopAccountOperation", s =>
+            {
+                new AccountRecordWindows(s).Show();
+            });
         }
     }
 }

@@ -61,6 +61,18 @@ namespace FamilyAsset.Pages.Statistic
             }
         }
 
+        private AccountItemModifyViewModel _accountModify;
+
+        public AccountItemModifyViewModel AccountModify
+        {
+            get { return _accountModify; }
+            set
+            {
+                _accountModify = value;
+                RaisePropertyChanged("AccountModify");
+            }
+        }
+
 
         IStatiticProcess _statisticProcess;
 
@@ -71,6 +83,15 @@ namespace FamilyAsset.Pages.Statistic
 
             NaviBar = new NaviBarViewModel(_statisticProcess);
             NaviBar.StatisticTypeChanged += OnStatisticTypeChanged;
+            TimeDetail = new AccountTimeCollectionViewModel();
+            SortDetail = new AccountSortCollectionViewModel();
+            AccountModify = new AccountItemModifyViewModel();
+            AccountModify.AccountInfoOperationEvent += OnAccountInfoOperation;
+        }
+
+        private void OnAccountInfoOperation(object sender, AccountInfoOperationInfoArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void OnStatisticTypeChanged(object sender, Common.BoolenEventArgs e)

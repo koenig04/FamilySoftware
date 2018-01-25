@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Common;
+using FamilyAsset.UICore;
 
 namespace FamilyAsset.PopupWindow.AccountRecord
 {
@@ -19,9 +21,10 @@ namespace FamilyAsset.PopupWindow.AccountRecord
     /// </summary>
     public partial class AccountRecordWindows : Window
     {
-        public AccountRecordWindows()
+        public AccountRecordWindows(IContext Context, string IdentifyFlag = "")
         {
             InitializeComponent();
+            ViewModelManager.SetViewModel(this, Context, IdentifyFlag);
         }
     }
 }

@@ -7,6 +7,7 @@
              xmlns:navi="clr-namespace:FamilyAsset.Pages.Statistic.NaviBar"
              xmlns:mainElement="clr-namespace:FamilyAsset.Pages.Statistic.MainElements"
              xmlns:detail="clr-namespace:FamilyAsset.Pages.Statistic.AccountDetail"
+             xmlns:local="clr-namespace:FamilyAsset.Pages.Statistic"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="750" Visibility="{Binding Vis}">
     <UserControl.Resources>        
@@ -24,5 +25,6 @@
         <mainElement:TotalInAndOut Grid.Row="2" DataContext="TotalInOut"/>
         <detail:AccountSortCollection Grid.Row="4" DataContext="{Binding SortDetail}"/>
         <detail:AccountTimeCollection Grid.Row="4" DataContext="{Binding TimeDetail}"/>
+        <local:AccountItemModify Grid.Row="1" DataContext="{Binding AccountModify}"/>
     </Grid>
 </UserControl>

@@ -24,6 +24,24 @@ namespace BLL.AssetInputAndOperationProcess
             this._itemProcess = new ItemLoadingContext();
             this._itemProcess.LoadedItemsEvent += OnLoadedItems;
             this._accountProcess = new AccountProcess();
+            this._accountProcess.AccountOperationResultEvent += OnAccountOperationResult;
+            this._accountProcess.AccountSearchedResultEvent += OnAccountSearchedResult;
+        }
+
+        private void OnAccountOperationResult(object sender, BoolenEventArgs e)
+        {
+            if (AccountOperationResultEvent != null)
+            {
+                AccountOperationResultEvent(sender, e);
+            }
+        }
+
+        private void OnAccountSearchedResult(object sender, AccountSearchedCollectionArgs e)
+        {
+            if (AccountSearchedResultEvent != null)
+            {
+                AccountSearchedResultEvent(sender, e);
+            }
         }
 
         private void OnLoadedItems(object sender, ItemSearchedCollectionArgs e)
@@ -32,7 +50,7 @@ namespace BLL.AssetInputAndOperationProcess
             {
                 ItemSearchedResultEvent(sender, e);
             }
-        }       
+        }
 
         public void HandleItemSelected(ItemSelectedInfo info)
         {
@@ -46,7 +64,7 @@ namespace BLL.AssetInputAndOperationProcess
 
         public void HandleAccountOperation(AccountOperationInfo info)
         {
-            throw new NotImplementedException();
+            _accountProcess.HandleAccountOperation(info);
         }
 
 

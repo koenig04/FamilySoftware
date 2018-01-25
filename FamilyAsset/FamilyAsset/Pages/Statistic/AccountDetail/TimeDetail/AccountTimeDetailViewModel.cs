@@ -55,5 +55,10 @@ namespace FamilyAsset.Pages.Statistic.AccountDetail
                 DetailCollection[DetailCollection.Count - 1].ItemClickedEvent += OnItemClickedEvent;
             }
         }
+
+        private void OnItemClickedEvent(object sender, ItemModifyArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

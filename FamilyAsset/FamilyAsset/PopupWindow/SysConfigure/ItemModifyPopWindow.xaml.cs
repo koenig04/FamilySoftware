@@ -25,7 +25,7 @@ namespace FamilyAsset.PopupWindow.SysConfigure
         public ItemModifyPopWindow(IContext Context, string IdentifyFlag)
         {
             InitializeComponent();
-            ViewModelManager.SetViewModel(this, Context, IdentifyFlag); ;
+            ViewModelManager.SetViewModel(this, Context, IdentifyFlag); 
         }
     }
 }

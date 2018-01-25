@@ -36,7 +36,7 @@ namespace FamilyAsset.PopupWindow.AccountRecord
         public AccountItemViewModel(string itemTitle, string itemContent)
         {
             ItemTitle = itemTitle;
-            ItemContent = ItemContent;
+            ItemContent = itemContent;
         }
     }
 }

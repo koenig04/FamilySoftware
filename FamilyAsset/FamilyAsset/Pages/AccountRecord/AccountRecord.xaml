@@ -30,8 +30,8 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <Image Width="50" Height="50" Source="{Binding ItemImg}"/>
-                <TextBlock Width="100" Text="{Binding ItemName}"
-                           Style="{StaticResource TextBlockStyleBaseChs}">
+                <TextBlock Width="100" Height="50" Text="{Binding ItemName}"
+                           Style="{StaticResource TextBlockStyleBaseChs}" Padding="0,17,0,17">
                     <TextBlock.Foreground>
                         <SolidColorBrush Color="{Binding ItemForeColor}"/>
                     </TextBlock.Foreground>
@@ -46,7 +46,7 @@
             <RowDefinition Height="300"/>
             <RowDefinition Height="1"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="1"/>            
+            <RowDefinition Height="1"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="80"/>
@@ -54,12 +54,32 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="记  账" Style="{StaticResource PageTitle}" Height="30"/>
         <UserControl Template="{StaticResource InOutSwitch}" DataContext="{Binding InOrOut}" Grid.Row="1"/>
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <ItemsControl ItemsSource="{Binding ItemOneCollection}"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <ItemsControl ItemsSource="{Binding ItemOneCollection}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <!--<StackPanel Orientation="Horizontal" Width="150" Height="50">
+                <Button Height="50" Width="50"/>
+                <TextBlock Width="100">2311231332</TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Width="150" Height="50">
+                <Button Height="50" Width="50"/>
+                <TextBlock Width="100">2311231332</TextBlock>
+            </StackPanel>-->
         </StackPanel>
         <Rectangle Fill="#aaa" Height="1" Grid.Row="3"/>
         <StackPanel Grid.Row="4" Orientation="Horizontal">
-            <ItemsControl ItemsSource="{Binding ItemTwoCollection}"/>            
+            <ItemsControl ItemsSource="{Binding ItemTwoCollection}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </StackPanel>
         <Rectangle Fill="#aaa" Height="1" Grid.Row="5"/>
         <StackPanel Orientation="Horizontal" Grid.Row="6">
@@ -76,7 +96,13 @@
                 <TextBox Style="{StaticResource TextBoxStyleBaseChs}" Text="{Binding Notice}" Width="500" Margin="20,0,0,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <ItemsControl ItemsSource="{Binding PhrasesCollection}"/>
+                <ItemsControl ItemsSource="{Binding PhrasesCollection}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="9">

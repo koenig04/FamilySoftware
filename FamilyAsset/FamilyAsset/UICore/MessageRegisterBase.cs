@@ -50,7 +50,8 @@ namespace FamilyAsset.UICore
 
         public abstract void Register();
         /// <summary>
-        /// 注册信息
+        /// registr message without context
+        /// this function is used when the context is not needed
         /// </summary>
         /// <param name="msgName"></param>
         /// <param name="action"></param>
@@ -59,6 +60,12 @@ namespace FamilyAsset.UICore
             MsgManager.Register(RegInstance, msgName, action);
         }
 
+        /// <summary>
+        /// registe message with context
+        /// </summary>
+        /// <typeparam name="T">restore the context</typeparam>
+        /// <param name="msgName"></param>
+        /// <param name="action"></param>
         protected void RegisterMsg<T>(string msgName, Action<T> action)
         {
             MsgManager.Register(RegInstance, msgName, action);

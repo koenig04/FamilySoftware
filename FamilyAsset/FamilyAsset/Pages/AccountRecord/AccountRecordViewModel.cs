@@ -9,6 +9,7 @@ using System.Windows;
 using BLL;
 using BLL.AssetInputAndOperationProcess;
 using Common;
+using FamilyAsset.Context;
 using FamilyAsset.Pages.AccountRecord.Elements;
 using FamilyAsset.Pages.SysConfigure.Element.ItemConfigure;
 using FamilyAsset.UICore;
@@ -16,10 +17,15 @@ using Model;
 
 namespace FamilyAsset.Pages.AccountRecord
 {
+    /// <summary>
+    /// View Model for input account record
+    /// </summary>
     class AccountRecordViewModel : UserControlViewModelBase
     {
         private ObservableCollection<AccountItemViewModel> _itemOneCollection;
-
+        /// <summary>
+        /// A list of Item One( big sort items like food, trafic etc.)
+        /// </summary>
         public ObservableCollection<AccountItemViewModel> ItemOneCollection
         {
             get
@@ -38,7 +44,9 @@ namespace FamilyAsset.Pages.AccountRecord
         }
 
         private ObservableCollection<AccountItemViewModel> _itemTwoCollection;
-
+        /// <summary>
+        /// A list of Item Two(small sort items like homecook, restrant etc.)
+        /// </summary>
         public ObservableCollection<AccountItemViewModel> ItemTwoCollection
         {
             get
@@ -57,7 +65,9 @@ namespace FamilyAsset.Pages.AccountRecord
         }
 
         private InOutSwitchViewModel _inOrOut;
-
+        /// <summary>
+        /// To switch income or cost
+        /// </summary>
         public InOutSwitchViewModel InOrOut
         {
             get
@@ -82,6 +92,19 @@ namespace FamilyAsset.Pages.AccountRecord
             ClearItems(new List<AccountItemType>() { AccountItemType.All });
             this._accountProcess.HandleItemSelected(new ItemSelectedInfo() { IsIncome = _isInOrOut });
         }
+
+        private DateTime _accountDate = DateTime.Now;
+
+        public DateTime AccountDate
+        {
+            get { return _accountDate; }
+            set
+            {
+                _accountDate = value;
+                RaisePropertyChanged("AccountDate");
+            }
+        }
+
 
         private string _accountAmount;
 
@@ -108,7 +131,9 @@ namespace FamilyAsset.Pages.AccountRecord
         }
 
         private ObservableCollection<PhraseViewModel> _phraseCollection;
-
+        /// <summary>
+        /// A list of short phrases
+        /// </summary>
         public ObservableCollection<PhraseViewModel> PhrasesCollection
         {
             get
@@ -126,6 +151,72 @@ namespace FamilyAsset.Pages.AccountRecord
             }
         }
 
+        private DelegateCommand _inputAccount;
+
+        public DelegateCommand InputAccount
+        {
+            get
+            {
+                if (_inputAccount == null)
+                {
+                    _inputAccount = new DelegateCommand(new Action<object>(
+                        o =>
+                        {
+                            RaiseUserControlMessageEvent(new UserControlMessageEventArgs()
+                            {
+                                Context = new AccountRecordPopWindowContext()
+                                {
+                                    OpType = OperationType.Add,
+                                    InputProcess = _accountProcess,
+                                    InputInfo = new AccountInputInfo()
+                                    {
+                                        AccountAmount = decimal.Parse(this.AccountAmount),
+                                        AccountDate = this.AccountDate,
+                                        IsIncome = this._isInOrOut,
+                                        ItemOneID = _selectedItemOneID,
+                                        ItemTwoID = _selectedItemTwoID,
+                                        Phrases = this.Notice
+                                    },
+                                    ItemOneName = _selectedItemOneName,
+                                    ItemTwoName = _selectedItemTwoName
+                                }
+                            });
+                        }));
+                }
+                return _inputAccount;
+            }
+            set
+            {
+                _inputAccount = value;
+                RaisePropertyChanged("InputAccount");
+            }
+        }
+
+        private DelegateCommand _clearInfo;
+
+        public DelegateCommand ClearInfo
+        {
+            get
+            {
+                if (_clearInfo == null)
+                {
+                    _clearInfo = new DelegateCommand(new Action<object>(
+                        o =>
+                        {
+                            ClearItems(new List<AccountItemType>() { AccountItemType.All });
+                        }
+                    ));
+                }
+                return _clearInfo;
+            }
+            set
+            {
+                _clearInfo = value;
+                RaisePropertyChanged("ClearInfo");
+            }
+        }
+
+
         private enum AccountItemType
         {
             All,
@@ -140,11 +231,18 @@ namespace FamilyAsset.Pages.AccountRecord
         {
             if (clearedItemCollection.Contains(AccountItemType.All) || clearedItemCollection.Contains(AccountItemType.ItemOne))
             {
-                ItemOneCollection.Clear();
+                foreach (AccountItemViewModel item in ItemOneCollection)
+                {
+                    item.ConvertToUnPressed();
+                }
+                _selectedItemOneID = null;
+                _selectedItemOneName = null;
             }
             if (clearedItemCollection.Contains(AccountItemType.All) || clearedItemCollection.Contains(AccountItemType.ItemTwo))
             {
                 ItemTwoCollection.Clear();
+                _selectedItemTwoID = null;
+                _selectedItemTwoName = null;
             }
             if (clearedItemCollection.Contains(AccountItemType.All) || clearedItemCollection.Contains(AccountItemType.Phrese))
             {
@@ -161,7 +259,9 @@ namespace FamilyAsset.Pages.AccountRecord
         }
 
         private string _selectedItemOneID;
+        private string _selectedItemOneName;
         private string _selectedItemTwoID;
+        private string _selectedItemTwoName;
         private bool _isInOrOut = true;
         private IAssetInputAndOperationProcess _accountProcess;
 
@@ -261,7 +361,8 @@ namespace FamilyAsset.Pages.AccountRecord
                             AccountItemType.Phrese,
                             AccountItemType.Notice
                         });
-
+                        _selectedItemOneID = e.SelectedItem.ItemID;
+                        _selectedItemOneName = e.SelectedItem.ItemName;
                     }
                     break;
                 case ItemType.ItemTwo:
@@ -276,6 +377,8 @@ namespace FamilyAsset.Pages.AccountRecord
                             AccountItemType.Phrese,
                             AccountItemType.Notice
                         });
+                        _selectedItemTwoID = e.SelectedItem.ItemID;
+                        _selectedItemTwoName = e.SelectedItem.ItemName;
                     }
                     break;
             }
@@ -284,7 +387,10 @@ namespace FamilyAsset.Pages.AccountRecord
 
         public override void HandleViewModelCallBack(ViewModelCallBackInfo callbackInfo)
         {
-            throw new NotImplementedException();
+            if (callbackInfo.IsSucceed == true)
+            {
+                ClearItems(new List<AccountItemType> { AccountItemType.All });
+            }
         }
     }
 }

@@ -430,10 +430,10 @@ namespace FamilyAsset.Pages.Statistic
             this._accountProcess.HandleItemSelected(e.SelectedItem);
         }
 
-        public override void HandleViewModelCallBack(ViewModelCallBackInfo callbackInfo)
-        {
-            throw new NotImplementedException();
-        }
+        //public override void HandleViewModelCallBack(ViewModelCallBackInfo callbackInfo)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 
     class AccountInfoOperationInfoArgs : EventArgs

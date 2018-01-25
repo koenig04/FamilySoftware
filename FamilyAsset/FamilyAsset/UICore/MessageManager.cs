@@ -8,7 +8,7 @@ using System.Windows;
 namespace FamilyAsset.UICore
 {
     /// <summary>
-    /// Message管理类
+    /// Message Manager
     /// </summary>
     class MessageManager
     {
@@ -24,10 +24,13 @@ namespace FamilyAsset.UICore
             }
         }
 
+        /// <summary>
+        /// restore all the message action
+        /// </summary>
         private readonly List<MsgActionInfo> _messageList = new List<MsgActionInfo>();
 
         /// <summary>
-        /// 注册Message
+        /// registe the message
         /// </summary>
         /// <param name="regInstance"></param>
         /// <param name="msgName"></param>

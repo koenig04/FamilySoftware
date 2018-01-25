@@ -58,7 +58,8 @@ namespace FamilyAsset
 
         private void OnAccountRecordMessage(object sender, UserControlMessageEventArgs e)
         {
-            throw new NotImplementedException();
+            MsgManager.SendMsg<AccountRecordPopWindowContext>("PopAccountOperation",
+               e.Context as AccountRecordPopWindowContext);
         }
 
 
