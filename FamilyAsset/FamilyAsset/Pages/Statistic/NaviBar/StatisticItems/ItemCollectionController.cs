@@ -27,6 +27,10 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             this._itemCollection = collection;
             this._isIncome = isIncome;
             this._itemType = itemType;
+            if (itemType == ItemType.None)
+            {
+                collection[0].StatisticItemIsSelected += OnStatisticItemIsSelected;
+            }
         }
 
         public ItemCollectionController(StatisticItemViewModel model, bool isIncome, ItemType itemType)
@@ -53,57 +57,45 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
         {
             if (StatisticItemSelected != null)
             {
+                e.ItemType = _itemType;
                 StatisticItemSelected(null, e);
             }
         }
 
         public void SelectItems(SelectItemArgs e)
         {
-            if (e.ConverToSelected)
-            {
-                _itemCollection.Where(a => a.ItemID == e.ItemInfo.ItemID).First().SwitchSelectable(true);
-            }
-            RaiseStatisticItemsListOperation(
-                    new StatisticItemsListOperationEventArgs(StatisticItemsListOperationType.Add,
-                        new List<SelectStatisticItemEventArgs>()
-                        {
-                            new SelectStatisticItemEventArgs()
-                            {
-                                IsIncome=_isIncome,
-                                IsSelected=true,
-                                ItemID=e.ItemInfo.ItemID,
-                                ItemType=_itemType
-                            }
-                        },
-                        _isIncome,
-                        _itemType));
+            //if (e.ConvertToSelected)
+            //{
+            //    _itemCollection.Where(a => a.ItemID == e.ItemInfo.ItemID).First().SwitchSelectable(true);
+            //}
+            //RaiseStatisticItemsListOperation(
+            //        new StatisticItemsListOperationEventArgs(StatisticItemsListOperationType.Add,
+            //            new List<SelectStatisticItemEventArgs>()
+            //            {
+            //                new SelectStatisticItemEventArgs()
+            //                {
+            //                    IsIncome=_isIncome,
+            //                    IsSelected=e.ItemInfo.IsSelected,
+            //                    ItemID=e.ItemInfo.ItemID,
+            //                    ItemType=_itemType
+            //                }
+            //            },
+            //            _isIncome,
+            //            _itemType));
         }
 
         public void ClearItems(ClearItemsArgs e)
         {
-            if (e.ConvertToUnselected)
+            if (_itemType == ItemType.ItemTwo)
+            {
+                _itemCollection.Clear();
+            }
+            else
             {
                 foreach (StatisticItemViewModel item in _itemCollection)
                 {
                     item.SwitchSelectionStatus(false);
                 }
-            }
-            else if (e.OnlyClearFromList)
-            {
-                RaiseStatisticItemsListOperation(
-                    new StatisticItemsListOperationEventArgs(StatisticItemsListOperationType.Remove,
-                        null,
-                        _isIncome,
-                        _itemType));
-            }
-            else
-            {
-                _itemCollection.Clear();
-                RaiseStatisticItemsListOperation(
-                    new StatisticItemsListOperationEventArgs(StatisticItemsListOperationType.Remove,
-                        null,
-                        _isIncome,
-                        _itemType));
             }
         }
 

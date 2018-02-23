@@ -17,11 +17,7 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
     /// Statistic Item Selection Interface
     /// </summary>
     class StatisticItemSelecterViewModel : NotificationObject
-    {
-        //this event is never used. check wether this event is necessary later
-        public event EventHandler<List<SelectStatisticItemEventArgs>> SelectedStatisticItemsEvent;
-        public event EventHandler<StatisticItemsListOperationEventArgs> StatisticItemOperatedEvent;
-
+    { 
         private Visibility _vis = Visibility.Collapsed;
         /// <summary>
         /// control the visibility of interface.
@@ -30,15 +26,19 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
         public Visibility Vis
         {
             get { return _vis; }
-            set { _vis = value; }
+            set
+            {
+                _vis = value;
+                RaisePropertyChanged("Vis");
+            }
         }
 
 
-        private StatisticItemViewModel _allIncome;
+        private ObservableCollection<StatisticItemViewModel> _allIncome;
         /// <summary>
         /// all income item(it is always shown)
         /// </summary>
-        public StatisticItemViewModel AllIncome
+        public ObservableCollection<StatisticItemViewModel> AllIncome
         {
             get { return _allIncome; }
             set
@@ -48,11 +48,11 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             }
         }
 
-        private StatisticItemViewModel _allCost;
+        private ObservableCollection<StatisticItemViewModel> _allCost;
         /// <summary>
         /// all cost item(it is always shown)
         /// </summary>
-        public StatisticItemViewModel AllCost
+        public ObservableCollection<StatisticItemViewModel> AllCost
         {
             get { return _allCost; }
             set
@@ -62,13 +62,20 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             }
         }
 
-        private ObservableCollection<StatisticItemViewModel> _incomeItemOnes;
+        private ObservableCollection<StatisticItemViewModel> _incomeItemOnes = new ObservableCollection<StatisticItemViewModel>();
         /// <summary>
         /// all the item one which belongs income(they are shown when all income item is selected)
         /// </summary>
         public ObservableCollection<StatisticItemViewModel> IncomeItemOnes
         {
-            get { return _incomeItemOnes; }
+            get
+            {
+                if (_incomeItemOnes == null)
+                {
+                    _incomeItemOnes = new ObservableCollection<StatisticItemViewModel>();
+                }
+                return _incomeItemOnes;
+            }
             set
             {
                 _incomeItemOnes = value;
@@ -76,13 +83,20 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             }
         }
 
-        private ObservableCollection<StatisticItemViewModel> _costItemOnes;
+        private ObservableCollection<StatisticItemViewModel> _costItemOnes = new ObservableCollection<StatisticItemViewModel>();
         /// <summary>
         /// all the item one which belongs cost(they are shown when all cost item is selected)
         /// </summary>
         public ObservableCollection<StatisticItemViewModel> CostItemOnes
         {
-            get { return _costItemOnes; }
+            get
+            {
+                if (_costItemOnes == null)
+                {
+                    _costItemOnes = new ObservableCollection<StatisticItemViewModel>();
+                }
+                return _costItemOnes;
+            }
             set
             {
                 _costItemOnes = value;
@@ -90,13 +104,20 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             }
         }
 
-        private ObservableCollection<StatisticItemViewModel> _incomeItemTwos;
+        private ObservableCollection<StatisticItemViewModel> _incomeItemTwos = new ObservableCollection<StatisticItemViewModel>();
         /// <summary>
         /// all the item two which belong to selected income item one
         /// </summary>
         public ObservableCollection<StatisticItemViewModel> IncomeItemTwos
         {
-            get { return _incomeItemTwos; }
+            get
+            {
+                if (_incomeItemTwos == null)
+                {
+                    _incomeItemTwos = new ObservableCollection<StatisticItemViewModel>();
+                }
+                return _incomeItemTwos;
+            }
             set
             {
                 _incomeItemTwos = value;
@@ -104,25 +125,31 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             }
         }
 
-        private ObservableCollection<StatisticItemViewModel> _costItemTwos;
+        private ObservableCollection<StatisticItemViewModel> _costItemTwos = new ObservableCollection<StatisticItemViewModel>();
         /// <summary>
         /// all the item two which belong to selected cost item one
         /// </summary>
         public ObservableCollection<StatisticItemViewModel> CostItemTwos
         {
-            get { return _costItemTwos; }
+            get
+            {
+                if (_costItemTwos == null)
+                {
+                    _costItemTwos = new ObservableCollection<StatisticItemViewModel>();
+                }
+                return _costItemTwos;
+            }
             set
             {
                 _costItemTwos = value;
                 RaisePropertyChanged("CostItemTwos");
             }
-        } 
+        }
 
         /// <summary>
         /// bll statistic process
         /// </summary>
-        private IStatiticProcess _statisticProcess;
-        private bool _isIncomeSelected, _ItemOneMultiSelected;
+        private IStatiticProcess _statisticProcess;       
         private ItemCollectionController _incomeItemOneController, _incomeItemTwoController,
             _costItemOneController, _costItemTwoController,
             _allIncomeController, _allCostController;
@@ -134,8 +161,8 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             _statisticProcess.ItemCollectionClearEvent += OnItemCollectionClear;
             _statisticProcess.ItemSelectEvent += OnItemSelected;
 
-            AllIncome = new StatisticItemViewModel(true, null);
-            AllCost = new StatisticItemViewModel(false, null);
+            AllIncome = new ObservableCollection<StatisticItemViewModel>() { new StatisticItemViewModel(true, null, "收入") };
+            AllCost = new ObservableCollection<StatisticItemViewModel>() { new StatisticItemViewModel(false, null, "支出") };
 
             _incomeItemOneController = new ItemCollectionController(IncomeItemOnes, true, ItemType.ItemOne);
             _incomeItemTwoController = new ItemCollectionController(IncomeItemTwos, true, ItemType.ItemTwo);
@@ -149,16 +176,13 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             _costItemOneController.StatisticItemSelected += OnStatisticItemSelected;
             _costItemTwoController.StatisticItemSelected += OnStatisticItemSelected;
             _allIncomeController.StatisticItemSelected += OnStatisticItemSelected;
-            _allCostController.StatisticItemSelected += OnStatisticItemSelected;
+            _allCostController.StatisticItemSelected += OnStatisticItemSelected;           
 
-            _incomeItemOneController.StatisticItemsListOperation += OnStatisticItemOperated;
-            _incomeItemTwoController.StatisticItemsListOperation += OnStatisticItemOperated;
-            _costItemOneController.StatisticItemsListOperation += OnStatisticItemOperated;
-            _costItemTwoController.StatisticItemsListOperation += OnStatisticItemOperated;
-            _allIncomeController.StatisticItemsListOperation += OnStatisticItemOperated;
-            _allCostController.StatisticItemsListOperation += OnStatisticItemOperated;
-
-            _statisticProcess.InitializeItemOnes();
+            try
+            {
+                _statisticProcess.InitializeItemOnes();
+            }
+            catch { }
         }
 
         /// <summary>
@@ -169,19 +193,6 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
         private void OnItemSelected(object sender, SelectItemArgs e)
         {
             ItemCollectionIdentify(e.ItemInfo.IsIncome, e.ItemInfo.ItemType).SelectItems(e);
-        }
-
-        /// <summary>
-        /// This method is called when available statistic item is seleted or unseleted
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnStatisticItemOperated(object sender, StatisticItemsListOperationEventArgs e)
-        {
-            if (StatisticItemOperatedEvent != null)
-            {
-                StatisticItemOperatedEvent(sender, e);
-            }
         }        
 
         /// <summary>

@@ -44,7 +44,7 @@ namespace DAL
             parameters[2].Value = itemOneID;
             parameters[3].Value = itemTwoID;
 
-            DataSet ds = DbHelperSQL.RunProcedure("Expenditure_GetList_LK", parameters, "");
+            DataSet ds = DbHelperSQL.RunProcedure("Expenditure_GetList_LK", parameters, " ");
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 return (from d in ds.Tables[0].AsEnumerable()

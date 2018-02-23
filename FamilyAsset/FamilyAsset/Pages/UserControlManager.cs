@@ -35,6 +35,15 @@ namespace FamilyAsset.Pages
             if (_dicUserControl.ContainsKey(usercontrolerName))
             {
                 _dicUserControl[usercontrolerName].HandleVisablilityControl(visibility);
+                if (visibility)
+                {
+                    foreach (IUserControlViewModel item in (from uc in _dicUserControl
+                                                            where uc.Key != usercontrolerName
+                                                            select uc.Value))
+                    {
+                        item.HandleVisablilityControl(false);
+                    }
+                }
             }
         }
     }

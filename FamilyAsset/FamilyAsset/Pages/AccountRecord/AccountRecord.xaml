@@ -62,14 +62,6 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-            <!--<StackPanel Orientation="Horizontal" Width="150" Height="50">
-                <Button Height="50" Width="50"/>
-                <TextBlock Width="100">2311231332</TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Width="150" Height="50">
-                <Button Height="50" Width="50"/>
-                <TextBlock Width="100">2311231332</TextBlock>
-            </StackPanel>-->
         </StackPanel>
         <Rectangle Fill="#aaa" Height="1" Grid.Row="3"/>
         <StackPanel Grid.Row="4" Orientation="Horizontal">

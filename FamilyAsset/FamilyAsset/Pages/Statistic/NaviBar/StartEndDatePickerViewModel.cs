@@ -11,7 +11,7 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
     {
         public event EventHandler<PickedDateChangedEventArgs> PickedDateChanged;
 
-        private DateTime _startDate;
+        private DateTime _startDate = DateTime.Now.AddMonths(-3);
 
         public DateTime StartDate
         {
@@ -23,7 +23,7 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
             }
         }
 
-        private DateTime _endDate;
+        private DateTime _endDate = DateTime.Now;
 
         public DateTime EndDate
         {

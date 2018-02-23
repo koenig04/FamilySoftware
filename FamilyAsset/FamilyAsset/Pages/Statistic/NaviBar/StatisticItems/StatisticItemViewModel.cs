@@ -26,6 +26,45 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             }
         }
 
+        private Color _itemBackColor;
+
+        public Color ItemBackColor
+        {
+            get { return _itemBackColor; }
+            set
+            {
+                _itemBackColor = value;
+                RaisePropertyChanged("ItemBackColor");
+            }
+        }
+
+        private Color _itemForeColor;
+
+        public Color ItemForeColor
+        {
+            get { return _itemForeColor; }
+            set
+            {
+                _itemForeColor = value;
+                RaisePropertyChanged("ItemForeColor");
+            }
+        }
+
+
+        private string _itemContent;
+
+        public string ItemContent
+        {
+            get { return _itemContent; }
+            set
+            {
+                _itemContent = value;
+                RaisePropertyChanged("ItemContent");
+            }
+        }
+
+
+
         private DelegateCommand _itemClicked;
 
         public DelegateCommand ItemClicked
@@ -39,19 +78,18 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
                         {
                             if (_canSelected)
                             {
+                                _isSelected = !_isSelected;
                                 if (_isSelected)
                                 {
-                                    BorderColor = Colors.Black;
+                                    ItemForeColor = Colors.White;
+                                    ItemBackColor = _isIncome ? Colors.Lime : Colors.Firebrick;
                                 }
                                 else
                                 {
-                                    BorderColor = _isIncome ? Colors.LimeGreen : Colors.Firebrick;
-                                }
+                                    ItemForeColor = _isIncome ? Colors.Lime : Colors.Firebrick;
+                                    ItemBackColor = Colors.White;
+                                }                                
                                 RaiseStatisticItemSelectedEvent();
-                            }
-                            else
-                            {
-                                IsSelected = !IsSelected;
                             }
                         }));
                 }
@@ -64,27 +102,29 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             }
         }
 
-        private bool _isSelected;
-
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set
-            {
-                _isSelected = value;
-            }
-        }
-
+        private bool _isSelected; 
         public string ItemID;
         private string _itemID;
         private bool _isIncome, _canSelected;
 
-        public StatisticItemViewModel(bool isIncome, string itemID)
+        public StatisticItemViewModel(bool isIncome, string itemID, string itemName)
         {
             this._itemID = itemID;
             ItemID = itemID;
             this._isIncome = isIncome;
             _canSelected = true;
+            ItemContent = itemName;
+            ItemBackColor = Colors.White;
+            if (isIncome)
+            {
+                BorderColor = Colors.Lime;
+                ItemForeColor = Colors.Lime;
+            }
+            else
+            {
+                BorderColor = Colors.Tomato;
+                ItemForeColor = Colors.Tomato;
+            }
         }
 
         public void SwitchSelectionStatus(bool isSelected)
@@ -92,12 +132,14 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
             if (isSelected)
             {
                 isSelected = true;
-                BorderColor = _isIncome ? Colors.LimeGreen : Colors.Firebrick;
+                ItemForeColor = Colors.White;
+                ItemBackColor = _isIncome ? Colors.LimeGreen : Colors.Firebrick;
             }
             else
             {
-                IsSelected = false;
-                BorderColor = Colors.Black;
+                _isSelected = false;
+                ItemForeColor = _isIncome ? Colors.LimeGreen : Colors.Firebrick;
+                ItemBackColor = Colors.White;
             }
         }
 
@@ -112,7 +154,7 @@ namespace FamilyAsset.Pages.Statistic.StatisticItems
 
         public static implicit operator StatisticItemViewModel(SelectedStatisticItemInfo model)
         {
-            return new StatisticItemViewModel(model.IsIncome, model.ItemID);
+            return new StatisticItemViewModel(model.IsIncome, model.ItemID, model.ItemName);
         }
 
         private void RaiseStatisticItemSelectedEvent()

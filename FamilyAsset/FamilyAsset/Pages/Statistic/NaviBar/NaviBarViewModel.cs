@@ -18,7 +18,7 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
         /// </summary>
         public event EventHandler<BoolenEventArgs> StatisticTypeChanged;
 
-        private NaviBarInfo _naviBarInfo = new NaviBarInfo(DateTime.Now.Date, DateTime.Now.Date);
+        private NaviBarInfo _naviBarInfo = new NaviBarInfo( DateTime.Now.AddMonths(-3).Date,DateTime.Now.Date);
 
         private YMDSwitcherViewModel _ymdSwitcher;
 
@@ -129,41 +129,8 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
             StatisticTypeSwitcher = new StatisticTypeSwitcherViewModel();
             StatisticTypeSwitcher.StatisticTypeChangedEvent += OnStatisticTypeChanged;
             ItemSelecter = new StatisticItemSelecterViewModel(statisticProcess);
-            ItemSelecter.SelectedStatisticItemsEvent += OnSelectStatisticItems;
-            ItemSelecter.StatisticItemOperatedEvent += OnStatisticItemsOperation;
 
             _statisticProcess = statisticProcess;
-        }
-
-        /// <summary>
-        /// When some statistic items are selected or unseleted, this method will be called.
-        /// Same operations will be done on itemlist.
-        /// This list is used for further operation.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnStatisticItemsOperation(object sender, StatisticItemsListOperationEventArgs e)
-        {
-            switch (e.OperationType)
-            {
-                case StatisticItemsListOperationType.Add:
-                    foreach (SelectStatisticItemEventArgs item in e.OperationItems)
-                    {
-                        _naviBarInfo.SelectedItems.Add(item);
-                    }
-                    break;
-                case StatisticItemsListOperationType.Remove:
-                    while (_naviBarInfo.SelectedItems.Where(a => a.IsIncome == e.IsIncome && a.ItemType == e.StatisticItemType).First() != null)
-                    {
-                        _naviBarInfo.SelectedItems.Remove(_naviBarInfo.SelectedItems.Where(a => a.IsIncome == e.IsIncome && a.ItemType == e.StatisticItemType).First());
-                    }
-                    break;
-            }
-        }
-
-        private void OnSelectStatisticItems(object sender, List<SelectStatisticItemEventArgs> e)
-        {
-            _naviBarInfo.SelectedItems = e;
         }
 
         /// <summary>
@@ -219,7 +186,6 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
         public DateTime CurrentStartDate { get; set; }
         public DateTime CurrentEndDate { get; set; }
         public StatisticType CurrentType { get; set; }
-        public List<SelectStatisticItemEventArgs> SelectedItems { get; set; }
 
         public NaviBarInfo(DateTime currentStartDate, DateTime currentEndDate, YMDSwitcher currentYMD = YMDSwitcher.Day,
             StatisticType currentType = StatisticType.Curve)
@@ -228,7 +194,6 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
             CurrentStartDate = currentStartDate;
             CurrentEndDate = currentEndDate;
             CurrentType = currentType;
-            SelectedItems = new List<SelectStatisticItemEventArgs>();
         }
 
         public static implicit operator StaticSearchInfo(NaviBarInfo info)
@@ -237,38 +202,6 @@ namespace FamilyAsset.Pages.Statistic.NaviBar
             res.StartDate = info.CurrentStartDate;
             res.EndDate = info.CurrentEndDate;
             res.TimeIntervalType = (StatisticIntervalType)info.CurrentYMD;
-            if (string.IsNullOrEmpty(info.SelectedItems[0].ItemID))//all types
-            {
-                if (info.SelectedItems.Count > 1)
-                {
-                    res.InOrOutFlag = 2;
-                }
-                else
-                {
-                    res.InOrOutFlag = info.SelectedItems[0].IsIncome ? 1 : 0;
-                }
-            }
-            else//items
-            {
-                res.InOrOutFlag = info.SelectedItems[0].IsIncome ? 1 : 0;
-                if (info.SelectedItems[0].ItemType == ItemType.ItemOne)
-                {
-                    res.ItemOneIDs = new List<string>();
-                    foreach (SelectStatisticItemEventArgs item in info.SelectedItems)
-                    {
-                        res.ItemOneIDs.Add(item.ItemID);
-                    }
-                }
-                else
-                {
-                    res.ItemTwoIDs = new List<string>();
-                    foreach (SelectStatisticItemEventArgs item in info.SelectedItems)
-                    {
-                        res.ItemTwoIDs.Add(item.ItemID);
-                    }
-                }
-            }
-
             return res;
         }
     }

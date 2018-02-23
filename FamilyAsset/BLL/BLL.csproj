@@ -81,10 +81,11 @@
     <Compile Include="StatisticProcess\DiagramRelative\DiagramProcessController.cs" />
     <Compile Include="StatisticProcess\IStatiticProcess.cs" />
     <Compile Include="StatisticProcess\StatisticItemRelative\StatisticItemCotroller.cs" />
-    <Compile Include="StatisticProcess\StatisticItemRelative\StatisticItemsSelectStrategies\InOrOutItemSelectStrategy.cs" />
-    <Compile Include="StatisticProcess\StatisticItemRelative\StatisticItemsSelectStrategies\ItemOneSelectStrategy.cs" />
-    <Compile Include="StatisticProcess\StatisticItemRelative\StatisticItemsSelectStrategies\ItemTwoSelectStrategy.cs" />
-    <Compile Include="StatisticProcess\StatisticItemRelative\StatisticItemsSelectStrategies\StatisticItemSelectBase.cs" />
+    <Compile Include="StatisticProcess\StatisticItemRelative\StatiticItemsSelectionStrategies\InOrOutItemSelectionStrategy.cs" />
+    <Compile Include="StatisticProcess\StatisticItemRelative\StatiticItemsSelectionStrategies\ItemOneSelectionStrategy.cs" />
+    <Compile Include="StatisticProcess\StatisticItemRelative\StatiticItemsSelectionStrategies\ItemSelectionContext.cs" />
+    <Compile Include="StatisticProcess\StatisticItemRelative\StatiticItemsSelectionStrategies\ItemTwoSelectionStrategy.cs" />
+    <Compile Include="StatisticProcess\StatisticItemRelative\StatiticItemsSelectionStrategies\StatisticItemSelectionBase.cs" />
     <Compile Include="StatisticProcess\StatisticProcessManager.cs" />
     <Compile Include="StatisticProcessParameters.cs" />
   </ItemGroup>

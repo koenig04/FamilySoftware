@@ -11,5 +11,6 @@ namespace FamilyAsset.Pages
         public const string SysConfigure = "SysConfigure";
         public const string ItemConfigure = "ItemConfigure";
         public const string AccountRecord = "AccountRecord";
+        public const string Statistic = "Statistic";
     }
 }

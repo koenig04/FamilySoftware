@@ -7,6 +7,7 @@ using BLL;
 using FamilyAsset.Context;
 using FamilyAsset.Pages;
 using FamilyAsset.Pages.AccountRecord;
+using FamilyAsset.Pages.Statistic;
 using FamilyAsset.Pages.SysConfigure;
 using FamilyAsset.UICore;
 
@@ -56,6 +57,29 @@ namespace FamilyAsset
             }
         }
 
+        private StatisticViewModel _statistic;
+
+        public StatisticViewModel Statistic
+        {
+            get
+            {
+                if (_statistic == null)
+                {
+                    _statistic = new StatisticViewModel();
+                    _statistic.UserControlMessageEvent += OnStatisticMessage;
+                    UserControlManager.Register(_statistic, UIControlNames.Statistic);
+                }
+                return _statistic;
+            }
+            set { _statistic = value; }
+        }
+
+        private void OnStatisticMessage(object sender, UserControlMessageEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+
         private void OnAccountRecordMessage(object sender, UserControlMessageEventArgs e)
         {
             MsgManager.SendMsg<AccountRecordPopWindowContext>("PopAccountOperation",
@@ -73,7 +97,8 @@ namespace FamilyAsset
 
         public DelegateCommand AddAccount
         {
-            get {
+            get
+            {
                 if (_addAccount == null)
                 {
                     _addAccount = new DelegateCommand(new Action<object>(
@@ -82,11 +107,33 @@ namespace FamilyAsset
                             UserControlManager.ControlVisibility(UIControlNames.AccountRecord, true);
                         }));
                 }
-                return _addAccount; }
+                return _addAccount;
+            }
             set
             {
                 _addAccount = value;
                 RaisePropertyChanged("AddAccount");
+            }
+        }
+
+        private DelegateCommand _seeAcount;
+
+        public DelegateCommand SeeAcount
+        {
+            get {
+                if (_seeAcount == null)
+                {
+                    _seeAcount = new DelegateCommand(new Action<object>(
+                        o =>
+                        {
+                            UserControlManager.ControlVisibility(UIControlNames.Statistic, true);
+                        }));
+                }
+                return _seeAcount; }
+            set
+            {
+                _seeAcount = value;
+                RaisePropertyChanged("SeeAcount");
             }
         }
 

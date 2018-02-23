@@ -20,11 +20,11 @@
             <RowDefinition Height="300"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="账 单" Style="{StaticResource PageTitle}"/>
-        <navi:NaviBar Grid.Row="1" Grid.RowSpan="4" DataContext="{Binding NaviBar}"/>
+        <TextBlock Grid.Row="0" Text="账 单" Style="{StaticResource PageTitle}"/>        
         <mainElement:TotalInAndOut Grid.Row="2" DataContext="TotalInOut"/>
         <detail:AccountSortCollection Grid.Row="4" DataContext="{Binding SortDetail}"/>
         <detail:AccountTimeCollection Grid.Row="4" DataContext="{Binding TimeDetail}"/>
         <local:AccountItemModify Grid.Row="1" DataContext="{Binding AccountModify}"/>
+        <navi:NaviBar Grid.Row="1" Grid.RowSpan="4" DataContext="{Binding NaviBar}"/>
     </Grid>
 </UserControl>

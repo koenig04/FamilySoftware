@@ -30,7 +30,8 @@ namespace BLL.ItemConfigureProcess
                                   JZItemOneID = d.Field<string>("JZItemOneID"),
                                   JZItemOneName = d.Field<string>("JZItemOneName"),
                                   IconName = d.Field<string>("IconName"),
-                                  IconNamePressed=d.Field<string>("IconNamePressed")
+                                  IconNamePressed = d.Field<string>("IconNamePressed"),
+                                  IncomeOrCost = d.Field<bool>("IncomeOrCost")
                               }).ToList<Model.JZItemOne>();
             }
         }
@@ -58,7 +59,7 @@ namespace BLL.ItemConfigureProcess
                                   JZItemTwoID = d.Field<string>("JZItemTwoID"),
                                   JZItemTwoName = d.Field<string>("JZItemTwoName"),
                                   IconName = d.Field<string>("IconName"),
-                                  IconNamePressed=d.Field<string>("IconNamePressed")
+                                  IconNamePressed = d.Field<string>("IconNamePressed")
                               }).ToList<Model.JZItemTwo>();
             }
             if (dtPhrase != null)

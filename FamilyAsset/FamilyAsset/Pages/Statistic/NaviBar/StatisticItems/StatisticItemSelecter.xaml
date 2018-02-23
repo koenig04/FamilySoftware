@@ -8,14 +8,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="750" Visibility="{Binding Vis}">
     <UserControl.Resources>
-        <DataTemplate x:Key="StatisticItem" DataType="{x:Type local:StatisticItemViewModel}">
-            <ToggleButton Style="{StaticResource StatisticItemToggleButton}">              
+        <DataTemplate DataType="{x:Type local:StatisticItemViewModel}">
+            <ToggleButton Style="{StaticResource StatisticItemToggleButton}" Command="{Binding ItemClicked}"
+                          Margin="5" IsThreeState="False">
                 <ToggleButton.BorderBrush>
                     <SolidColorBrush Color="{Binding BorderColor}"/>
                 </ToggleButton.BorderBrush>
-                <i:EventTrigger EventName="MouseLeftButtonDown">
-                    <i:InvokeCommandAction Command="{Binding ItemClicked}"/>
-                </i:EventTrigger>
+                <ToggleButton.Background>
+                    <SolidColorBrush Color="{Binding ItemBackColor}"/>
+                </ToggleButton.Background>
+                <ToggleButton.Foreground>
+                    <SolidColorBrush Color="{Binding ItemForeColor}"/>
+                </ToggleButton.Foreground>
             </ToggleButton>
         </DataTemplate>
     </UserControl.Resources>
@@ -29,21 +33,53 @@
             <RowDefinition Height="300"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <UserControl ContentTemplate="{StaticResource StatisticItem}" Margin="10,0,0,0"
-                     Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" DataContext="{Binding AllIncome}"/>
-        <UserControl ContentTemplate="{StaticResource StatisticItem}" Margin="10,0,0,0"
-                     Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" DataContext="{Binding AllCost}"/> 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
-            <ItemsControl ItemsSource="{Binding IncomeItemOnes}"/>
+        <StackPanel Margin="10,0,0,0"
+                     Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
+            <ItemsControl ItemsSource="{Binding AllIncome}"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
-            <ItemsControl ItemsSource="{Binding CostItemOnes}"/>
+        <StackPanel Margin="10,0,0,0"
+                     Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
+            <ItemsControl ItemsSource="{Binding AllCost}"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
-            <ItemsControl ItemsSource="{Binding IncomeItemTwos}"/>
+        <StackPanel Margin="10,0,10,0" Orientation="Horizontal" Grid.Row="1" Grid.Column="0"
+                    HorizontalAlignment="Left" VerticalAlignment="Top">
+            <ItemsControl ItemsSource="{Binding IncomeItemOnes}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
-            <ItemsControl ItemsSource="{Binding CostItemTwos}"/>
-        </StackPanel>        
+        <StackPanel Margin="10,0,10,0" Orientation="Horizontal" Grid.Row="1" Grid.Column="1" 
+                    HorizontalAlignment="Left" VerticalAlignment="Top">
+            <ItemsControl ItemsSource="{Binding CostItemOnes}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </StackPanel>
+        <StackPanel Margin="10,0,10,0" Orientation="Horizontal" Grid.Row="2" Grid.Column="0"
+                    HorizontalAlignment="Left" VerticalAlignment="Top">
+            <ItemsControl ItemsSource="{Binding IncomeItemTwos}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </StackPanel>
+        <StackPanel Margin="10,0,10,0" Orientation="Horizontal" Grid.Row="2" Grid.Column="1"
+                    HorizontalAlignment="Left" VerticalAlignment="Top">
+            <ItemsControl ItemsSource="{Binding CostItemTwos}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </StackPanel>
     </Grid>
 </UserControl>

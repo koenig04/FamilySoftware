@@ -166,6 +166,7 @@ namespace FamilyAsset.PopupWindow.AccountRecord
 
         private void OnAccountOperationResult(object sender, Common.BoolenEventArgs e)
         {
+            _accountProcess.AccountOperationResultEvent -= OnAccountOperationResult;
             string msg = OperationType + (e.Content ? "成功" : "失败");
             MsgManager.SendMsg<GeneralPopWindowContext>("ShowResult", new GeneralPopWindowContext() { Msg = msg, FuncType = FunctionType.None });
         }

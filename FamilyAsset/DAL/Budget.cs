@@ -40,7 +40,7 @@ namespace DAL
             parameters[0].Value = budgetYear;
             parameters[1].Value = budgetMonth;
 
-            DataSet ds = DbHelperSQL.RunProcedure("Budget_GetList_LK", parameters, "");
+            DataSet ds = DbHelperSQL.RunProcedure("Budget_GetList_LK", parameters, " ");
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 return (from d in ds.Tables[0].AsEnumerable()

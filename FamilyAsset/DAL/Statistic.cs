@@ -30,7 +30,7 @@ namespace DAL
             parameters[4].Value = itemOneID;
             parameters[5].Value = itemTwoID;
 
-            DataSet ds = DbHelperSQL.RunProcedure("Get_Curve_Data_LK", parameters, "");
+            DataSet ds = DbHelperSQL.RunProcedure("Get_Curve_Data_LK", parameters, " ");
             if (ds != null && ds.Tables.Count > 0)
             {
                 return (from d in ds.Tables[0].AsEnumerable()
@@ -61,7 +61,7 @@ namespace DAL
             parameters[3].Value = inOrOutFlag;
             parameters[4].Value = itemOneID;
 
-            DataSet ds = DbHelperSQL.RunProcedure("Get_Next_ItemSum_LK", parameters, "");
+            DataSet ds = DbHelperSQL.RunProcedure("Get_Next_ItemSum_LK", parameters, " ");
             if (ds != null && ds.Tables.Count > 0)
             {
                 return (from d in ds.Tables[0].AsEnumerable()
@@ -84,8 +84,8 @@ namespace DAL
             int inOrOutFlag, string itemOneID, string itemTwoID)
         {
             SqlParameter[] parameters = {
-					new SqlParameter("@StartDate", SqlDbType.Date),
-                    new SqlParameter("@EndDate", SqlDbType.Date),
+					new SqlParameter("@StartDate", SqlDbType.DateTime),
+                    new SqlParameter("@EndDate", SqlDbType.DateTime),
                     new SqlParameter("@StatisticMode", SqlDbType.Int),
                     new SqlParameter("@InOrOutFlag", SqlDbType.Int),
                     new SqlParameter("@ItemOneID", SqlDbType.VarChar,50),
@@ -98,7 +98,7 @@ namespace DAL
             parameters[4].Value = itemOneID;
             parameters[5].Value = itemTwoID;
 
-            DataSet ds = DbHelperSQL.RunProcedure("Get_AccountDetail_LK", parameters, "");
+            DataSet ds = DbHelperSQL.RunProcedure("Get_AccountDetail_LK", parameters, " ");
             if (ds != null && ds.Tables.Count > 0)
             {
                 return (from d in ds.Tables[0].AsEnumerable()

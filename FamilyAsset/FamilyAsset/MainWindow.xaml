@@ -4,6 +4,7 @@
         xmlns:local="clr-namespace:FamilyAsset"
         xmlns:sysconfig="clr-namespace:FamilyAsset.Pages.SysConfigure"
         xmlns:accountrecord="clr-namespace:FamilyAsset.Pages.AccountRecord"
+        xmlns:statistic="clr-namespace:FamilyAsset.Pages.Statistic"
         Title="MainWindow" Height="700" Width="1000" WindowStyle="None" WindowStartupLocation="CenterScreen">
     <Grid>
         <!--<Grid.Background>
@@ -35,5 +36,6 @@
         </Grid>
         <sysconfig:SysConfigure Grid.Column="1" Grid.Row="0" DataContext="{Binding SysConfig}"/>
         <accountrecord:AccountRecord Grid.Column="1" Grid.Row="0" DataContext="{Binding AccountRecord}"/>
+        <statistic:StatisticMain Grid.Column="1" Grid.Row="0" DataContext="{Binding Statistic}"/>
     </Grid>
 </Window>

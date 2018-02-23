@@ -78,6 +78,8 @@ namespace FamilyAsset.Pages.Statistic
 
         public StatisticViewModel()
         {
+            Vis = Visibility.Hidden;
+
             _statisticProcess = new StatisticProcessManager();
             _statisticProcess.DiagramDataDisplayEvent += OnDiagramDataDisplay;
 

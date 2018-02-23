@@ -25,6 +25,9 @@ namespace BLL.StatisticProcess
             _statisticItemProcess = new StatisticItemCotroller();
 
             _diagramProcess.DiagramDataDisplayEvent += OnDiagramDataDisplay;
+            _statisticItemProcess.ItemCollectionAddEvent += OnItemCollectionAddEvent;
+            _statisticItemProcess.ItemCollectionClearEvent += OnItemCollectionClearEvent;
+            _statisticItemProcess.ItemSelectEvent += OnItemSelectEvent;
         }
 
         private void OnDiagramDataDisplay(object sender, DiagramData e)
@@ -33,7 +36,7 @@ namespace BLL.StatisticProcess
             {
                 DiagramDataDisplayEvent(sender, e);
             }
-        }        
+        }
 
         private void OnItemSelectEvent(object sender, SelectItemArgs e)
         {
@@ -57,7 +60,7 @@ namespace BLL.StatisticProcess
             {
                 ItemCollectionAddEvent(null, e);
             }
-        }  
+        }
 
         public void InitializeItemOnes()
         {
@@ -71,8 +74,31 @@ namespace BLL.StatisticProcess
 
         public void SearchDiagramData(StaticSearchInfo info)
         {
-            _diagramProcess.SearchDiagramData(info);
+            List<SelectedStatisticItemInfo> itemList = _statisticItemProcess.GetStatisticItems();
+            if (itemList.Count > 0)
+            {
+                if (itemList.Count == 2 && itemList[0].ItemType == Common.ItemType.None && itemList[1].ItemType == Common.ItemType.None)
+                {
+                    info.InOrOutFlag = 2;
+                }
+                else
+                {
+                    info.InOrOutFlag = itemList[0].IsIncome ? 1 : 0;
+                }
+                switch (itemList[0].ItemType)
+                {
+                    case Common.ItemType.ItemOne:
+                        info.ItemOneIDs = (from d in itemList
+                                           select d.ItemID).ToList<string>();
+                        break;
+                    case Common.ItemType.ItemTwo:
+                        info.ItemTwoIDs = (from d in itemList
+                                           select d.ItemID).ToList<string>();
+                        break;
+                }
+                _diagramProcess.SearchDiagramData(info);
+            }
         }
-        
+
     }
 }

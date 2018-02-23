@@ -8,7 +8,7 @@ namespace BLL.StatisticProcess.DiagramRelative.DiagramDataGenerator
 {
     class DiagramDataGeneratorFactory
     {
-        private static DiagramDataGeneratorForAll _all, _itemOne, _itemTwo;
+        private static DiagramDataGeneratorBase _all, _itemOne, _itemTwo;
         public static DiagramDataGeneratorBase CreateGenerator(StaticSearchInfo info, DAL.Statistic dal)
         {
             if ((info.ItemOneIDs == null || info.ItemOneIDs.Count == 0) &&
@@ -24,7 +24,7 @@ namespace BLL.StatisticProcess.DiagramRelative.DiagramDataGenerator
             {
                 if (_itemOne == null)
                 {
-                    _itemOne = new DiagramDataGeneratorForAll(dal);
+                    _itemOne = new DiagramDataGeneratorForItemOne(dal);
                 }
                 return _itemOne;
             }
@@ -32,7 +32,7 @@ namespace BLL.StatisticProcess.DiagramRelative.DiagramDataGenerator
             {
                 if (_itemTwo == null)
                 {
-                    _itemTwo = new DiagramDataGeneratorForAll(dal);
+                    _itemTwo = new DiagramDataGeneratorForItemTwo(dal);
                 }
                 return _itemTwo;
             }

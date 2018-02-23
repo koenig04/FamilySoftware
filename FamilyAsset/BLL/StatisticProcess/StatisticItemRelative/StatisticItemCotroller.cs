@@ -4,11 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLL.ItemConfigureProcess;
-using BLL.StatisticProcess.StatisticItemRelative.StatisticItemsSelectStrategies;
+using BLL.StatisticProcess.StatisticItemRelative.StatiticItemsSelectionStrategies;
 using Common;
 
 namespace BLL.StatisticProcess.StatisticItemRelative
 {
+    /// <summary>
+    /// An controller to control the statistic items
+    /// 1. Allincome and allcost can be selected in the same time.
+    /// 2. Item one and item two which are in the same income/cost sort can not be selected in the same time.
+    /// 3. Items in different income/cost sort can not be selected in the same time.
+    /// 4. The items in the same item one/two sort can be multible selected.
+    /// 5. When the count of selected items is changed to one, the item two of this selected item should be shown.
+    /// </summary>
     class StatisticItemCotroller
     {
         public event EventHandler<ClearItemsArgs> ItemCollectionClearEvent;
@@ -16,7 +24,8 @@ namespace BLL.StatisticProcess.StatisticItemRelative
         public event EventHandler<ItemCollectionOperationArgs> ItemCollectionAddEvent;
 
         private IItemConfigureProcess _itemProcess;
-        private StatisticItemSelectBase _statisticItemProcess;
+        private ItemSelectionContext _itemSelector;
+        private List<SelectedStatisticItemInfo> _lstSelectedItems = new List<SelectedStatisticItemInfo>();
         private bool _currentInOrOutForItemTwo;
 
         public StatisticItemCotroller()
@@ -24,29 +33,13 @@ namespace BLL.StatisticProcess.StatisticItemRelative
             _itemProcess = new ItemConfigureProcessManager();
             _itemProcess.ItemSearchedResultEvent += OnStatisticItemSearched;
 
-            InOrOutItemSelectStrategy inOrOut = new InOrOutItemSelectStrategy(_itemProcess);
-            ItemOneSelectStrategy itemOne = new ItemOneSelectStrategy(_itemProcess);
-            ItemTwoSelectStrategy itemTwo = new ItemTwoSelectStrategy(_itemProcess);
-
-            inOrOut.ItemSelectedEvent += OnItemSelected;
-            itemOne.ItemSelectedEvent += OnItemSelected;
-            itemTwo.ItemSelectedEvent += OnItemSelected;
-
-            inOrOut.ClearItemsEvent += OnClearItems;
-            itemOne.ClearItemsEvent += OnClearItems;
-            itemTwo.ClearItemsEvent += OnClearItems;
-
-            itemOne.SetNextHandler(itemTwo);
-            itemTwo.ReactiveEvent += itemOne.OnReactive;
-
-            inOrOut.SetNextHandler(itemOne);
-            itemOne.ReactiveEvent += inOrOut.OnReactive;
-
-            _statisticItemProcess = inOrOut;
+            _itemSelector = new ItemSelectionContext(_itemProcess);
+            _itemSelector.ClearItemsEvent += OnClearItems;
         }
 
         private void OnClearItems(object sender, ClearItemsArgs e)
         {
+            _lstSelectedItems.RemoveAll(a => a.IsIncome == e.IsIncome && a.ItemType == e.ClearedItemType);
             if (ItemCollectionClearEvent != null)
             {
                 ItemCollectionClearEvent(sender, e);
@@ -54,7 +47,7 @@ namespace BLL.StatisticProcess.StatisticItemRelative
         }
 
         private void OnItemSelected(object sender, SelectItemArgs e)
-        {
+        {            
             if (ItemSelectEvent != null)
             {
                 ItemSelectEvent(sender, e);
@@ -81,17 +74,26 @@ namespace BLL.StatisticProcess.StatisticItemRelative
                     {
                         res.ItemOneCollection.Add(item);
                     }
+                    if (res.ItemOneCollection.Count > 0)
+                    {
+                        res.IsIncome = res.ItemOneCollection[0].IsIncome;
+                    }
                     break;
                 case ItemType.ItemTwo:
                     List<Model.JZItemTwo> lstTwos = e.ItemCollection["Two"] as List<Model.JZItemTwo>;
-                    res.ItemOneCollection = new List<SelectedStatisticItemInfo>();
+                    res.ItemTwoCollection = new List<SelectedStatisticItemInfo>();
                     foreach (Model.JZItemTwo item in lstTwos)
                     {
-                        res.ItemOneCollection.Add(SelectedStatisticItemInfo.ConvertFromItemTwo(item, _currentInOrOutForItemTwo));
+                        res.ItemTwoCollection.Add(SelectedStatisticItemInfo.ConvertFromItemTwo(item, _currentInOrOutForItemTwo));
+                    }
+                    if (res.ItemTwoCollection.Count > 0)
+                    {
+                        res.IsIncome = res.ItemTwoCollection[0].IsIncome;
                     }
                     break;
             }
-            RaiseItemCollectionAddEvent(res);
+            if (e.ItemType == ItemType.ItemOne || e.ItemType == ItemType.ItemTwo)
+                RaiseItemCollectionAddEvent(res);
         }
 
         public void InitializeItemOnes()
@@ -108,25 +110,39 @@ namespace BLL.StatisticProcess.StatisticItemRelative
 
         public void ProceedSelectedItem(SelectedStatisticItemInfo selectedItem)
         {
-            if (selectedItem.ItemType == ItemType.ItemOne)
+            if (selectedItem.IsSelected)
             {
-                _currentInOrOutForItemTwo = selectedItem.IsIncome;
+                _lstSelectedItems.Add(selectedItem);
+            }
+            else
+            {
+                _lstSelectedItems.RemoveAll(a => a.ItemID == selectedItem.ItemID);
+            }
+            _currentInOrOutForItemTwo = selectedItem.IsIncome;
+            _itemSelector.ProceedSelectedItem(selectedItem);
+        }
+
+        public List<SelectedStatisticItemInfo> GetStatisticItems()
+        {
+            if (_lstSelectedItems.Where(a => a.ItemType == ItemType.ItemTwo).Count() > 0)
+            {
+                return _lstSelectedItems.Where(a => a.ItemType == ItemType.ItemTwo).ToList();
+            }
+            else
+            {
+                return _lstSelectedItems;
             }
         }
     }
 
     public class ClearItemsArgs : EventArgs
     {
-        public bool IsIncome { get; set; }
-        public bool OnlyClearFromList { get; set; }
-        public bool ConvertToUnselected { get; set; }
+        public bool IsIncome { get; set; }        
         public ItemType ClearedItemType { get; set; }
     }
 
     public class SelectItemArgs : EventArgs
-    {
-        public bool AddToList { get; set; }
-        public bool ConverToSelected { get; set; }
+    {       
         public SelectedStatisticItemInfo ItemInfo { get; set; }
     }
 
@@ -143,12 +159,15 @@ namespace BLL.StatisticProcess.StatisticItemRelative
         public string ItemID { get; set; }
         public bool IsIncome { get; set; }
         public ItemType ItemType { get; set; }
+        public string ItemName { get; set; }
 
         public static implicit operator SelectedStatisticItemInfo(Model.JZItemOne model)
         {
             SelectedStatisticItemInfo res = new SelectedStatisticItemInfo();
             res.ItemID = model.JZItemOneID;
             res.ItemType = ItemType.ItemOne;
+            res.IsIncome = model.IncomeOrCost;
+            res.ItemName = model.JZItemOneName;
             res.IsIncome = model.IncomeOrCost;
             return res;
         }
@@ -159,6 +178,7 @@ namespace BLL.StatisticProcess.StatisticItemRelative
             res.ItemID = model.JZItemTwoID;
             res.ItemType = ItemType.ItemOne;
             res.IsIncome = isIncome;
+            res.ItemName = model.JZItemTwoName;
             return res;
         }
     }

@@ -93,7 +93,7 @@ namespace DAL
             parameters[3].Value = endDate;
             parameters[4].Value = isIncome;
 
-            DataSet ds = DbHelperSQL.RunProcedure("AccountInfo_GetList_LK", parameters, "");
+            DataSet ds = DbHelperSQL.RunProcedure("AccountInfo_GetList_LK", parameters, " ");
 
             List<Model.AccountInfo> lst = (from d in ds.Tables[0].AsEnumerable()
                                            select new Model.AccountInfo()
@@ -120,7 +120,7 @@ namespace DAL
                                         };
             parameters[0].Value = accountID;
 
-            DataSet ds = DbHelperSQL.RunProcedure("AccountInfo_GetModel_LK", parameters, "");
+            DataSet ds = DbHelperSQL.RunProcedure("AccountInfo_GetModel_LK", parameters, " ");
 
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {

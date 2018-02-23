@@ -89,6 +89,7 @@ namespace FamilyAsset.Pages.AccountRecord
         private void OnInOrOut(bool obj)
         {
             this._isInOrOut = obj;
+            _needToClear = true;
             ClearItems(new List<AccountItemType>() { AccountItemType.All });
             this._accountProcess.HandleItemSelected(new ItemSelectedInfo() { IsIncome = _isInOrOut });
         }
@@ -231,9 +232,14 @@ namespace FamilyAsset.Pages.AccountRecord
         {
             if (clearedItemCollection.Contains(AccountItemType.All) || clearedItemCollection.Contains(AccountItemType.ItemOne))
             {
-                foreach (AccountItemViewModel item in ItemOneCollection)
+                if (_needToClear)
+                    ItemOneCollection.Clear();
+                else
                 {
-                    item.ConvertToUnPressed();
+                    foreach (AccountItemViewModel item in ItemOneCollection)
+                    {
+                        item.ConvertToUnPressed();
+                    }
                 }
                 _selectedItemOneID = null;
                 _selectedItemOneName = null;
@@ -264,6 +270,7 @@ namespace FamilyAsset.Pages.AccountRecord
         private string _selectedItemTwoName;
         private bool _isInOrOut = true;
         private IAssetInputAndOperationProcess _accountProcess;
+        private bool _needToClear = false;
 
         public AccountRecordViewModel()
         {
@@ -389,6 +396,7 @@ namespace FamilyAsset.Pages.AccountRecord
         {
             if (callbackInfo.IsSucceed == true)
             {
+                _needToClear = false;
                 ClearItems(new List<AccountItemType> { AccountItemType.All });
             }
         }
