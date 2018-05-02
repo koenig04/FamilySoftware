@@ -30,7 +30,7 @@ namespace BLL.StatisticProcess.DiagramRelative.DiagramDataGenerator
                 curveForItemOnes.Add(dal.GetSignalCurveData(info.StartDate, info.EndDate, (int)info.TimeIntervalType,
                    info.InOrOutFlag, item, null));
                 //Get Pie data
-                if (info.ItemOneIDs.Count > 0)
+                if (info.ItemOneIDs.Count > 1)
                 {
                     pieForItemOnes.Add(new SinglePieData()
                   {
